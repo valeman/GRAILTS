@@ -1,0 +1,2 @@
+class ProtocolNotFound(Exception):
+    pass
