@@ -6,7 +6,7 @@ import exceptions
 
 class Correlation:
 
-    def __init__(self, x, y, correlation_protocol_name="NCC", time_window=None, *args):
+    def __init__(self, x, y, correlation_protocol_name="NCC", time_window=None, **kwargs):
         """
 
         :param x: time series. Can be either a path to a csv file or list
@@ -24,8 +24,8 @@ class Correlation:
         except KeyError:
             raise exceptions.ProtocolNotFound("Correlation Protocol" + correlation_protocol_name + "not found")
 
-        if args:
-            self.protocol = self.protocol_class(x, y, args)
+        if kwargs:
+            self.protocol = self.protocol_class(x, y, **kwargs)
         else:
             self.protocol = self.protocol_class(x,y)
 

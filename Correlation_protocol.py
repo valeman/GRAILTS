@@ -2,10 +2,10 @@ from scipy import stats
 import SINK
 
 class CorrelationProtocol:
-    def __init__(self, x, y, *args):
+    def __init__(self, x, y, **kwargs):
         self.x = x
         self.y = y
-        self.args = args
+        self.kwargs = kwargs
 
     def execute(self):
         raise NotImplemented
@@ -25,7 +25,7 @@ class NCC(CorrelationProtocol):
 
 class NCC_Compressed(CorrelationProtocol):
     def execute(self):
-        return SINK.NCC(self.x, self.y, self.args)
+        return SINK.NCC(self.x, self.y, **self.kwargs)
 
 correlation_protocols = {
     "Pearson": Pearson,
