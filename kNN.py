@@ -1,6 +1,10 @@
 import numpy as np
+import math
+from Correlation import Correlation
+import exceptions
 
-def kNN(TRAIN, TEST, method, k, representation = None):
+
+def kNN(TRAIN, TEST, method, k, representation=None, **kwargs):
     """
     Approximate or exact k-nearest neighbors algorithm depending on the representation
     :param TRAIN: The training set to get the neighbors from
@@ -8,6 +12,7 @@ def kNN(TRAIN, TEST, method, k, representation = None):
     :param method: The correlation or distance measure being used
     :param k: how many nearest neighbors to return
     :param representation: The representation being used if any, for instance GRAIL
+    :param **kwargs: arguments for the correlator
     :return: a matrix of size row(TEST)xk
     """
     rowTEST = TEST.shape[0]
@@ -19,22 +24,15 @@ def kNN(TRAIN, TEST, method, k, representation = None):
     if representation == "GRAIL":
         pass
 
-    if method == "Pearson":
-        similarity = True
-    elif method == "ED":
-        similarity = False
-    elif method == "NCC":
-        similarity = True
-    elif method == "SINK":
-        similarity = True
-    elif method == "SINK_compressed":
-        similarity = True
-    elif method == "NCC_compressed":
-        similarity = True
-
     for i in range(rowTEST):
-        x = TEST[i]
-
-        pass
-
+        x = TEST[i, :]
+        corr_array = np.zeros(rowTRAIN)
+        for j in range(rowTRAIN):
+            y = TRAIN[j, :]
+            correlation = Correlation(x, y, correlation_protocol_name=method, **kwargs)
+            corr_array[j] = correlation.correlate()
+        sorted_indices = np.argsort(corr_array)
+        if Correlation.is_similarity(method):
+            np.flip(sorted_indices)
+        neighbors[i, :] = sorted_indices[0:k]
     return neighbors

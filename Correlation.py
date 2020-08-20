@@ -11,7 +11,7 @@ class Correlation:
 
         :param x: time series. Can be either a path to a csv file or list
         :param y: time series. Can be either a path to a csv file or list
-        :param correlation_algorithm:
+        :param correlation_protocol_name:
         :param time_window: the time window in which the series are being correlated.
         :param args: arguments for the correlation algorithm.
         """
@@ -35,7 +35,16 @@ class Correlation:
             x = self.crop(x, time_window)
             y = self.crop(y, time_window)
 
+    def is_similarity(self):
+        return self.protocol.similarity
 
+    @classmethod
+    # Be careful about this. Will not work later.
+    def is_similarity(cls, correlation_protocol_name):
+        if correlation_protocol_name == "ED":
+            return False
+        else:
+            return True
 
     def check_entries(self):
         if hasattr(self, "time_window"):
