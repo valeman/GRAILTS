@@ -6,7 +6,7 @@ import exceptions
 
 class Correlation:
 
-    def __init__(self, x, y, correlation_protocol_name="NCC", time_window=None, **kwargs):
+    def __init__(self, x, y, correlation_protocol_name, time_window=None, **kwargs):
         """
 
         :param x: time series. Can be either a path to a csv file or list
@@ -55,5 +55,8 @@ class Correlation:
 
     def correlate(self):
         return self.protocol.execute()
+
+    def is_correlated(self, threshold):
+        return self.protocol.execute() >= threshold
 
 
