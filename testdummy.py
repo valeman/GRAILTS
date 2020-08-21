@@ -8,5 +8,6 @@ import SINK
 # print(correlation.correlate())
 
 
-x = np.array([[1,2,3,4],[1,2,3,4]])
-print(x[:, np.array([0,2])])
+x = None
+
+print(x == None)

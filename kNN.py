@@ -2,6 +2,8 @@ import numpy as np
 import math
 from Correlation import Correlation
 import exceptions
+from GRAIL import GRAIL
+from Representation import Representation
 
 
 def kNN(TRAIN, TEST, method, k, representation=None, **kwargs):
@@ -11,7 +13,7 @@ def kNN(TRAIN, TEST, method, k, representation=None, **kwargs):
     :param TEST: The test set whose neighbors we get
     :param method: The correlation or distance measure being used
     :param k: how many nearest neighbors to return
-    :param representation: The representation being used if any, for instance GRAIL
+    :param representation: The representation being used if any, for instance GRAIL. This is a representation object.
     :param **kwargs: arguments for the correlator
     :return: a matrix of size row(TEST)xk
     """
@@ -21,8 +23,9 @@ def kNN(TRAIN, TEST, method, k, representation=None, **kwargs):
     colTRAIN = TRAIN.shape[1]
 
     neighbors = np.zeros((rowTEST, k))
-    if representation == "GRAIL":
-        pass
+    if representation:
+        TRAIN = representation.get_representation(TRAIN)
+        TEST = representation.get_representation(TEST)
 
     for i in range(rowTEST):
         x = TEST[i, :]

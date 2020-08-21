@@ -8,7 +8,7 @@ from FrequentDirections import FrequentDirections
 from kshape import matlab_kshape
 
 
-def GRAIL(X, d, f, r, GV, fourier_coeff = -1, e = -1):
+def GRAIL(X, d, f, r, GV, fourier_coeff = -1, e = -1, eigenvecMatrix = None, inVa = None):
     """
 
     :param X: nxm matrix that contains n time series
@@ -24,11 +24,6 @@ def GRAIL(X, d, f, r, GV, fourier_coeff = -1, e = -1):
     n = X.shape[0]
     [mem, Dictionary] = matlab_kshape(X,d)
     [score, gamma] = gamma_select(Dictionary, GV, r)
-    W = np.zeros((d, d))
-
-    for i in range(d):
-        for j in range(d):
-            W[i, j] = SINK(Dictionary[i, :], Dictionary[j, :], gamma,fourier_coeff, e)
 
     E = np.zeros((n, d))
 
@@ -36,10 +31,16 @@ def GRAIL(X, d, f, r, GV, fourier_coeff = -1, e = -1):
         for j in range(d):
             E[i, j] = SINK(X[i, :], Dictionary[j, :], gamma,fourier_coeff, e)
 
-    [eigenvalvector, eigenvecMatrix] = np.linalg.eigh(W)
-    inVa = np.diag(np.power(eigenvalvector, -0.5))
-    Zexact = E @ eigenvecMatrix @ inVa
+    if eigenvecMatrix == None and inVa == None:
+        W = np.zeros((d, d))
+        for i in range(d):
+            for j in range(d):
+                W[i, j] = SINK(Dictionary[i, :], Dictionary[j, :], gamma,fourier_coeff, e)
 
+        [eigenvalvector, eigenvecMatrix] = np.linalg.eigh(W)
+        inVa = np.diag(np.power(eigenvalvector, -0.5))
+
+    Zexact = E @ eigenvecMatrix @ inVa
     Zexact = CheckNaNInfComplex(Zexact)
     Zexact = np.real(Zexact)
 
