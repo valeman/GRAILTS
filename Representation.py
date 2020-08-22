@@ -1,4 +1,4 @@
-import GRAIL
+from GRAIL import GRAIL_rep
 
 #not sure I will use these classes but I might
 
@@ -12,7 +12,7 @@ class Representation:
 
 class GRAIL(Representation):
 
-    def __init__(self, d, f, r, GV, fourier_coeff = -1, e = -1, eigenvecMatrix = None, inVa = None):
+    def __init__(self, d = 100, f = .95, r = 20, GV = [*range(1,21)], fourier_coeff = -1, e = -1, eigenvecMatrix = None, inVa = None):
         self.d = d
         self.f = f
         self.r = r
@@ -23,11 +23,10 @@ class GRAIL(Representation):
         self.inVa = inVa
 
 
-    @classmethod
     def get_representation(self, X):
         """
         Get the representation of matrix X
         :param X:
         :return:
         """
-        return GRAIL.GRAIL(X,self.d,self.f,self.r,self.GV,self.fourier_coeff,self.e, self.eigenvecMatrix, self.inVA)
+        return GRAIL_rep(X,self.d,self.f,self.r,self.GV,self.fourier_coeff,self.e, self.eigenvecMatrix, self.inVa)

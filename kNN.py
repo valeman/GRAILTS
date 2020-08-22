@@ -2,7 +2,6 @@ import numpy as np
 import math
 from Correlation import Correlation
 import exceptions
-from GRAIL import GRAIL
 from Representation import Representation
 
 

@@ -38,7 +38,7 @@ class NCC(CorrelationProtocol):
         self.similarity = True
 
     def execute(self):
-        return SINK.NCC(self.x, self.y)
+        return max(SINK.NCC(self.x, self.y))
 
 
 class NCC_Compressed(CorrelationProtocol):
@@ -47,7 +47,7 @@ class NCC_Compressed(CorrelationProtocol):
         self.similarity = True
 
     def execute(self):
-        return SINK.NCC(self.x, self.y, **self.kwargs)
+        return max(SINK.NCC(self.x, self.y, **self.kwargs))
 
 
 class SINK_protocol(CorrelationProtocol):

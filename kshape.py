@@ -89,7 +89,6 @@ def matlab_kshape(A, k):
     cent = np.zeros((k, A.shape[1]))
 
     for iter in range(100):
-        print(iter)
         prev_mem = mem.copy()
         D = math.inf * np.ones((m,k))
 

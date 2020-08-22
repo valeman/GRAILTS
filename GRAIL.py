@@ -8,7 +8,7 @@ from FrequentDirections import FrequentDirections
 from kshape import matlab_kshape
 
 
-def GRAIL(X, d, f, r, GV, fourier_coeff = -1, e = -1, eigenvecMatrix = None, inVa = None):
+def GRAIL_rep(X, d, f, r, GV, fourier_coeff = -1, e = -1, eigenvecMatrix = None, inVa = None):
     """
 
     :param X: nxm matrix that contains n time series
@@ -260,11 +260,3 @@ def fd(A, ell):
     return sketch
 
 
-x = np.array([[0.33169908, 0.79247418, 0.20331952, 0.34972748, 0.42525741, 0.33914221],
-              [0.44189778, 0.23751129, 0.10359036, 0.55644621, 0.3216573, 0.27341989],
-              [0.85078943, 0.9351495, 0.92466953, 0.20721836, 0.17450002, 0.36438568],
-              [0.35611616, 0.60584238, 0.35174043, 0.1855819, 0.57233715, 0.51038871],
-              [0.90560198, 0.07615764, 0.12331417, 0.49759322, 0.37303985, 0.07340795],
-              [0.26056805, 0.74227914, 0.80298907, 0.2873181, 0.44221004, 0.5717879]])
-
-print(repLearnKM(x))

@@ -58,7 +58,7 @@ class TimeSeries:
             for line in lines:
                 line.pop(0)
                 try:
-                    ls.append([int(x) for x in line])
+                    ls.append([float(x) for x in line])
                 except ValueError:
                     raise ValueError("There is a problem with the csv file format. Try changing the file encoding to Unicode without BOM.")
         return np.array(ls)
