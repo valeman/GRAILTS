@@ -1,9 +1,6 @@
 import numpy as np
-import Correlation
-import SINK
 from TimeSeries import TimeSeries
 from kNN import kNN
-from sklearn.neighbors import NearestNeighbors
 import Representation
 
 

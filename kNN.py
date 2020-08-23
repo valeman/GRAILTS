@@ -3,6 +3,7 @@ import math
 from Correlation import Correlation
 import exceptions
 from Representation import Representation
+import heapq
 
 
 def kNN(TRAIN, TEST, method, k, representation=None, **kwargs):
@@ -33,8 +34,8 @@ def kNN(TRAIN, TEST, method, k, representation=None, **kwargs):
             y = TRAIN[j, :]
             correlation = Correlation(x, y, correlation_protocol_name=method, **kwargs)
             corr_array[j] = correlation.correlate()
-        sorted_indices = np.argsort(corr_array)
         if Correlation.is_similarity(method):
-            np.flip(sorted_indices)
-        neighbors[i, :] = sorted_indices[0:k]
+            neighbors[i,:] = heapq.nlargest(k, range(len(corr_array)), corr_array.take())
+        else:
+            neighbors[i,:] = heapq.nsmallest(k, range(len(corr_array)), corr_array.take())
     return neighbors

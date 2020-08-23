@@ -147,9 +147,3 @@ def kshape(X, k):
         #    break
 
     return [index, centroids]
-
-x = np.empty([100,100])
-for i in range(100):
-    x[i, :] = np.random.rand(100)
-
-matlab_kshape(x,2)
