@@ -29,7 +29,7 @@ class ED(CorrelationProtocol):
         self.similarity = False
 
     def execute(self):
-        return np.sum(np.power(self.x - self.y, 2))
+        return np.linalg.norm(self.x - self.y)
 
 
 class NCC(CorrelationProtocol):

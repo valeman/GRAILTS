@@ -43,10 +43,8 @@ def NCC(x, y, k=-1, e=-1):
     end = len(r) - 1
     r = np.concatenate((r[(end - length + 2):len(r)], r[0: length]))
 
-    if np.linalg.norm(x) == 0 or np.linalg.norm(y) == 0:
-        return np.ones(len(r)) * math.inf
-
-    return np.divide(np.real(r), (np.linalg.norm(x) * np.linalg.norm(y)))
+    result = np.divide(np.real(r), (np.linalg.norm(x) * np.linalg.norm(y)))
+    return np.nan_to_num(result)
 
 
 # Helper function for NCC

@@ -23,6 +23,7 @@ def kNN(TRAIN, TEST, method, k, representation=None, **kwargs):
     colTRAIN = TRAIN.shape[1]
 
     neighbors = np.zeros((rowTEST, k))
+    correlations = np.zeros((rowTEST, k))
     if representation:
         TRAIN = representation.get_representation(TRAIN)
         TEST = representation.get_representation(TEST)
@@ -35,7 +36,11 @@ def kNN(TRAIN, TEST, method, k, representation=None, **kwargs):
             correlation = Correlation(x, y, correlation_protocol_name=method, **kwargs)
             corr_array[j] = correlation.correlate()
         if Correlation.is_similarity(method):
-            neighbors[i,:] = heapq.nlargest(k, range(len(corr_array)), corr_array.take())
+            temp = np.array(heapq.nlargest(k, enumerate(corr_array), key = lambda x: x[1]))
+            neighbors[i,:] = temp[:, 0]
+            correlations[i,:] = temp[:,1]
         else:
-            neighbors[i,:] = heapq.nsmallest(k, range(len(corr_array)), corr_array.take())
-    return neighbors
+            temp = np.array(heapq.nsmallest(k, enumerate(corr_array), key = lambda x: x[1]))
+            neighbors[i,:] = temp[:, 0]
+            correlations[i,:] = temp[:,1]
+    return neighbors, correlations

@@ -4,6 +4,12 @@ from scipy import stats
 from scipy import linalg
 import random
 import math
+import heapq
+
+
+def zscore(x, axis=0, ddof=0):
+    return np.nan_to_num(stats.zscore(x, axis=axis, ddof=ddof))
+
 
 # somewhat tested
 def sbd(x, y):
@@ -54,7 +60,7 @@ def kshape_centroid(X, mem, ref_seq, k):
 
     n = partition.shape[0]
     m = partition.shape[1]
-    z_partition = stats.zscore(partition,axis = 1, ddof= 1)
+    z_partition = zscore(partition, axis=1, ddof=1)
 
     S = np.transpose(z_partition) @ z_partition
     Q = np.identity(m) - (1 / m) * np.ones(m)
@@ -62,20 +68,22 @@ def kshape_centroid(X, mem, ref_seq, k):
     eigval, centroid = linalg.eigh(M, subset_by_index=[m - 1, m - 1])
     centroid = centroid.transpose()
 
-    d1 = ED(partition[0,:], centroid)
-    d2 = ED(partition[0,:], -centroid)
+    d1 = ED(partition[0, :], centroid)
+    d2 = ED(partition[0, :], -centroid)
     if d1 < d2:
         return centroid
     else:
         return -centroid
 
-def ED(x,y):
-    return np.sqrt(np.sum(np.power(x-y,2)))
+
+def ED(x, y):
+    return np.sqrt(np.sum(np.power(x - y, 2)))
+
 
 def matlab_kshape(A, k):
     '''
     shape based clustering algorithm
-    :param X: nxm matrix containing time series that are z-normalized
+    :param X: mxn matrix containing time series that are z-normalized
     :param k: number of clusters
     :return: index is the length n array containing the index of the clusters to which
     the series are assigned. centroids is the kxm matrix containing the centroids of
@@ -84,30 +92,52 @@ def matlab_kshape(A, k):
 
     m = A.shape[0]
     mem = np.zeros(m)
+
     for i in range(m):
         mem[i] = random.randrange(k)
     cent = np.zeros((k, A.shape[1]))
 
     for iter in range(100):
         prev_mem = mem.copy()
-        D = math.inf * np.ones((m,k))
+        cluster_cnt = np.zeros(k)
+        empty_cluster_cnt = 0
+        D = math.inf * np.ones((m, k))
 
         for i in range(k):
-            cent[i,:] = kshape_centroid(A, mem ,cent[i,:], i)
-            cent[i,:] = stats.zscore(cent[i,:],ddof= 1)
+            cent[i, :] = kshape_centroid(A, mem, cent[i, :], i)
+            cent[i, :] = zscore(cent[i, :], ddof=1)
 
         for i in range(m):
             for j in range(k):
-                dist = 1 - max(SINK.NCC(A[i,:], cent[j,:]) )
+                dist = 1 - max(SINK.NCC(A[i, :], cent[j, :]))
                 D[i, j] = dist
 
         for i in range(m):
-            mem[i] = np.argmin(D[i,:])
+            mem[i] = np.argmin(D[i, :])
+            cluster_cnt[mem[i]] = cluster_cnt[mem[i]] + 1
+
+        # check for empty clusters
+        empty_cluster_list = []
+        for cluster in range(k):
+            if cluster_cnt[cluster] == 0:
+                empty_cluster_cnt = empty_cluster_cnt + 1
+                empty_cluster_list.append(cluster)
+
+        if empty_cluster_cnt != 0:
+            min_dists = np.amin(D, axis=1)
+            distant_points = heapq.nlargest(empty_cluster_cnt, min_dists)
+            for i in range(empty_cluster_cnt):
+                mem[distant_points[i]] = empty_cluster_list[i]
+
 
         if linalg.norm(prev_mem - mem) == 0:
+            for i in range(k):
+                cent[i, :] = kshape_centroid(A, mem, cent[i, :], i)
+                cent[i, :] = zscore(cent[i, :], ddof=1)
             break
 
     return [mem, cent]
+
 
 def kshape(X, k):
     '''
@@ -141,9 +171,9 @@ def kshape(X, k):
         # refinement
         for i in range(k):
             centroids[i, :] = kshape_centroid(X, index, centroids[i, :], i)
-            centroids[i, :] = stats.zscore(centroids[i, :])
+            centroids[i, :] = zscore(centroids[i, :])
 
-        #if linalg.norm(index - prev_index) == 0:
+        # if linalg.norm(index - prev_index) == 0:
         #    break
 
     return [index, centroids]
