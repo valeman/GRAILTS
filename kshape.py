@@ -114,7 +114,7 @@ def matlab_kshape(A, k):
 
         for i in range(m):
             mem[i] = np.argmin(D[i, :])
-            cluster_cnt[mem[i]] = cluster_cnt[mem[i]] + 1
+            cluster_cnt[int(mem[i])] = cluster_cnt[int(mem[i])] + 1
 
         # check for empty clusters
         empty_cluster_list = []
@@ -125,9 +125,10 @@ def matlab_kshape(A, k):
 
         if empty_cluster_cnt != 0:
             min_dists = np.amin(D, axis=1)
-            distant_points = heapq.nlargest(empty_cluster_cnt, min_dists)
+            templist = np.array(heapq.nlargest(empty_cluster_cnt, enumerate(min_dists), key = lambda x: x[1]))
+            distant_points = templist[:, 0]
             for i in range(empty_cluster_cnt):
-                mem[distant_points[i]] = empty_cluster_list[i]
+                mem[int(distant_points[i])] = empty_cluster_list[i]
 
 
         if linalg.norm(prev_mem - mem) == 0:

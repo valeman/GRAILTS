@@ -11,11 +11,16 @@ import Correlation
 TRAIN = TimeSeries.load("BeetleFly_TRAIN", "UCR")
 TEST = TimeSeries.load("BeetleFly_TEST", "UCR")
 
-# x = np.array([0,0,0])
-# y = np.array([0,0,0])
-#
-# grail = Representation.GRAIL()
-# print(kNN(TRAIN, TEST, method = "ED", representation=grail, k = 2))
+
+grail = Representation.GRAIL(d = 40)
+result = kNN(TRAIN, TEST, method = "ED", representation=grail, k = 5)
+print(result[0])
+print(result[1])
+
+print("second")
+a = kNN(TRAIN, TEST, method = "ED", k = 5)
+for i in range(a.shape[0]):
+    print()
 
 
 

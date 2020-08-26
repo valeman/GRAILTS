@@ -223,9 +223,9 @@ def gamma_select(Dictionary, GV, r, k=-1):
     :return: the tuned parameter gamma and its score
     """
     d = Dictionary.shape[0]
-    GVar = np.zeros(len(GV))
-    var_top_r = np.zeros(len(GV))
-    score = np.zeros(len(GV))
+    GVar = np.zeros(len(GV) + 5)
+    var_top_r = np.zeros(len(GV) + 5)
+    score = np.zeros(len(GV) + 5)
     for gamma in GV:
         W = np.zeros((d, d))
         for i in range(d):
@@ -235,12 +235,12 @@ def gamma_select(Dictionary, GV, r, k=-1):
         [eigenvalvector, eigenvecMatrix] = np.linalg.eigh(W)
         eigenvalvector = np.flip(eigenvalvector)
         eigenvecMatrix = np.flip(eigenvecMatrix)
-        var_top_r[gamma] = np.cumsum(eigenvalvector[0:r]) / np.sum(eigenvalvector)
+        var_top_r[gamma] = np.sum(eigenvalvector[0:r]) / np.sum(eigenvalvector)
 
     score = GVar * var_top_r
     best_gamma = np.argmax(score)
     best_score = score[best_gamma]
-
+    print("gamma = ", best_gamma)
     return [best_score, best_gamma]
 
 
