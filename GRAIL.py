@@ -5,10 +5,11 @@ import time
 import scipy as sp
 import random
 from FrequentDirections import FrequentDirections
-from kshape import matlab_kshape
+from kshape import matlab_kshape, kshape_with_centroid_initialize
+import exceptions
 
 
-def GRAIL_rep(X, d, f, r, GV, fourier_coeff = -1, e = -1, eigenvecMatrix = None, inVa = None):
+def GRAIL_rep(X, d, f, r, GV, fourier_coeff = -1, e = -1, eigenvecMatrix = None, inVa = None, initialization_method = "partition"):
     """
 
     :param X: nxm matrix that contains n time series
@@ -22,7 +23,13 @@ def GRAIL_rep(X, d, f, r, GV, fourier_coeff = -1, e = -1, eigenvecMatrix = None,
     """
 
     n = X.shape[0]
-    [mem, Dictionary] = matlab_kshape(X,d)
+    if initialization_method == "partition":
+        [mem, Dictionary] = matlab_kshape(X,d)
+    elif initialization_method == "centroid":
+        [mem, Dictionary] = kshape_with_centroid_initialize(X, d)
+    else:
+        raise exceptions.InitializationMethodNotFound
+
     [score, gamma] = gamma_select(Dictionary, GV, r)
 
     E = np.zeros((n, d))

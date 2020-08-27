@@ -83,6 +83,7 @@ def ED(x, y):
 def matlab_kshape(A, k):
     '''
     shape based clustering algorithm
+    This is the version where we randomly initialize the partitions
     :param X: mxn matrix containing time series that are z-normalized
     :param k: number of clusters
     :return: index is the length n array containing the index of the clusters to which
@@ -123,6 +124,7 @@ def matlab_kshape(A, k):
                 empty_cluster_cnt = empty_cluster_cnt + 1
                 empty_cluster_list.append(cluster)
 
+        # deal with empty clusters
         if empty_cluster_cnt != 0:
             min_dists = np.amin(D, axis=1)
             templist = np.array(heapq.nlargest(empty_cluster_cnt, enumerate(min_dists), key = lambda x: x[1]))
@@ -140,41 +142,61 @@ def matlab_kshape(A, k):
     return [mem, cent]
 
 
-def kshape(X, k):
+def kshape_with_centroid_initialize(X, k):
     '''
     shape based clustering algorithm
+    This is the version where we randomly initialize the centroids.
     :param X: nxm matrix containing time series that are z-normalized
     :param k: number of clusters
-    :return: index is the length n array containing the index of the clusters to which
+    :return: mem is the length n array containing the index of the clusters to which
     the series are assigned. centroids is the kxm matrix containing the centroids of
     the clusters
     '''
 
     # initialization
     n = X.shape[0]
-    m = X.shape[1]
-    index = np.zeros(n)
+    mem = np.zeros(n)
     initial_centroids = random.sample(range(n), k)
     centroids = X[initial_centroids, :]
 
     for iter in range(100):
         print(iter)
-        prev_index = index
+        prev_mem = mem.copy()
+        cluster_cnt = np.zeros(k)
+        empty_cluster_cnt = 0
+        D = math.inf * np.ones((n, k))
         # assignment
         for i in range(n):
-            mn = math.inf
             for j in range(k):
-                [dist, dump1, dump2] = sbd(X[i, :], centroids[j, :])
-                if dist < mn:
-                    index[i] = j
-                    mn = dist
+                dist = 1 - max(SINK.NCC(X[i, :], centroids[j, :]))
+                D[i, j] = dist
+
+        for i in range(n):
+            mem[i] = np.argmin(D[i, :])
+            cluster_cnt[int(mem[i])] = cluster_cnt[int(mem[i])] + 1
+
+        if linalg.norm(mem - prev_mem) == 0:
+            break
+
+        # check for empty clusters
+        empty_cluster_list = []
+        for cluster in range(k):
+            if cluster_cnt[cluster] == 0:
+                empty_cluster_cnt = empty_cluster_cnt + 1
+                empty_cluster_list.append(cluster)
+
+        # deal with empty clusters
+        if empty_cluster_cnt != 0:
+            min_dists = np.amin(D, axis=1)
+            templist = np.array(heapq.nlargest(empty_cluster_cnt, enumerate(min_dists), key = lambda x: x[1]))
+            distant_points = templist[:, 0]
+            for i in range(empty_cluster_cnt):
+                mem[int(distant_points[i])] = empty_cluster_list[i]
 
         # refinement
         for i in range(k):
-            centroids[i, :] = kshape_centroid(X, index, centroids[i, :], i)
+            centroids[i, :] = kshape_centroid(X, mem, centroids[i, :], i)
             centroids[i, :] = zscore(centroids[i, :])
 
-        # if linalg.norm(index - prev_index) == 0:
-        #    break
 
-    return [index, centroids]
+    return [mem, centroids]

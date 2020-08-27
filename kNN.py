@@ -24,7 +24,6 @@ def kNN(TRAIN, TEST, method, k, representation=None, **kwargs):
 
     neighbors = np.zeros((rowTEST, k))
     correlations = np.zeros((rowTEST, k))
-    corr_matrix = np.zeros((rowTEST, rowTRAIN))
     if representation:
         together = np.vstack((TRAIN, TEST))
         rep_together = representation.get_representation(together)
@@ -46,5 +45,4 @@ def kNN(TRAIN, TEST, method, k, representation=None, **kwargs):
             temp = np.array(heapq.nsmallest(k, enumerate(corr_array), key = lambda x: x[1]))
             neighbors[i,:] = temp[:, 0]
             correlations[i,:] = temp[:,1]
-        corr_matrix[i, :] = corr_array
-    return neighbors, correlations, corr_matrix
+    return neighbors, correlations

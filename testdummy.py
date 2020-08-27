@@ -6,21 +6,25 @@ from SINK import SINK
 import heapq
 from sklearn.neighbors import NearestNeighbors
 import Correlation
+import kshape
+
+#
+# TRAIN = TimeSeries.load("ECG200_TRAIN", "UCR")
+# TEST = TimeSeries.load("ECG200_TEST", "UCR")
+#
+#
+# grail = Representation.GRAIL(d = 100)
+# result = kNN(TRAIN, TEST, method = "ED", representation=grail, k = 5)
+# print(result[0])
+#
+# print("second")
+# a = kNN(TRAIN, TEST, method = "SINK", k = 5, gamma = 1)
+# print(a[0])
 
 
-TRAIN = TimeSeries.load("BeetleFly_TRAIN", "UCR")
-TEST = TimeSeries.load("BeetleFly_TEST", "UCR")
+TRAIN = TimeSeries.load("ECG200_TRAIN", "UCR")
+print(kshape.kshape_with_centroid_initialize(TRAIN, 10))
 
-
-grail = Representation.GRAIL(d = 40)
-result = kNN(TRAIN, TEST, method = "ED", representation=grail, k = 5)
-print(result[0])
-print(result[1])
-
-print("second")
-a = kNN(TRAIN, TEST, method = "ED", k = 5)
-for i in range(a.shape[0]):
-    print()
 
 
 
