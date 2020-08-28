@@ -9,7 +9,7 @@ import Correlation
 import kshape
 
 #
-# TRAIN = TimeSeries.load("ECG200_TRAIN", "UCR")
+TRAIN = TimeSeries.load("ECG200_TRAIN", "UCR")
 # TEST = TimeSeries.load("ECG200_TEST", "UCR")
 #
 #
@@ -22,9 +22,4 @@ import kshape
 # print(a[0])
 
 
-TRAIN = TimeSeries.load("ECG200_TRAIN", "UCR")
 print(kshape.kshape_with_centroid_initialize(TRAIN, 10))
-
-
-
-

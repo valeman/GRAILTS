@@ -142,12 +142,13 @@ def matlab_kshape(A, k):
     return [mem, cent]
 
 
-def kshape_with_centroid_initialize(X, k):
+def kshape_with_centroid_initialize(X, k, is_pp = True):
     '''
     shape based clustering algorithm
     This is the version where we randomly initialize the centroids.
     :param X: nxm matrix containing time series that are z-normalized
     :param k: number of clusters
+    :param is_pp: if true, use k-shape++ initialization method.
     :return: mem is the length n array containing the index of the clusters to which
     the series are assigned. centroids is the kxm matrix containing the centroids of
     the clusters
@@ -156,8 +157,11 @@ def kshape_with_centroid_initialize(X, k):
     # initialization
     n = X.shape[0]
     mem = np.zeros(n)
-    initial_centroids = random.sample(range(n), k)
-    centroids = X[initial_centroids, :]
+    if is_pp:
+        centroids = kshape_pp_initialization(X,k)
+    else:
+        initial_centroids = random.sample(range(n), k)
+        centroids = X[initial_centroids, :]
 
     for iter in range(100):
         print(iter)
@@ -200,3 +204,27 @@ def kshape_with_centroid_initialize(X, k):
 
 
     return [mem, centroids]
+
+
+def kshape_pp_initialization(X, k):
+    """
+    This is based on the k-means++ algorithm. It is an initialization method designed
+    to avoid bad initial clusters.
+    :param X: Matrix of time series
+    :param k: number of clusters
+    :return: centroids
+    """
+    n = X.shape[0]
+    centers = np.zeros((k,X.shape[1]))
+    ind = random.randrange(k)
+    centers[0,:] = X[ind, :]
+    for i in range(1,k):
+        D = np.ones((n,i)) * np.inf
+        weights = np.zeros(n)
+        for j in range(n):
+            for c in range(i):
+                D[j,c] = 1 - max(SINK.NCC(X[j,:], centers[c,:]))
+            weights[j] = min(D[j,:])
+        ind = random.choices(list(range(n)), weights=weights, k=1)
+        centers[i,:] = X[ind,:]
+    return centers

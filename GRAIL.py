@@ -25,8 +25,10 @@ def GRAIL_rep(X, d, f, r, GV, fourier_coeff = -1, e = -1, eigenvecMatrix = None,
     n = X.shape[0]
     if initialization_method == "partition":
         [mem, Dictionary] = matlab_kshape(X,d)
-    elif initialization_method == "centroid":
-        [mem, Dictionary] = kshape_with_centroid_initialize(X, d)
+    elif initialization_method == "centroid_uniform":
+        [mem, Dictionary] = kshape_with_centroid_initialize(X, d, is_pp=False)
+    elif initialization_method == "k-shape++":
+        [mem, Dictionary] = kshape_with_centroid_initialize(X, d, is_pp=True)
     else:
         raise exceptions.InitializationMethodNotFound
 
