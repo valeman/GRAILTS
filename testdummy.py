@@ -1,15 +1,14 @@
 import numpy as np
 from TimeSeries import TimeSeries
-from kNN import kNN
+from kNN import kNN, kNN_with_pq
 import Representation
 from SINK import SINK, NCC
 import heapq
 from sklearn.neighbors import NearestNeighbors
 import Correlation
 import kshape
-import math
-import random
-import hello
+import time
+
 
 # def NCC_new(x, y):
 #     length = len(x);
@@ -45,13 +44,17 @@ import hello
 #
 #
 # #
-# #TRAIN = TimeSeries.load("ECG200_TRAIN", "UCR")
-# # TEST = TimeSeries.load("ECG200_TEST", "UCR")
-# #
-# #
-# # grail = Representation.GRAIL(d = 100)
-# # result = kNN(TRAIN, TEST, method = "ED", representation=grail, k = 5)
-# # print(result[0])
+TRAIN, train_labels = TimeSeries.load("ECG200_TRAIN", "UCR")
+TEST, test_labels = TimeSeries.load("ECG200_TEST", "UCR")
+
+#
+#
+# grail = Representation.GRAIL(d = 100)
+# t = time.time()
+# print(kNN(TRAIN, TEST, method = "ED", representation=grail, pq_method= "opq", k = 5)[0])
+# print(time.time() - t)
+# print(kNN(TRAIN, TEST, method = "ED", representation=grail, k = 5)[0])
+
 # #
 # # print("second")
 # # a = kNN(TRAIN, TEST, method = "SINK", k = 5, gamma = 1)

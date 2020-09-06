@@ -179,47 +179,6 @@ def repLearnKM(KM):
     return [Z99per, Z98per, Z97per, Z95per, Z90per, Z85per, Z80per, Ztop20, Ztop10, Ztop5, RepLearnTime]
 
 
-# python version of matlab fd
-# def fd(A, ell):
-#     rows = A.shape[0]
-#     d = A.shape[1]
-#     m = 2 * ell
-#
-#     if rows <= m:
-#         [U, s, Vt] = np.linalg.svd(A, full_matrices=False)
-#         S = sp.linalg.diagsvd(s, A.shape[0], A.shape[1])
-#         vout = Vt[:, 0]
-#         sketch = S @ np.transpose(Vt)
-#         return
-#
-#     sketch = np.zeros(m, d, dtype=complex)
-#     nextZeroRow = 0
-#
-#     for i in range(rows):
-#         vector = A[i,:]     # append row
-#
-#         if (nextZeroRow > m): # rotate
-#             [U, s, Vt] = np.linalg.svd(sketch, full_matrices=False) # economy SVD: sketch = U S V
-#             S = sp.linalg.diagsvd(s, A.shape[0], A.shape[1])
-#             vout = Vt
-#             length = len(s)
-#             if length >= ell: # if rank is greater than ell, then shrink
-#                 sShrunk = np.sqrt(np.power(s[0:ell],2) - np.power(s(ell),2))
-#                 sketch[1: ell,:] = diag(sShrunk) * np.transpose(Vt[:, 0: ell])
-#                 sketch[(ell + 1): end,:] = 0
-#                 nextZeroRow = ell + 1 # maintain invariant that row l is zeros
-#
-#             else: # otherwise fewer than ell non-zero rows
-#                 sketch[1: length,:] = S @ np.transpose(Vt[:, 0:length])
-#                 sketch[(length + 1): end,:] = 0
-#                 nextZeroRow = length + 1
-#
-#         sketch[nextZeroRow,:] = vector # append row
-#         nextZeroRow = nextZeroRow + 1
-#     sketch = sketch[0:ell,:]
-#     return [sketch, vout]
-
-
 def gamma_select(Dictionary, GV, r, k=-1):
     """
     Parameter Tuning function. Tunes the parameters for GRAIL

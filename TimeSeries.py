@@ -47,21 +47,23 @@ class TimeSeries:
         row is the class time series belongs to.
         :param path: The file path
         :param with_time_stamps: If this is true then the file starts with explicit time stamps in its first row
-        :return: numpy matrix that contains the loaded time series in its rows.
+        :return: numpy matrix that contains the loaded time series in its rows, an np array of labels of these time series.
         """
         if with_time_stamps == True:
             raise NotImplemented
+        labels = []
 
         with open(path) as csv_file:
             lines = csv.reader(csv_file, delimiter=',')
             ls = []
             for line in lines:
+                labels.append(int(line[0]))
                 line.pop(0)
                 try:
                     ls.append([float(x) for x in line])
                 except ValueError:
                     raise ValueError("There is a problem with the csv file format. Try changing the file encoding to Unicode without BOM.")
-        return np.array(ls)
+        return np.array(ls), np.array(labels)
 
 
 

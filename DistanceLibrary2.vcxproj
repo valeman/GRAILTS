@@ -1,0 +1,279 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{dc36e395-6624-46d7-a104-e8cd914f7de9}</ProjectGuid>
+    <RootNamespace>DistanceLibrary2</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(ProjectDir)fftw\include</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(ProjectDir)\fftw\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libfftw3-3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="elasticmeasures\dtw.cpp" />
+    <ClCompile Include="elasticmeasures\Dep\dtw_ip.cpp" />
+    <ClCompile Include="elasticmeasures\Dep\dtw_scb.cpp" />
+    <ClCompile Include="elasticmeasures\dtwznorm.py" />
+    <ClCompile Include="elasticmeasures\edr.cpp" />
+    <ClCompile Include="elasticmeasures\erp.cpp" />
+    <ClCompile Include="elasticmeasures\lcss.cpp" />
+    <ClCompile Include="elasticmeasures\msm.cpp" />
+    <ClCompile Include="elasticmeasures\swale.cpp" />
+    <ClCompile Include="elasticmeasures\twed.cpp" />
+    <ClCompile Include="elastic_measure.cpp" />
+    <ClCompile Include="embeddedmeasures\GRAIL.cpp" />
+    <ClCompile Include="kernelmeasures\kdtw.cpp" />
+    <ClCompile Include="kernelmeasures\logGAK.cpp" />
+    <ClCompile Include="kernelmeasures\sink.cpp" />
+    <ClCompile Include="kernel_measure.cpp" />
+    <ClCompile Include="normalization\TanhNorm.py" />
+    <ClCompile Include="slidingmeasures\NCC.cpp" />
+    <ClCompile Include="slidingmeasures\NCCb.cpp" />
+    <ClCompile Include="slidingmeasures\NCCc.cpp" />
+    <ClCompile Include="sliding_measures.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="fftw\include\fftw3.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="fftw\lib\libfftw3-3.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="elasticmeasures\1NN.py" />
+    <None Include="elasticmeasures\CID.py" />
+    <None Include="elasticmeasures\CIDdtw.py" />
+    <None Include="elasticmeasures\CIDedr.py" />
+    <None Include="elasticmeasures\CIDerp.py" />
+    <None Include="elasticmeasures\CIDlcss.py" />
+    <None Include="elasticmeasures\dtw.py" />
+    <None Include="elasticmeasures\Dep\dtw_ip.py" />
+    <None Include="elasticmeasures\dtwabs.py" />
+    <None Include="elasticmeasures\dtwder.py" />
+    <None Include="elasticmeasures\edr.py" />
+    <None Include="elasticmeasures\Dep\edr_scb.py" />
+    <None Include="elasticmeasures\erp.py" />
+    <None Include="elasticmeasures\Dep\erp_ip.py" />
+    <None Include="elasticmeasures\Dep\erp_scb.py" />
+    <None Include="elasticmeasures\lcss.py" />
+    <None Include="elasticmeasures\Dep\lcss_ip.py" />
+    <None Include="elasticmeasures\msm.py" />
+    <None Include="elasticmeasures\Dep\msm_scb.py" />
+    <None Include="elasticmeasures\setup.py" />
+    <None Include="elasticmeasures\slidingaverage.py" />
+    <None Include="elasticmeasures\swale.py" />
+    <None Include="elasticmeasures\Dep\swale_scb.py" />
+    <None Include="elasticmeasures\twed.py" />
+    <None Include="elasticmeasures\Dep\twed_scb.py" />
+    <None Include="elasticmeasures\wdtw.py" />
+    <None Include="lockstepmeasures\abs_euclidean.py" />
+    <None Include="distance_measure.py" />
+    <None Include="elastic_measure.py" />
+    <None Include="fftw\bin\libfftw3-3.dll" />
+    <None Include="lockstepmeasures\additive_symm_chi.py" />
+    <None Include="lockstepmeasures\avg_l1_linf.py" />
+    <None Include="lockstepmeasures\bhattacharyya.py" />
+    <None Include="lockstepmeasures\canberra.py" />
+    <None Include="lockstepmeasures\chebyshev.py" />
+    <None Include="lockstepmeasures\clark.py" />
+    <None Include="lockstepmeasures\cosine.py" />
+    <None Include="lockstepmeasures\czekanowski.py" />
+    <None Include="lockstepmeasures\dice.py" />
+    <None Include="lockstepmeasures\divergence.py" />
+    <None Include="lockstepmeasures\ED.py" />
+    <None Include="lockstepmeasures\emanon2.py" />
+    <None Include="lockstepmeasures\emanon3.py" />
+    <None Include="lockstepmeasures\emanon4.py" />
+    <None Include="lockstepmeasures\fidelity.py" />
+    <None Include="lockstepmeasures\gower.py" />
+    <None Include="lockstepmeasures\harmonicmean.py" />
+    <None Include="lockstepmeasures\hellinger.py" />
+    <None Include="lockstepmeasures\innerproduct.py" />
+    <None Include="lockstepmeasures\intersection.py" />
+    <None Include="lockstepmeasures\jaccard.py" />
+    <None Include="lockstepmeasures\jansen_shannon.py" />
+    <None Include="lockstepmeasures\jeffrey.py" />
+    <None Include="lockstepmeasures\jensen_difference.py" />
+    <None Include="lockstepmeasures\kulczynski.py" />
+    <None Include="lockstepmeasures\kullback.py" />
+    <None Include="lockstepmeasures\kumarhassebrook.py" />
+    <None Include="lockstepmeasures\kumar_johnson.py" />
+    <None Include="lockstepmeasures\k_divergence.py" />
+    <None Include="lockstepmeasures\lorentzian.py" />
+    <None Include="lockstepmeasures\manhattan.py" />
+    <None Include="lockstepmeasures\matusita.py" />
+    <None Include="lockstepmeasures\max_symmetric_chi.py" />
+    <None Include="lockstepmeasures\minkowski.py" />
+    <None Include="lockstepmeasures\min_symmetric_chi.py" />
+    <None Include="lockstepmeasures\motyka.py" />
+    <None Include="lockstepmeasures\neyman.py" />
+    <None Include="lockstepmeasures\PairWiseScalingDistance.py" />
+    <None Include="lockstepmeasures\pearson.py" />
+    <None Include="lockstepmeasures\prob_symmetric_chi.py" />
+    <None Include="lockstepmeasures\soergel.py" />
+    <None Include="lockstepmeasures\sorensen.py" />
+    <None Include="lockstepmeasures\squared_chi.py" />
+    <None Include="lockstepmeasures\squared_euclidean.py" />
+    <None Include="lockstepmeasures\square_chord.py" />
+    <None Include="lockstepmeasures\taneja.py" />
+    <None Include="lockstepmeasures\tanimoto.py" />
+    <None Include="lockstepmeasures\topsoe.py" />
+    <None Include="lockstepmeasures\vicis_wave_hedges.py" />
+    <None Include="lockstepmeasures\wave_hedges.py" />
+    <None Include="lowerboundingmeasures\ERPLowerBound.py" />
+    <None Include="lowerboundingmeasures\FFTLBBestCoeff.py" />
+    <None Include="lowerboundingmeasures\FFTLBTopCoeff.py" />
+    <None Include="lowerboundingmeasures\lbLCSS.py" />
+    <None Include="lowerboundingmeasures\LB_KeoghImp.py" />
+    <None Include="lowerboundingmeasures\lowerbound_keogh.py" />
+    <None Include="lowerboundingmeasures\zrep.py" />
+    <None Include="normalization\meannorm.py" />
+    <None Include="normalization\AdaptiveScaling.py" />
+    <None Include="normalization\MedianNorm.py" />
+    <None Include="normalization\MinMaxNorm.py" />
+    <None Include="normalization\SigmoidNorm.py" />
+    <None Include="normalization\UnitLengthNorm.py" />
+    <None Include="slidingmeasures\NCC.py" />
+    <None Include="slidingmeasures\NCCb.py" />
+    <None Include="slidingmeasures\NCCc.py" />
+    <None Include="slidingmeasures\NCCu.py" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

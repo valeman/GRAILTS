@@ -1,0 +1,189 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="kernel_measure.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="elastic_measure.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sliding_measures.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="elasticmeasures\swale.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="elasticmeasures\twed.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="embeddedmeasures\GRAIL.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="kernelmeasures\kdtw.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="kernelmeasures\logGAK.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="kernelmeasures\sink.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="slidingmeasures\NCC.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="slidingmeasures\NCCb.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="slidingmeasures\NCCc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="elasticmeasures\dtw.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="elasticmeasures\edr.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="elasticmeasures\erp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="elasticmeasures\lcss.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="elasticmeasures\msm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="elasticmeasures\Dep\dtw_ip.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="elasticmeasures\Dep\dtw_scb.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="elasticmeasures\dtwznorm.py">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="normalization\TanhNorm.py">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="fftw\bin\libfftw3-3.dll" />
+    <None Include="elastic_measure.py" />
+    <None Include="distance_measure.py" />
+    <None Include="lockstepmeasures\abs_euclidean.py" />
+    <None Include="lockstepmeasures\additive_symm_chi.py" />
+    <None Include="lockstepmeasures\avg_l1_linf.py" />
+    <None Include="lockstepmeasures\bhattacharyya.py" />
+    <None Include="lockstepmeasures\canberra.py" />
+    <None Include="lockstepmeasures\chebyshev.py" />
+    <None Include="lockstepmeasures\clark.py" />
+    <None Include="lockstepmeasures\cosine.py" />
+    <None Include="lockstepmeasures\czekanowski.py" />
+    <None Include="lockstepmeasures\dice.py" />
+    <None Include="lockstepmeasures\divergence.py" />
+    <None Include="lockstepmeasures\ED.py" />
+    <None Include="lockstepmeasures\emanon2.py" />
+    <None Include="lockstepmeasures\emanon3.py" />
+    <None Include="lockstepmeasures\emanon4.py" />
+    <None Include="lockstepmeasures\fidelity.py" />
+    <None Include="lockstepmeasures\gower.py" />
+    <None Include="lockstepmeasures\harmonicmean.py" />
+    <None Include="lockstepmeasures\hellinger.py" />
+    <None Include="lockstepmeasures\innerproduct.py" />
+    <None Include="lockstepmeasures\intersection.py" />
+    <None Include="lockstepmeasures\jaccard.py" />
+    <None Include="lockstepmeasures\jansen_shannon.py" />
+    <None Include="lockstepmeasures\jeffrey.py" />
+    <None Include="lockstepmeasures\jensen_difference.py" />
+    <None Include="lockstepmeasures\k_divergence.py" />
+    <None Include="lockstepmeasures\kulczynski.py" />
+    <None Include="lockstepmeasures\kullback.py" />
+    <None Include="lockstepmeasures\kumar_johnson.py" />
+    <None Include="lockstepmeasures\kumarhassebrook.py" />
+    <None Include="lockstepmeasures\lorentzian.py" />
+    <None Include="lockstepmeasures\manhattan.py" />
+    <None Include="lockstepmeasures\matusita.py" />
+    <None Include="lockstepmeasures\max_symmetric_chi.py" />
+    <None Include="lockstepmeasures\min_symmetric_chi.py" />
+    <None Include="lockstepmeasures\minkowski.py" />
+    <None Include="lockstepmeasures\motyka.py" />
+    <None Include="lockstepmeasures\neyman.py" />
+    <None Include="lockstepmeasures\PairWiseScalingDistance.py" />
+    <None Include="lockstepmeasures\pearson.py" />
+    <None Include="lockstepmeasures\prob_symmetric_chi.py" />
+    <None Include="lockstepmeasures\soergel.py" />
+    <None Include="lockstepmeasures\sorensen.py" />
+    <None Include="lockstepmeasures\square_chord.py" />
+    <None Include="lockstepmeasures\squared_chi.py" />
+    <None Include="lockstepmeasures\squared_euclidean.py" />
+    <None Include="lockstepmeasures\taneja.py" />
+    <None Include="lockstepmeasures\tanimoto.py" />
+    <None Include="lockstepmeasures\topsoe.py" />
+    <None Include="lockstepmeasures\vicis_wave_hedges.py" />
+    <None Include="lockstepmeasures\wave_hedges.py" />
+    <None Include="slidingmeasures\NCC.py" />
+    <None Include="slidingmeasures\NCCc.py" />
+    <None Include="slidingmeasures\NCCu.py" />
+    <None Include="slidingmeasures\NCCb.py" />
+    <None Include="elasticmeasures\twed.py" />
+    <None Include="elasticmeasures\swale.py" />
+    <None Include="lowerboundingmeasures\FFTLBBestCoeff.py" />
+    <None Include="lowerboundingmeasures\FFTLBTopCoeff.py" />
+    <None Include="lowerboundingmeasures\lowerbound_keogh.py" />
+    <None Include="lowerboundingmeasures\zrep.py" />
+    <None Include="lowerboundingmeasures\ERPLowerBound.py" />
+    <None Include="lowerboundingmeasures\LB_KeoghImp.py" />
+    <None Include="lowerboundingmeasures\lbLCSS.py" />
+    <None Include="elasticmeasures\setup.py" />
+    <None Include="elasticmeasures\dtw.py" />
+    <None Include="elasticmeasures\edr.py" />
+    <None Include="elasticmeasures\erp.py" />
+    <None Include="elasticmeasures\lcss.py" />
+    <None Include="elasticmeasures\msm.py" />
+    <None Include="elasticmeasures\Dep\edr_scb.py" />
+    <None Include="elasticmeasures\Dep\dtw_ip.py" />
+    <None Include="elasticmeasures\Dep\erp_ip.py" />
+    <None Include="elasticmeasures\Dep\erp_scb.py" />
+    <None Include="elasticmeasures\Dep\lcss_ip.py" />
+    <None Include="elasticmeasures\Dep\msm_scb.py" />
+    <None Include="elasticmeasures\Dep\twed_scb.py" />
+    <None Include="elasticmeasures\Dep\swale_scb.py" />
+    <None Include="elasticmeasures\dtwder.py" />
+    <None Include="elasticmeasures\wdtw.py" />
+    <None Include="normalization\AdaptiveScaling.py" />
+    <None Include="normalization\meannorm.py" />
+    <None Include="normalization\MedianNorm.py" />
+    <None Include="normalization\MinMaxNorm.py" />
+    <None Include="normalization\SigmoidNorm.py" />
+    <None Include="normalization\UnitLengthNorm.py" />
+    <None Include="elasticmeasures\CIDdtw.py" />
+    <None Include="elasticmeasures\CIDedr.py" />
+    <None Include="elasticmeasures\CIDerp.py" />
+    <None Include="elasticmeasures\CIDlcss.py" />
+    <None Include="elasticmeasures\CID.py" />
+    <None Include="elasticmeasures\slidingaverage.py" />
+    <None Include="elasticmeasures\dtwabs.py" />
+    <None Include="elasticmeasures\1NN.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="fftw\include\fftw3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="fftw\lib\libfftw3-3.lib" />
+  </ItemGroup>
+</Project>
