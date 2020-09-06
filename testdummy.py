@@ -1,6 +1,6 @@
 import numpy as np
 from TimeSeries import TimeSeries
-from kNN import kNN, kNN_with_pq
+from kNN import kNN, kNN_with_pq, kNN_classifier
 import Representation
 from SINK import SINK, NCC
 import heapq
@@ -46,6 +46,8 @@ import time
 # #
 TRAIN, train_labels = TimeSeries.load("ECG200_TRAIN", "UCR")
 TEST, test_labels = TimeSeries.load("ECG200_TEST", "UCR")
+
+print(kNN_classifier(TRAIN, train_labels, TEST, method="ED", k  =10))
 
 #
 #

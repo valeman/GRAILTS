@@ -50,6 +50,7 @@ def kNN(TRAIN, TEST, method, k, representation=None, pq_method = None, **kwargs)
             temp = np.array(heapq.nsmallest(k, enumerate(corr_array), key = lambda x: x[1]))
             neighbors[i,:] = temp[:, 0]
             correlations[i,:] = temp[:,1]
+    neighbors = neighbors.astype(int)
     return neighbors, correlations
 
 #check the returned distances
@@ -90,6 +91,7 @@ def kNN_with_pq(TRAIN, TEST, method, k, representation=None, pq_method = "opq", 
         temp = np.array(heapq.nsmallest(k, enumerate(dists), key = lambda x: x[1]))
         neighbors[i,:] = temp[:, 0]
         distances[i,:] = temp[:,1]
+    neighbors = neighbors.astype(int)
     return neighbors, distances
 
 def kNN_classifier(TRAIN, train_labels, TEST, method, k, representation=None, pq_method = None, **kwargs):
