@@ -44,10 +44,17 @@ import time
 #
 #
 # #
-TRAIN, train_labels = TimeSeries.load("ECG200_TRAIN", "UCR")
-TEST, test_labels = TimeSeries.load("ECG200_TEST", "UCR")
+TRAIN, train_labels = TimeSeries.load("/tartarus/DATASETS/UCR2018/ACSF1/ACSF1_TRAIN", "UCR")
+TEST, test_labels = TimeSeries.load("/tartarus/DATASETS/UCR2018/ACSF1/ACSF1_TRAIN", "UCR")
 
-print(kNN_classifier(TRAIN, train_labels, TEST, method="ED", k  =10))
+grail = Representation.GRAIL(d = 100)
+returned_labels = kNN_classifier(TRAIN, train_labels, TEST, method = "ED", k =10, representation=grail)
+
+cnt = 0
+for i in range(test_labels.shape[0]):
+    if test_labels == returned_labels[i]:
+        cnt = cnt + 1
+print(cnt/ test_labels.shape[0])
 
 #
 #
