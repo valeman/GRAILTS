@@ -3,6 +3,7 @@ from kNN import kNN, kNN_with_pq, kNN_classifier
 import Representation
 from sklearn.model_selection import LeaveOneOut
 import numpy as np
+from time import time
 
 # TRAIN, train_labels = TimeSeries.load("/tartarus/DATASETS/UCR2018/ACSF1/ACSF1_TRAIN", "UCR")
 # TEST, test_labels = TimeSeries.load("/tartarus/DATASETS/UCR2018/ACSF1/ACSF1_TEST", "UCR")
@@ -32,9 +33,15 @@ print(err_arr)
 print(np.argmin(err_arr) + 1)
 
 
-# grail = Representation.GRAIL(d = 100)
-# returned_labels = kNN_classifier(TRAIN, train_labels, TEST, method = "ED", pq_method="opq", k =1, representation=grail)
+# grail = Representation.GRAIL(d = 100, gamma=1)
 #
+# t = time()
+# returned_labels = kNN_classifier(orgTRAIN, orgtrain_labels, TEST, method = "ED", pq_method="opq", k =1, representation=grail)
+# print(time() - t)
+# t = time()
+# kNN_classifier(orgTRAIN, orgtrain_labels, TEST, method = "ED", pq_method=None, k =1, representation=grail)
+# print(time() - t)
+
 # cnt = 0
 # for i in range(test_labels.shape[0]):
 #     if test_labels == returned_labels[i]:

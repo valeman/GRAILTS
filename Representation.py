@@ -22,7 +22,7 @@ class GRAIL(Representation):
         self.eigenvecMatrix = eigenvecMatrix
         self.inVa = inVa
         self.initialization_method = initialization_method
-        self.gamma = None
+        self.gamma = gamma
 
 
     def get_representation(self, X):
