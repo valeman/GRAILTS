@@ -65,26 +65,25 @@ def notears_linear(X, lambda1, loss_type, max_iter=100, h_tol=1e-8, rho_max=1e+1
         return obj, g_obj
 
     n, d = X.shape
-    grail = GRAIL(d = 10)
-    representation = grail.get_representation(np.transpose(X))
-    dist = np.zeros((d,d))
-    for i in range(d):
-        for j in range(d):
-            dist[i,j] = np.linalg.norm(representation[i,:] - representation[j,:])
-    mx = np.amax(dist)
-    for i in range(d):
-        for j in range(d):
-            dist[i,j] = 1 - dist[i,j]/mx
-            dist[i,j] = 0.01 * dist[i,j]
-
-    sim_threshold = np.percentile(dist, 40)
-    for i in range(d):
-        for j in range(d):
-            if dist[i,j] <= sim_threshold:
-                dist[i,j] = 0
+    # grail = GRAIL(d = 10)
+    # representation = grail.get_representation(np.transpose(X))
+    # dist = np.zeros((d,d))
+    # for i in range(d):
+    #     for j in range(d):
+    #         dist[i,j] = np.linalg.norm(representation[i,:] - representation[j,:])
+    # mx = np.amax(dist)
+    # for i in range(d):
+    #     for j in range(d):
+    #         dist[i,j] = 1 - dist[i,j]/mx
+    #
+    # sim_threshold = np.percentile(dist, 40)
+    # for i in range(d):
+    #     for j in range(d):
+    #         if dist[i,j] <= sim_threshold:
+    #             dist[i,j] = 0
 
     w_est, rho, alpha, h = np.zeros(2 * d * d), 1.0, 0.0, np.inf  # double w_est into (w_pos, w_neg)
-    w_est[d*d:] = dist.flatten()
+    # w_est[d*d:] = dist.flatten()
     bnds = [(0, 0) if i == j else (0, None) for _ in range(2) for i in range(d) for j in range(d)]
     if loss_type == 'l2':
         X = X - np.mean(X, axis=0, keepdims=True)
@@ -118,7 +117,7 @@ if __name__ == '__main__':
     import notears_utils as utils
     acc_arr, time_arr, iter_arr = np.zeros(100), np.zeros(100), np.zeros(100)
 
-    for i in range(100):
+    for i in range(2):
         utils.set_random_seed(i)
 
         n, d, s0, graph_type, sem_type = 100, 20, 20, 'ER', 'gauss'

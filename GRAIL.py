@@ -9,7 +9,7 @@ from kshape import matlab_kshape, kshape_with_centroid_initialize
 import exceptions
 
 
-def GRAIL_rep(X, d, f, r, GV, fourier_coeff = -1, e = -1, eigenvecMatrix = None, inVa = None, initialization_method = "partition"):
+def GRAIL_rep(X, d, f, r, GV, fourier_coeff = -1, e = -1, eigenvecMatrix = None, inVa = None, gamma = None, initialization_method = "partition"):
     """
 
     :param X: nxm matrix that contains n time series
@@ -32,7 +32,8 @@ def GRAIL_rep(X, d, f, r, GV, fourier_coeff = -1, e = -1, eigenvecMatrix = None,
     else:
         raise exceptions.InitializationMethodNotFound
 
-    [score, gamma] = gamma_select(Dictionary, GV, r)
+    if gamma == None:
+        [score, gamma] = gamma_select(Dictionary, GV, r)
 
     E = np.zeros((n, d))
 

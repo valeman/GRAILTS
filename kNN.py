@@ -20,7 +20,7 @@ def kNN(TRAIN, TEST, method, k, representation=None, pq_method = None, **kwargs)
     :return: a matrix of size row(TEST)xk
     """
     if pq_method:
-        return kNN_with_pq(TRAIN, TEST, method, k, representation=None, pq_method = pq_method, **kwargs)
+        return kNN_with_pq(TRAIN, TEST, method, k, representation, pq_method, **kwargs)
 
     rowTEST = TEST.shape[0]
     rowTRAIN = TRAIN.shape[0]
@@ -72,6 +72,7 @@ def kNN_with_pq(TRAIN, TEST, method, k, representation=None, pq_method = "opq", 
     TRAIN = TRAIN.astype(np.float32)
     TEST = TEST.astype(np.float32)
 
+    code_word_num = 256
     if rowTRAIN < 256:
         code_word_num = rowTRAIN - 1
 
