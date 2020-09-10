@@ -117,7 +117,7 @@ if __name__ == '__main__':
     import notears_utils as utils
     acc_arr, time_arr, iter_arr = np.zeros(100), np.zeros(100), np.zeros(100)
 
-    for i in range(2):
+    for i in range(1,2):
         utils.set_random_seed(i)
 
         n, d, s0, graph_type, sem_type = 100, 20, 20, 'ER', 'gauss'

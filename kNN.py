@@ -6,7 +6,7 @@ from Representation import Representation
 import heapq
 import OPQ
 import PQ
-
+from time import time
 
 def kNN(TRAIN, TEST, method, k, representation=None, pq_method = None, **kwargs):
     """
@@ -83,6 +83,7 @@ def kNN_with_pq(TRAIN, TEST, method, k, representation=None, pq_method = "opq", 
     else:
         raise ValueError("Product quantization method not found.")
 
+    t = time()
     pq.fit(vecs=TRAIN)
     TRAIN_code = pq.encode(vecs=TRAIN)
 
@@ -93,6 +94,7 @@ def kNN_with_pq(TRAIN, TEST, method, k, representation=None, pq_method = "opq", 
         neighbors[i,:] = temp[:, 0]
         distances[i,:] = temp[:,1]
     neighbors = neighbors.astype(int)
+    print(time()-t)
     return neighbors, distances
 
 def kNN_classifier(TRAIN, train_labels, TEST, method, k, representation=None, pq_method = None, **kwargs):
