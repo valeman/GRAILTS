@@ -99,6 +99,7 @@ def matlab_kshape(A, k):
     cent = np.zeros((k, A.shape[1]))
 
     for iter in range(100):
+        print(iter)
         prev_mem = mem.copy()
         cluster_cnt = np.zeros(k)
         empty_cluster_cnt = 0
