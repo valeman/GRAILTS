@@ -77,7 +77,6 @@ def notears_linear(X, lambda1, loss_type, rho_val, max_iter=100, h_tol=1e-8, rho
         for i in range(d):
             for j in range(d):
                 dist[i,j] = 1 - dist[i,j]/mx
-                dist[i,j] *= 0.1
 
         sim_threshold = np.percentile(dist, 75)
         for i in range(d):
