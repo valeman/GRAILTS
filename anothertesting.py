@@ -12,8 +12,10 @@ def test(path1, path2):
 
     ls = []
     for gamma in range(1,21):
+        d = int(min(max(4*len(np.unique(train_labels)), np.ceil(0.4 * (TRAIN.shape[0] + TEST.shape[0])), 20), 100))
+        print(d)
         grail = Representation.GRAIL(d = 20, f = 1.0, gamma = gamma)
-        returned_labels = kNN_classifier(TRAIN, train_labels, TEST, method = "ED", k =1, representation=grail, use_exact_rep = True)
+        returned_labels = kNN_classifier(TRAIN, train_labels, TEST, method = "ED", k =1, representation=grail)
 
         cnt = 0
         for i in range(test_labels.shape[0]):
@@ -23,7 +25,7 @@ def test(path1, path2):
         print(cnt/ test_labels.shape[0])
     print("max for", path1, ": ", max(ls))
 
-test("tartarus/DATASETS/UCR2018/BME/BME_TRAIN","tartarus/DATASETS/UCR2018/BME/BME_TEST")
-test("tartarus/DATASETS/UCR2018/ACSF1/ACSF1_TRAIN","tartarus/DATASETS/UCR2018/ACSF1/ACSF1_TEST")
-test("tartarus/DATASETS/UCR2018/ArrowHead/ArrowHead_TRAIN","tartarus/DATASETS/UCR2018/ArrowHead/ArrowHead_TEST")
-test("tartarus/DATASETS/UCR2018/CBF/CBF_TRAIN","tartarus/DATASETS/UCR2018/CBF/CBF_TEST")
+test("/tartarus/DATASETS/UCR2018/BME/BME_TRAIN","/tartarus/DATASETS/UCR2018/BME/BME_TEST")
+test("/tartarus/DATASETS/UCR2018/ACSF1/ACSF1_TRAIN","/tartarus/DATASETS/UCR2018/ACSF1/ACSF1_TEST")
+test("/tartarus/DATASETS/UCR2018/ArrowHead/ArrowHead_TRAIN","/tartarus/DATASETS/UCR2018/ArrowHead/ArrowHead_TEST")
+test("/tartarus/DATASETS/UCR2018/CBF/CBF_TRAIN","/tartarus/DATASETS/UCR2018/CBF/CBF_TEST")
