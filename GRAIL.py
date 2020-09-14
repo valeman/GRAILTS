@@ -8,6 +8,8 @@ from FrequentDirections import FrequentDirections
 from kshape import matlab_kshape, kshape_with_centroid_initialize
 import exceptions
 
+def approx_gte(x, y):
+    return np.logical_or((x > y), np.isclose(x, y))
 
 def GRAIL_rep(X, d, f, r, GV, fourier_coeff = -1, e = -1, eigenvecMatrix = None, inVa = None, gamma = None, initialization_method = "partition"):
     """
@@ -64,9 +66,9 @@ def GRAIL_rep(X, d, f, r, GV, fourier_coeff = -1, e = -1, eigenvecMatrix = None,
     Q = np.flip(Q)
 
     VarExplainedCumSum = np.divide(np.cumsum(eigvalues), np.sum(eigvalues))
-    k = np.argwhere(VarExplainedCumSum >= f)[0, 0] + 1
+    k = np.argwhere(approx_gte(VarExplainedCumSum, f))[0, 0] + 1
     Z_k = CheckNaNInfComplex(Zexact @ Q[0:d, 0:k])
-    return Z_k
+    return Z_k, Zexact
 
 def repLearn(X, Dictionary, gamma, k=-1):
     """

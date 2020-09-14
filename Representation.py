@@ -33,4 +33,18 @@ class GRAIL(Representation):
         """
         if self.d > X.shape[0]:
             raise ValueError("The number of landmark series should be smaller than the number of time series.")
-        return GRAIL_rep(X,self.d,self.f,self.r,self.GV,self.fourier_coeff,self.e, self.eigenvecMatrix, self.inVa, self.gamma, self.initialization_method)
+        Z_k, Zexact = GRAIL_rep(X, self.d, self.f, self.r, self.GV, self.fourier_coeff, self.e, self.eigenvecMatrix, self.inVa,
+                  self.gamma, self.initialization_method)
+        return Z_k
+
+    def get_exact_representation(self, X):
+        """
+        Get the representation of matrix X
+        :param X:
+        :return:
+        """
+        if self.d > X.shape[0]:
+            raise ValueError("The number of landmark series should be smaller than the number of time series.")
+        Z_k, Zexact = GRAIL_rep(X, self.d, self.f, self.r, self.GV, self.fourier_coeff, self.e, self.eigenvecMatrix, self.inVa,
+                  self.gamma, self.initialization_method)
+        return Zexact

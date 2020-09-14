@@ -77,8 +77,9 @@ def notears_linear(X, lambda1, loss_type, rho_val, max_iter=100, h_tol=1e-8, rho
         for i in range(d):
             for j in range(d):
                 dist[i,j] = 1 - dist[i,j]/mx
+                dist[i,j] *= 0.1
 
-        sim_threshold = np.percentile(dist, 80)
+        sim_threshold = np.percentile(dist, 75)
         for i in range(d):
             for j in range(d):
                 if dist[i,j] <= sim_threshold:
@@ -121,9 +122,9 @@ def notears_linear(X, lambda1, loss_type, rho_val, max_iter=100, h_tol=1e-8, rho
 if __name__ == '__main__':
     import notears_utils as utils
 
-    for mode in ["base", "true", "grail"]:
-        rho = 1
-        while rho < 1000000:
+    for mode in ["grail"]:
+        rho = 1000
+        while rho < 1050:
             acc_arr_fdr = np.zeros(25)
             acc_arr_tpr = np.zeros(25)
             acc_arr_fpr = np.zeros(25)
@@ -132,7 +133,6 @@ if __name__ == '__main__':
             time_arr = np.zeros(25)
             iter_arr = np.zeros(25)
             for i in range(0,25):
-                print(i)
                 utils.set_random_seed(i)
 
                 n, d, s0, graph_type, sem_type = 100, 20, 20, 'ER', 'gauss'
@@ -154,6 +154,7 @@ if __name__ == '__main__':
                 acc_arr_nnz[i] = acc["nnz"]
                 time_arr[i] = final_time
                 iter_arr[i] = final_iter
+            print(time_arr)
             print(mode, " Results for rho = ", rho)
             print("iterations: ", np.mean(iter_arr))
             print("time: ", np.mean(time_arr))
