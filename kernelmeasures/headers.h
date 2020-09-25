@@ -1,0 +1,1 @@
+double kdtw(double* x, int xlen, double* y, int ylen, double sigma);
