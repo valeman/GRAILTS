@@ -14,7 +14,7 @@ import exceptions
 cdef extern from "headers.h":
      double kdtw(double* x, int xlen, double* y, int ylen, double sigma)
 
-def GRAIL_rep(X, d, f, r, sigma = 1, eigenvecMatrix = None, inVa = None, initialization_method = "partition"):
+def GRAIL_rep(X, d, f, sigma = 1, eigenvecMatrix = None, inVa = None, initialization_method = "partition"):
     """
 
     :param X: nxm matrix that contains n time series
