@@ -12,7 +12,7 @@ from GRAIL import CheckNaNInfComplex, approx_gte, fd
 import exceptions
 
 cdef extern from "headers.h":
-	double kdtw(double* x, int xlen, double* y, int ylen, double sigma)
+     double kdtw(double* x, int xlen, double* y, int ylen, double sigma)
 
 def GRAIL_rep(X, d, f, r, sigma = 1, eigenvecMatrix = None, inVa = None, initialization_method = "partition"):
     """

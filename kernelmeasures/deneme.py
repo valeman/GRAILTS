@@ -1,1 +1,3 @@
-import kdtw
+import grail_kdtw
+
+
