@@ -97,5 +97,16 @@ double kdtw(double* x, int xlen, double* y, int ylen, double sigma)
 			dp[i][j] += dp1[i][j];
 		}
 	}
-	return dp[xlen - 1][ylen - 1];
+	double ans = dp[xlen - 1][ylen - 1];
+	for (i = 0; i < xlen; i++)
+	{
+		free(dp[i]);
+		free(dp1[i]);
+	}
+	free(xp);
+	free(yp);
+	free(dp);
+	free(dp1);
+	
+	return ans;
 }

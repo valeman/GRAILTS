@@ -14,7 +14,7 @@ import exceptions
 cdef extern from "headers.h":
      double kdtw(double* x, int xlen, double* y, int ylen, double sigma)
 
-def GRAIL_rep(X, d, f, sigma = 1, eigenvecMatrix = None, inVa = None, initialization_method = "partition"):
+def GRAIL_rep(X, d, f, r, GV, sigma = None, eigenvecMatrix = None, inVa = None):
     """
 
     :param X: nxm matrix that contains n time series
@@ -28,14 +28,13 @@ def GRAIL_rep(X, d, f, sigma = 1, eigenvecMatrix = None, inVa = None, initializa
     """
 
     n = X.shape[0]
-    if initialization_method == "partition":
-        [mem, Dictionary] = matlab_kshape(X,d)
-    elif initialization_method == "centroid_uniform":
-        [mem, Dictionary] = kshape_with_centroid_initialize(X, d, is_pp=False)
-    elif initialization_method == "k-shape++":
-        [mem, Dictionary] = kshape_with_centroid_initialize(X, d, is_pp=True)
-    else:
-        raise exceptions.InitializationMethodNotFound
+    Dictionary_indices = random.sample(range(n), d)
+    Dictionary = X[Dictionary_indices, :]
+
+    print("here")
+    if sigma == None:
+        print("here")
+        [score, gamma] = sigma_select(Dictionary, GV, r)
 
     E = np.zeros((n, d))
 
@@ -71,6 +70,7 @@ def GRAIL_rep(X, d, f, sigma = 1, eigenvecMatrix = None, inVa = None, initializa
     return Z_k, Zexact
 
 def compute_kdtw(x,y, sigma):
+    print("inside kdtw")
     cdef array.array xc = array.array('d', x)
     cdef array.array yc = array.array('d', y)
 
@@ -78,3 +78,34 @@ def compute_kdtw(x,y, sigma):
     cdef double[:] ya  = yc
 
     return kdtw(&xa[0], len(x), &ya[0], len(y), sigma)
+
+def sigma_select(Dictionary, GV, r):
+    """
+    Parameter Tuning function. Tunes the parameters for GRAIL_kdtw
+    :param Dictionary: Dictionary to summarize the dataset.
+    :param GV: A vector of sigma values to choose from.
+    :param r: The number of top eigenvalues to be considered. This is 20 in the paper.
+    :return: the tuned parameter sigma and its score
+    """
+    d = Dictionary.shape[0]
+    GVar = np.zeros(len(GV) + 5)
+    var_top_r = np.zeros(len(GV) + 5)
+    score = np.zeros(len(GV) + 5)
+    for i in range(len(GV)):
+        sigma = GV[i]
+        W = np.zeros((d, d))
+        for i in range(d):
+            for j in range(d):
+                W[i, j] = compute_kdtw(Dictionary[i, :], Dictionary[j, :], sigma)
+        GVar[i] = np.var(W)
+        [eigenvalvector, eigenvecMatrix] = np.linalg.eigh(W)
+        eigenvalvector = np.flip(eigenvalvector)
+        eigenvecMatrix = np.flip(eigenvecMatrix)
+        var_top_r[i] = np.sum(eigenvalvector[0:r]) / np.sum(eigenvalvector)
+
+    score = GVar * var_top_r
+    best_sigma_index = np.argmax(score)
+    best_sigma = GV[best_sigma_index]
+    best_score = score[best_sigma_index]
+    print("sigma = ", best_sigma)
+    return [best_score, best_sigma]
