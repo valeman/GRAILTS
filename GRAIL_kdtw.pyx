@@ -99,10 +99,7 @@ def sigma_select(Dictionary, GV, r):
         W = np.zeros((d, d))
         for j in range(d):
             for k in range(d):
-                #print(j,k)
-                #print(Dictionary[j, :], Dictionary[k, :])
                 W[j, k] = compute_kdtw(Dictionary[j, :], Dictionary[k, :], sigma)
-        #print(W)
         GVar[i] = np.var(W)
         [eigenvalvector, eigenvecMatrix] = np.linalg.eigh(W)
         eigenvalvector = np.flip(eigenvalvector)

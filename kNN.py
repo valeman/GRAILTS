@@ -78,6 +78,7 @@ def kNN_with_pq(TRAIN, TEST, method, k, representation=None, use_exact_rep = Fal
     TRAIN = TRAIN.astype(np.float32)
     TEST = TEST.astype(np.float32)
 
+    t = time()
     code_word_num = 256
     if rowTRAIN < 256:
         code_word_num = rowTRAIN - 1
@@ -89,7 +90,7 @@ def kNN_with_pq(TRAIN, TEST, method, k, representation=None, use_exact_rep = Fal
     else:
         raise ValueError("Product quantization method not found.")
 
-    t = time()
+
     pq.fit(vecs=TRAIN)
     TRAIN_code = pq.encode(vecs=TRAIN)
 
@@ -100,7 +101,7 @@ def kNN_with_pq(TRAIN, TEST, method, k, representation=None, use_exact_rep = Fal
         neighbors[i,:] = temp[:, 0]
         distances[i,:] = temp[:,1]
     neighbors = neighbors.astype(int)
-    print(time()-t)
+    print("Time for M = ", M , ": ", time()-t)
     return neighbors, distances
 
 def kNN_classifier(TRAIN, train_labels, TEST, method, k, representation=None, use_exact_rep = False, pq_method = None, M = 16, **kwargs):
