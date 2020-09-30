@@ -1,4 +1,5 @@
 from GRAIL import GRAIL_rep
+from grail_kdtw import GRAIL_rep_kdtw
 
 #not sure I will use these classes but I might
 
@@ -12,7 +13,8 @@ class Representation:
 
 class GRAIL(Representation):
 
-    def __init__(self, d = 100, f = 0.99, r = 20, GV = [*range(1,21)], fourier_coeff = -1, e = -1, eigenvecMatrix = None, inVa = None, gamma = None, initialization_method = "partition"):
+    def __init__(self, kernel = "SINK", d = 100, f = 0.99, r = 20, GV = [*range(1,21)], fourier_coeff = -1, e = -1, eigenvecMatrix = None, inVa = None, gamma = None, initialization_method = "partition"):
+        self.kernel = kernel
         self.d = d
         self.f = f
         self.r = r
@@ -33,7 +35,11 @@ class GRAIL(Representation):
         """
         if self.d > X.shape[0]:
             raise ValueError("The number of landmark series should be smaller than the number of time series.")
-        Z_k, Zexact = GRAIL_rep(X, self.d, self.f, self.r, self.GV, self.fourier_coeff, self.e, self.eigenvecMatrix, self.inVa,
+        if self.kernel == "SINK":
+            Z_k, Zexact = GRAIL_rep(X, self.d, self.f, self.r, self.GV, self.fourier_coeff, self.e, self.eigenvecMatrix, self.inVa,
+                  self.gamma, self.initialization_method)
+        elif self.kernel == "kdtw":
+            Z_k, Zexact = GRAIL_rep_kdtw(X, self.d, self.f, self.r, self.GV, self.fourier_coeff, self.e, self.eigenvecMatrix, self.inVa,
                   self.gamma, self.initialization_method)
         return Z_k
 

@@ -6,7 +6,6 @@ from numpy.linalg import svd as SVD
 import time
 import scipy as sp
 import random
-from FrequentDirections import FrequentDirections
 from kshape import matlab_kshape, kshape_with_centroid_initialize
 from GRAIL import CheckNaNInfComplex, approx_gte, fd
 import exceptions
@@ -15,17 +14,18 @@ import gc
 cdef extern from "headers.h":
      double kdtw(double* x, int xlen, double* y, int ylen, double sigma)
 
-def GRAIL_rep(X, d, f, r, GV, sigma = None, eigenvecMatrix = None, inVa = None):
+def GRAIL_rep_kdtw(X, d, f, r, GV, sigma = None, eigenvecMatrix = None, inVa = None):
     """
-
-    :param X: nxm matrix that contains n time series
-    :param d: number of landmark series to extract from kshape
-    :param f: scalar to tune the dimensionality k of Z_k
-    :param r: parameter for tuning gamma, taken as 20 in the paper
-    :param GV: vector of gammas to select the best gamma
-    :param fourier_coeff: number of fourier coeffs to keep
-    :param e: preserved energy in Fourier domain
-    :return: Z_k nxk matrix of low dimensional reduced representation
+    This finds the GRAIL representations, but using kdtw instead of SINK
+    :param X:
+    :param d:
+    :param f:
+    :param r:
+    :param GV:
+    :param sigma:
+    :param eigenvecMatrix:
+    :param inVa:
+    :return:
     """
 
     n = X.shape[0]
@@ -33,9 +33,7 @@ def GRAIL_rep(X, d, f, r, GV, sigma = None, eigenvecMatrix = None, inVa = None):
     Dictionary_indices = random.sample(range(n), d)
     Dictionary = X[Dictionary_indices, :]
 
-    print("here")
     if sigma == None:
-        print("here")
         [score, sigma] = sigma_select(Dictionary, GV, r)
 
     E = np.zeros((n, d))

@@ -38,6 +38,7 @@ def kNN(TRAIN, TEST, method, k, representation=None, use_exact_rep = False, pq_m
         TRAIN = rep_together[0:rowTRAIN, :]
         TEST = rep_together[rowTRAIN:, :]
 
+    t = time()
     for i in range(rowTEST):
         x = TEST[i, :]
         corr_array = np.zeros(rowTRAIN)
@@ -54,6 +55,7 @@ def kNN(TRAIN, TEST, method, k, representation=None, use_exact_rep = False, pq_m
             neighbors[i,:] = temp[:, 0]
             correlations[i,:] = temp[:,1]
     neighbors = neighbors.astype(int)
+    print("Time = ", time() - t)
     return neighbors, correlations
 
 #check the returned distances
