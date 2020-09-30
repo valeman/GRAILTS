@@ -88,6 +88,7 @@ def kNN_with_pq(TRAIN, TEST, method, k, representation=None, use_exact_rep = Fal
 
     if TRAIN.shape[1] > M and TRAIN.shape[1] % M != 0:
         TRAIN = TRAIN[:, 0:(TRAIN.shape[1] - TRAIN.shape[1] % M)]
+        TEST = TEST[:, 0:(TRAIN.shape[1] - TRAIN.shape[1] % M)]
 
     if pq_method == "opq":
         pq = OPQ.OPQ(M=M, Ks= code_word_num, verbose=False)
