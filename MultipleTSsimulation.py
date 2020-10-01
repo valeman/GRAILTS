@@ -45,3 +45,11 @@ def checkMultipleSimulationVLtimeseries(trueAdjMat, adjMat):
     rec = TP / (TP + FN)
     F1 = 2 * prec * rec / (prec + rec)
     return [prec, rec, F1]
+
+# G = np.zeros((10,10))
+# G[1, [4,7,8,10]] = True
+# G[2,[5,7,9,10]] = True
+# G[3, [6,8,9,10]] =True
+# TS = MultipleSimulationVLtimeseries()
+# out = multipleVLGrangerFunc(TS)
+# checkMultipleSimulationVLtimeseries(trueAdjMat=G,adjMat=out$adjMat)
