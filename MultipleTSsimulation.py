@@ -11,21 +11,21 @@ def MultipleSimulationVLtimeseries(n=200, lag=5, YstFixInx=110, YfnFixInx=170, X
         np.random.seed(seedVal)
         seeds = np.random.uniform(1000, 250000, 3)
     AX, AY = SimpleSimulationVLtimeseries(n=n, lag=lag, YstFixInx=YstFixInx, YfnFixInx=YfnFixInx,
-                                          XpointFixInx=XpointFixInx, arimaFlag=arimaFlag, seedVal=seeds[1])
+                                          XpointFixInx=XpointFixInx, arimaFlag=arimaFlag, seedVal=seeds[0])
     BX, BY = SimpleSimulationVLtimeseries(n=n, lag=lag + 5, YstFixInx=YstFixInx, YfnFixInx=YfnFixInx,
-                                          XpointFixInx=XpointFixInx, arimaFlag=arimaFlag, seedVal=seeds[2])
+                                          XpointFixInx=XpointFixInx, arimaFlag=arimaFlag, seedVal=seeds[1])
     CX, CY = SimpleSimulationVLtimeseries(n=n, lag=lag + 8, YstFixInx=YstFixInx, YfnFixInx=YfnFixInx,
-                                          XpointFixInx=XpointFixInx, arimaFlag=arimaFlag, seedVal=seeds[3])
-    TS[:, 1] = AX
-    TS[:, 2] = BX
-    TS[:, 3] = CX
-    TS[:, 4] = AY
-    TS[:, 5] = BY
-    TS[:, 6] = CY
-    TS[:, 7] = AY + BY
-    TS[:, 8] = AY + CY
-    TS[:, 9] = CY + BY
-    TS[:, 10] = AY + BY + CY
+                                          XpointFixInx=XpointFixInx, arimaFlag=arimaFlag, seedVal=seeds[2])
+    TS[:, 0] = AX
+    TS[:, 1] = BX
+    TS[:, 2] = CX
+    TS[:, 3] = AY
+    TS[:, 4] = BY
+    TS[:, 5] = CY
+    TS[:, 6] = AY + BY
+    TS[:, 7] = AY + CY
+    TS[:, 8] = CY + BY
+    TS[:, 9] = AY + BY + CY
     return TS
 
 

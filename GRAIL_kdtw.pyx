@@ -70,7 +70,13 @@ def GRAIL_rep_kdtw(X, d, f, r, GV, sigma = None, eigenvecMatrix = None, inVa = N
     return Z_k, Zexact
 
 def compute_kdtw(x,y, sigma):
-    #print("inside kdtw")
+    """
+    Calls the cpp code to compute kdtw
+    :param x:
+    :param y:
+    :param sigma:
+    :return:
+    """
     cdef array.array xc = array.array('d', x)
     cdef array.array yc = array.array('d', y)
 
