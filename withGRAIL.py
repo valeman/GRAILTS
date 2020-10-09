@@ -10,9 +10,9 @@ import numpy as np
 from kNN import kNN
 from time import time
 
-ts_num = 50
+ts_num = 10000
 #can try kdtw here
-grail = Representation.GRAIL(kernel="SINK", d = 40)
+grail = Representation.GRAIL(kernel="SINK", d = 100)
 vl = robjects.r("VLTimeCausality::VLGrangerFunc")
 numpy2ri.activate()
 pandas2ri.activate()
@@ -31,19 +31,27 @@ VLtime = time() - t
 vlOut_py = recurList(vlOut)
 vlMat = vlOut_py["adjMat"]
 
-neighbors, _ = kNN(TS, TS, method = "ED", k = 10, representation=grail, use_exact_rep = True, pq_method = "opq", M = 16)
+neighbor_param = [2, 5, 10, 100]
 
-t = time()
-for i in range(ts_num):
-    for j in neighbors[i]:
-        if j != i:
-            out = vl(TS[j,:], TS[i,:]) # second one causes the first
-            grailMat[i,j] = vlhelperfunc(out)
-prunedtime = time() - t
-            
-print("Pruned VL time: ", prunedtime)
-print("prec, rec, and F1 for GRAIL: ", checkMultipleSimulationVLtimeseries(trueMat, grailMat))
-print("prec, rec, and F1 for VL:", checkMultipleSimulationVLtimeseries(trueMat, vlMat))
+together = np.vstack((TS, TS))
+rep_together = representation.get_exact_representation(together)
+TRAIN_TS = rep_together[0:ts_num, :]
+TEST_TS = rep_together[ts_num:, :]
+
+for neighbor_num in neighbor_param:
+    neighbors, _ = kNN(TRAIN_TS, TEST_TS, method = "ED", k = neighbor_num, representation=None, use_exact_rep = True, pq_method = "opq", M = 16)
+
+    t = time()
+    for i in range(ts_num):
+       for j in neighbors[i]:
+           if j != i:
+              out = vl(TS[j,:], TS[i,:]) # second one causes the first
+              grailMat[i,j] = vlhelperfunc(out)
+    prunedtime = time() - t
+    print("k number for kNN:", neighbor_num)
+    print("Pruned VL time: ", prunedtime)
+    print("prec, rec, and F1 for GRAIL: ", checkMultipleSimulationVLtimeseries(trueMat, grailMat))
+    print("prec, rec, and F1 for VL:", checkMultipleSimulationVLtimeseries(trueMat, vlMat))
 
 print("time for VL:", VLtime )
 
