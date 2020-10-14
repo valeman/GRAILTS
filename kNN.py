@@ -79,7 +79,7 @@ def kNN_with_pq(TRAIN, TEST, method, k, representation=None, use_exact_rep = Fal
 
 
     if rowTRAIN < Ks:
-        Ks = 2 ** np.floor(np.log2(rowTRAIN))
+        Ks = 2 ** int(np.floor(np.log2(rowTRAIN)))
     print(Ks)
 
     # This code trims the last parts
