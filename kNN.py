@@ -79,7 +79,8 @@ def kNN_with_pq(TRAIN, TEST, method, k, representation=None, use_exact_rep = Fal
 
 
     if rowTRAIN < Ks:
-        Ks = rowTRAIN - 1
+        Ks = 2 ** np.floor(np.log2(rowTRAIN))
+    print(Ks)
 
     # This code trims the last parts
     # if TRAIN.shape[1] > M and TRAIN.shape[1] % M != 0:
@@ -140,6 +141,8 @@ def kNN_classification_precision_test(TRAIN, train_labels, TEST, method, k, repr
     return_labels = np.zeros(TEST.shape[0])
 
     exact_neighbors, _ = kNN(TRAIN, TEST, method = "SINK", k = k, representation=None)
+    tp, fp, fn, tn = 0
+
 
     for i in range(TEST.shape[0]):
         nearest_labels = np.zeros(k)
