@@ -77,12 +77,9 @@ def kNN_with_pq(TRAIN, TEST, method, k, representation=None, use_exact_rep = Fal
         TRAIN = rep_together[0:rowTRAIN, :]
         TEST = rep_together[rowTRAIN:, :]
 
-    t = time()
+
     if rowTRAIN < Ks:
         Ks = rowTRAIN - 1
-
-    if TRAIN.shape[1] < M:
-        M = TRAIN.shape[1]
 
     # This code trims the last parts
     # if TRAIN.shape[1] > M and TRAIN.shape[1] % M != 0:
@@ -95,6 +92,8 @@ def kNN_with_pq(TRAIN, TEST, method, k, representation=None, use_exact_rep = Fal
 
     TRAIN = TRAIN.astype(np.float32)
     TEST = TEST.astype(np.float32)
+
+    t = time()
 
     if pq_method == "opq":
         pq = OPQ.OPQ(M=M, Ks= Ks, verbose=False)
@@ -121,6 +120,27 @@ def kNN_classifier(TRAIN, train_labels, TEST, method, k, representation=None, us
                    pq_method = None, Ks = 64, M = 16, **kwargs):
     neighbors, _ = kNN(TRAIN, TEST, method, k, representation, use_exact_rep, pq_method, Ks, M, **kwargs)
     return_labels = np.zeros(TEST.shape[0])
+    for i in range(TEST.shape[0]):
+        nearest_labels = np.zeros(k)
+        for j in range(k):
+            nearest_labels[j] = train_labels[neighbors[i,j]]
+        unique, counts = np.unique(nearest_labels, return_counts=True)
+        mx = 0
+        mx_label = 0
+        for j in range(unique.shape[0]):
+            if counts[j] > mx:
+                mx = counts[j]
+                mx_label = unique[j]
+        return_labels[i] = mx_label
+    return return_labels
+
+def kNN_classification_precision_test(TRAIN, train_labels, TEST, method, k, representation=None, use_exact_rep = False,
+                   pq_method = None, Ks = 64, M = 16, **kwargs):
+    neighbors, _ = kNN(TRAIN, TEST, method, k, representation, use_exact_rep, pq_method, Ks, M, **kwargs)
+    return_labels = np.zeros(TEST.shape[0])
+
+    exact_neighbors, _ = kNN(TRAIN, TEST, method = "SINK", k = k, representation=None)
+
     for i in range(TEST.shape[0]):
         nearest_labels = np.zeros(k)
         for j in range(k):
