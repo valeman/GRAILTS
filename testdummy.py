@@ -48,7 +48,7 @@ TRAIN, train_labels = TimeSeries.load("ECG200_TRAIN", "UCR")
 TEST, test_labels = TimeSeries.load("ECG200_TEST", "UCR")
 
 grail = Representation.GRAIL(d = 100)
-returned_labels = kNN_classifier(TRAIN, train_labels, TEST, method = "ED", pq_method="opq", M = 32, k =10, representation=grail)
+returned_labels = kNN_classifier(TRAIN, train_labels, TEST, method = "ED", pq_method="opq", k =10, representation=grail)
 
 cnt = 0
 for i in range(test_labels.shape[0]):

@@ -8,7 +8,8 @@ import OPQ
 import PQ
 from time import time
 
-def kNN(TRAIN, TEST, method, k, representation=None, use_exact_rep = False, pq_method = None, M = 16,  **kwargs):
+def kNN(TRAIN, TEST, method, k, representation=None, use_exact_rep = False,
+        pq_method = None, Ks = 64, M = 16, **kwargs):
     """
     Approximate or exact k-nearest neighbors algorithm depending on the representation
     :param TRAIN: The training set to get the neighbors from
@@ -20,12 +21,10 @@ def kNN(TRAIN, TEST, method, k, representation=None, use_exact_rep = False, pq_m
     :return: a matrix of size row(TEST)xk
     """
     if pq_method:
-        return kNN_with_pq(TRAIN, TEST, method, k, representation, use_exact_rep, pq_method, M, **kwargs)
+        return kNN_with_pq(TRAIN, TEST, method, k, representation, use_exact_rep, pq_method, Ks, M, **kwargs)
 
     rowTEST = TEST.shape[0]
     rowTRAIN = TRAIN.shape[0]
-    colTEST = TEST.shape[1]
-    colTRAIN = TRAIN.shape[1]
 
     neighbors = np.zeros((rowTEST, k))
     correlations = np.zeros((rowTEST, k))
@@ -59,7 +58,8 @@ def kNN(TRAIN, TEST, method, k, representation=None, use_exact_rep = False, pq_m
     return neighbors, correlations
 
 #check the returned distances
-def kNN_with_pq(TRAIN, TEST, method, k, representation=None, use_exact_rep = False, pq_method = "opq", M = 16, **kwargs):
+def kNN_with_pq(TRAIN, TEST, method, k, representation=None, use_exact_rep = False,
+                pq_method = "opq", Ks = 64, M = 16,**kwargs):
     if method != "ED":
         raise ValueError("Product Quantization can only be used with ED.")
 
@@ -77,25 +77,30 @@ def kNN_with_pq(TRAIN, TEST, method, k, representation=None, use_exact_rep = Fal
         TRAIN = rep_together[0:rowTRAIN, :]
         TEST = rep_together[rowTRAIN:, :]
 
-    TRAIN = TRAIN.astype(np.float32)
-    TEST = TEST.astype(np.float32)
-
     t = time()
-    code_word_num = 256
-    if rowTRAIN < 256:
-        code_word_num = rowTRAIN - 1
+    if rowTRAIN < Ks:
+        Ks = rowTRAIN - 1
 
     if TRAIN.shape[1] < M:
         M = TRAIN.shape[1]
 
-    if TRAIN.shape[1] > M and TRAIN.shape[1] % M != 0:
-        TRAIN = TRAIN[:, 0:(TRAIN.shape[1] - TRAIN.shape[1] % M)]
-        TEST = TEST[:, 0:(TRAIN.shape[1] - TRAIN.shape[1] % M)]
+    # This code trims the last parts
+    # if TRAIN.shape[1] > M and TRAIN.shape[1] % M != 0:
+    #     TRAIN = TRAIN[:, 0:(TRAIN.shape[1] - TRAIN.shape[1] % M)]
+    #     TEST = TEST[:, 0:(TRAIN.shape[1] - TRAIN.shape[1] % M)]
+
+    next_pow_2 = int(max(np.ceil(np.log2(TRAIN.shape[1])), np.ceil(np.log2(M))))
+    TRAIN = np.hstack((TRAIN, np.zeros((rowTRAIN, 2 ** next_pow_2-TRAIN.shape[1]))))
+    print(TRAIN.shape)
+    TEST = np.hstack((TEST, np.zeros((rowTEST, 2 ** next_pow_2 - TEST.shape[1]))))
+
+    TRAIN = TRAIN.astype(np.float32)
+    TEST = TEST.astype(np.float32)
 
     if pq_method == "opq":
-        pq = OPQ.OPQ(M=M, Ks= code_word_num, verbose=False)
+        pq = OPQ.OPQ(M=M, Ks= Ks, verbose=False)
     elif pq_method == "pq":
-        pq = PQ.PQ(M=M, Ks= code_word_num, verbose=False)
+        pq = PQ.PQ(M=M, Ks= Ks, verbose=False)
     else:
         raise ValueError("Product quantization method not found.")
 
@@ -113,8 +118,9 @@ def kNN_with_pq(TRAIN, TEST, method, k, representation=None, use_exact_rep = Fal
     print("Time for M = ", M , ": ", time()-t)
     return neighbors, distances
 
-def kNN_classifier(TRAIN, train_labels, TEST, method, k, representation=None, use_exact_rep = False, pq_method = None, M = 16, **kwargs):
-    neighbors, _ = kNN(TRAIN, TEST, method, k, representation, use_exact_rep, pq_method, M, **kwargs)
+def kNN_classifier(TRAIN, train_labels, TEST, method, k, representation=None, use_exact_rep = False,
+                   pq_method = None, Ks = 64, M = 16, **kwargs):
+    neighbors, _ = kNN(TRAIN, TEST, method, k, representation, use_exact_rep, pq_method, Ks, M, **kwargs)
     return_labels = np.zeros(TEST.shape[0])
     for i in range(TEST.shape[0]):
         nearest_labels = np.zeros(k)
