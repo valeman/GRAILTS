@@ -70,76 +70,6 @@ def GRAIL_rep(X, d, f, r, GV, fourier_coeff = -1, e = -1, eigenvecMatrix = None,
     Z_k = CheckNaNInfComplex(Zexact @ Q[0:d, 0:k])
     return Z_k, Zexact
 
-def repLearn(X, Dictionary, gamma, k=-1):
-    """
-    :param K: Optional. Number of Fourier coefficients to keep when computing the SINK kernel
-    :param X: A matrix containing time series in its rows.
-    :param Dictionary: A Dictionary of time series to summarize the underlying dataset. Provided by kshape.
-    :param gamma: SINK kernel parameter
-    :return: Approximated Kernel Matrix
-    """
-    t = time.time()
-    W = np.zeros((Dictionary.shape[0], Dictionary.shape[0]))
-    DistComp = 0
-
-    for i in range(Dictionary.shape[0]):
-        for j in range(Dictionary.shape[0]):
-            W[i, j] = SINK(Dictionary[i, :], Dictionary[j, :], gamma, k)
-            DistComp = DistComp + 1
-
-    E = np.zeros((X.shape[0], Dictionary.shape[0]))
-
-    for i in range(X.shape[0]):
-        for j in range(Dictionary.shape[0]):
-            E[i, j] = SINK(X[i, :], Dictionary[j, :], gamma, k)
-            DistComp = DistComp + 1
-
-    [eigenvalvector, eigenvecMatrix] = np.linalg.eigh(W)
-    inVa = np.diag(np.power(eigenvalvector, -0.5))
-    Zexact = E @ eigenvecMatrix @ inVa
-    RuntimeNystrom = time.time() - t
-
-    Zexact = CheckNaNInfComplex(Zexact)
-    Zexact = np.real(Zexact)
-
-    t = time.time()
-    BSketch = fd(Zexact, int(np.ceil(0.5 * Zexact.shape[1])))
-
-    # eigh returns sorted eigenvalues in ascending order. We reverse this.
-    [eigvalues, Q] = np.linalg.eigh(np.matrix.transpose(BSketch) @ BSketch)
-    eigvalues = np.real(eigvalues)
-    Q = np.real(Q)
-    eigvalues = np.flip(eigvalues)
-    Q = np.flip(Q)
-    RuntimeFD = time.time() - t
-
-    VarExplainedCumSum = np.divide(np.cumsum(eigvalues), np.sum(eigvalues))
-
-    DimFor99 = np.argwhere(VarExplainedCumSum >= 0.99)[0, 0] + 1
-    DimFor98 = np.argwhere(VarExplainedCumSum >= 0.98)[0, 0] + 1
-    DimFor97 = np.argwhere(VarExplainedCumSum >= 0.97)[0, 0] + 1
-    DimFor95 = np.argwhere(VarExplainedCumSum >= 0.95)[0, 0] + 1
-    DimFor90 = np.argwhere(VarExplainedCumSum >= 0.90)[0, 0] + 1
-    DimFor85 = np.argwhere(VarExplainedCumSum >= 0.85)[0, 0] + 1
-    DimFor80 = np.argwhere(VarExplainedCumSum >= 0.80)[0, 0] + 1
-
-    Ztop5 = CheckNaNInfComplex(Zexact @ Q[:, 0:5])
-    Ztop10 = CheckNaNInfComplex(Zexact @ Q[:, 0:10])
-    Ztop20 = CheckNaNInfComplex(Zexact @ Q[:, 0:20])
-
-    Z99per = CheckNaNInfComplex(Zexact @ Q[:, 0:DimFor99])
-    Z98per = CheckNaNInfComplex(Zexact @ Q[:, 0:DimFor98])
-    Z97per = CheckNaNInfComplex(Zexact @ Q[:, 0:DimFor97])
-    Z95per = CheckNaNInfComplex(Zexact @ Q[:, 0:DimFor95])
-    Z90per = CheckNaNInfComplex(Zexact @ Q[:, 0:DimFor90])
-    Z85per = CheckNaNInfComplex(Zexact @ Q[:, 0:DimFor85])
-    Z80per = CheckNaNInfComplex(Zexact @ Q[:, 0:DimFor80])
-
-    print(time.time() - t)
-
-    return [Zexact, Ztop5, Ztop10, Ztop20, Z99per, Z98per, Z97per, Z95per, Z90per, Z85per, Z80per, DistComp,
-            RuntimeNystrom, RuntimeFD]
-
 
 def CheckNaNInfComplex(Z):
     for i in range(Z.shape[0]):
@@ -211,7 +141,7 @@ def gamma_select(Dictionary, GV, r, k=-1):
     score = GVar * var_top_r
     best_gamma = np.argmax(score)
     best_score = score[best_gamma]
-    print("gamma = ", best_gamma)
+    #print("gamma = ", best_gamma)
     return [best_score, best_gamma]
 
 

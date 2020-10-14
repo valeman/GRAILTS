@@ -85,7 +85,7 @@ class OPQ(object):
         self.R = np.eye(D, dtype=np.float32)
 
         for i in range(rotation_iter):
-            print("OPQ rotation training: {} / {}".format(i, rotation_iter))
+            #print("OPQ rotation training: {} / {}".format(i, rotation_iter))
             X = vecs @ self.R
 
             # (a) Train codewords

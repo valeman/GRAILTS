@@ -91,7 +91,6 @@ def kNN_with_pq(TRAIN, TEST, method, k, representation=None, use_exact_rep = Fal
 
     next_pow_2 = int(max(np.ceil(np.log2(TRAIN.shape[1])), np.ceil(np.log2(M))))
     TRAIN = np.hstack((TRAIN, np.zeros((rowTRAIN, 2 ** next_pow_2-TRAIN.shape[1]))))
-    print(TRAIN.shape)
     TEST = np.hstack((TEST, np.zeros((rowTEST, 2 ** next_pow_2 - TEST.shape[1]))))
 
     TRAIN = TRAIN.astype(np.float32)
