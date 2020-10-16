@@ -1,6 +1,6 @@
 import numpy as np
 from TimeSeries import TimeSeries
-from kNN import kNN, kNN_with_pq, kNN_classifier
+from kNN import kNN, kNN_with_pq, kNN_classifier, kNN_classification_precision_test
 import Representation
 from SINK import SINK, NCC
 import heapq
@@ -48,13 +48,18 @@ TRAIN, train_labels = TimeSeries.load("ECG200_TRAIN", "UCR")
 TEST, test_labels = TimeSeries.load("ECG200_TEST", "UCR")
 
 grail = Representation.GRAIL(d = 100)
-returned_labels = kNN_classifier(TRAIN, train_labels, TEST, method = "ED", pq_method="opq", k =10, representation=grail)
+#returned_labels = kNN_classifier(TRAIN, train_labels, TEST, method = "ED", pq_method="opq", k =10, representation=grail)
+returned_labels, precision = kNN_classification_precision_test(TRAIN, train_labels, TEST,
+                                                   method = "ED", pq_method="opq", k =10, representation=grail)
 
-cnt = 0
-for i in range(test_labels.shape[0]):
-    if test_labels == returned_labels[i]:
-        cnt = cnt + 1
-print(cnt/ test_labels.shape[0])
+print(precision)
+
+# cnt = 0
+# for i in range(test_labels.shape[0]):
+#     if test_labels[i] == returned_labels[i]:
+#         cnt = cnt + 1
+# print(cnt/ test_labels.shape[0])
+
 
 #
 #

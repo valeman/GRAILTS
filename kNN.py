@@ -141,7 +141,14 @@ def kNN_classification_precision_test(TRAIN, train_labels, TEST, method, k, repr
     return_labels = np.zeros(TEST.shape[0])
 
     exact_neighbors, _ = kNN(TRAIN, TEST, method = "SINK", k = k, representation=None)
-    tp, fp, fn, tn = 0
+    tp_arr = np.zeros(TEST.shape[0])
+
+    for i in range(TEST.shape[0]):
+        for j in range(k):
+            if neighbors[j] in exact_neighbors:
+                tp_arr[i] = tp_arr[i] + 1
+
+    precision = np.mean(tp_arr) / k
 
 
     for i in range(TEST.shape[0]):
@@ -156,4 +163,4 @@ def kNN_classification_precision_test(TRAIN, train_labels, TEST, method, k, repr
                 mx = counts[j]
                 mx_label = unique[j]
         return_labels[i] = mx_label
-    return return_labels
+    return return_labels, precision
