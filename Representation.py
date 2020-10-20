@@ -1,5 +1,6 @@
 from GRAIL import GRAIL_rep
 from grail_kdtw import GRAIL_rep_kdtw
+import numpy as np
 
 #not sure I will use these classes but I might
 
@@ -38,10 +39,11 @@ class GRAIL(Representation):
         if self.d > X.shape[0]:
             raise ValueError("The number of landmark series should be smaller than the number of time series.")
         if self.kernel == "SINK":
-            Z_k, Zexact = GRAIL_rep(X, self.d, self.f, self.r, self.GV, self.fourier_coeff, self.e, self.eigenvecMatrix, self.inVa,
-                  self.gamma, self.initialization_method)
+            Z_k, Zexact, self.best_gamma = GRAIL_rep(X, self.d, self.f, self.r, self.GV,
+                                    self.fourier_coeff, self.e, self.eigenvecMatrix, self.inVa, self.gamma, self.initialization_method)
         elif self.kernel == "kdtw":
-            Z_k, Zexact = GRAIL_rep_kdtw(X, self.d, self.f, self.r, self.GV, self.sigma, self.eigenvecMatrix, self.inVa)
+            Z_k, Zexact, self.best_gamma = GRAIL_rep_kdtw(X, self.d, self.f, self.r, self.GV,
+                                                          self.sigma, self.eigenvecMatrix, self.inVa)
         return Z_k
 
     def get_exact_representation(self, X):
@@ -53,8 +55,25 @@ class GRAIL(Representation):
         if self.d > X.shape[0]:
             raise ValueError("The number of landmark series should be smaller than the number of time series.")
         if self.kernel == "SINK":
-            Z_k, Zexact = GRAIL_rep(X, self.d, self.f, self.r, self.GV, self.fourier_coeff, self.e, self.eigenvecMatrix, self.inVa,
+            Z_k, Zexact, self.best_gamma = GRAIL_rep(X, self.d, self.f, self.r, self.GV, self.fourier_coeff, self.e, self.eigenvecMatrix, self.inVa,
                   self.gamma, self.initialization_method)
         elif self.kernel == "kdtw":
-            Z_k, Zexact = GRAIL_rep_kdtw(X, self.d, self.f, self.r, self.GV, self.sigma, self.eigenvecMatrix, self.inVa)
+            Z_k, Zexact, self.best_gamma = GRAIL_rep_kdtw(X, self.d, self.f, self.r, self.GV, self.sigma, self.eigenvecMatrix, self.inVa)
         return Zexact
+
+    def get_rep_train_test(self, TRAIN, TEST, exact = True):
+        """
+        Get Grail representation for TRAIN and TEST sets
+        :param TRAIN:
+        :param TEST:
+        :return:
+        """
+        together = np.vstack((TRAIN, TEST))
+        if exact:
+            rep_together = self.get_exact_representation(together)
+        else:
+            rep_together = self.get_representation(together)
+        rep_TRAIN = rep_together[0:TRAIN.shape[0], :]
+        rep_TEST = rep_together[TRAIN.shape[0]:, :]
+        return rep_TRAIN, rep_TEST
+

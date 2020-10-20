@@ -54,8 +54,9 @@ def kNN(TRAIN, TEST, method, k, representation=None, use_exact_rep = False,
             neighbors[i,:] = temp[:, 0]
             correlations[i,:] = temp[:,1]
     neighbors = neighbors.astype(int)
-    print("Time = ", time() - t)
-    return neighbors, correlations
+    return_time = time() - t
+    #print("Time = ", return_time)
+    return neighbors, correlations, return_time
 
 #check the returned distances
 def kNN_with_pq(TRAIN, TEST, method, k, representation=None, use_exact_rep = False,
@@ -87,6 +88,7 @@ def kNN_with_pq(TRAIN, TEST, method, k, representation=None, use_exact_rep = Fal
     #     TRAIN = TRAIN[:, 0:(TRAIN.shape[1] - TRAIN.shape[1] % M)]
     #     TEST = TEST[:, 0:(TRAIN.shape[1] - TRAIN.shape[1] % M)]
 
+    # padding with up to 2^n
     next_pow_2 = int(max(np.ceil(np.log2(TRAIN.shape[1])), np.ceil(np.log2(M))))
     TRAIN = np.hstack((TRAIN, np.zeros((rowTRAIN, 2 ** next_pow_2-TRAIN.shape[1]))))
     TEST = np.hstack((TEST, np.zeros((rowTEST, 2 ** next_pow_2 - TEST.shape[1]))))
@@ -94,7 +96,7 @@ def kNN_with_pq(TRAIN, TEST, method, k, representation=None, use_exact_rep = Fal
     TRAIN = TRAIN.astype(np.float32)
     TEST = TEST.astype(np.float32)
 
-    t = time()
+
 
     if pq_method == "opq":
         pq = OPQ.OPQ(M=M, Ks= Ks, verbose=False)
@@ -106,6 +108,7 @@ def kNN_with_pq(TRAIN, TEST, method, k, representation=None, use_exact_rep = Fal
 
     pq.fit(vecs=TRAIN)
     TRAIN_code = pq.encode(vecs=TRAIN)
+    t = time()
 
     for i in range(rowTEST):
         query = TEST[i, :]
@@ -114,12 +117,13 @@ def kNN_with_pq(TRAIN, TEST, method, k, representation=None, use_exact_rep = Fal
         neighbors[i,:] = temp[:, 0]
         distances[i,:] = temp[:,1]
     neighbors = neighbors.astype(int)
-    print("Time for M = ", M , ": ", time()-t)
-    return neighbors, distances
+    return_time = time() -t
+    #print("Time for M = ", M , ": ", return_time)
+    return neighbors, distances, return_time
 
 def kNN_classifier(TRAIN, train_labels, TEST, method, k, representation=None, use_exact_rep = False,
                    pq_method = None, Ks = 64, M = 16, **kwargs):
-    neighbors, _ = kNN(TRAIN, TEST, method, k, representation, use_exact_rep, pq_method, Ks, M, **kwargs)
+    neighbors, _, return_time = kNN(TRAIN, TEST, method, k, representation, use_exact_rep, pq_method, Ks, M, **kwargs)
     return_labels = np.zeros(TEST.shape[0])
     for i in range(TEST.shape[0]):
         nearest_labels = np.zeros(k)
@@ -133,24 +137,24 @@ def kNN_classifier(TRAIN, train_labels, TEST, method, k, representation=None, us
                 mx = counts[j]
                 mx_label = unique[j]
         return_labels[i] = mx_label
-    return return_labels
+    return return_labels, return_time
 
-def kNN_classification_precision_test(TRAIN, train_labels, TEST, method, k, representation=None, use_exact_rep = False,
-                   pq_method = None, Ks = 64, M = 16, **kwargs):
-    neighbors, _ = kNN(TRAIN, TEST, method, k, representation, use_exact_rep, pq_method, Ks, M, **kwargs)
+def kNN_classification_precision_test(exact_neighbors, TRAIN, train_labels, TEST, test_labels, method, k, representation=None, use_exact_rep = False,
+                   pq_method = None, Ks = 4, M = 16, **kwargs):
+    neighbors, _, return_time = kNN(TRAIN, TEST, method, k, representation,
+                         use_exact_rep, pq_method, Ks, M, **kwargs)
     return_labels = np.zeros(TEST.shape[0])
 
-    exact_neighbors, _ = kNN(TRAIN, TEST, method = "SINK", k = k, representation=None)
     tp_arr = np.zeros(TEST.shape[0])
 
     for i in range(TEST.shape[0]):
         for j in range(k):
-            if neighbors[j] in exact_neighbors:
+            if neighbors[i,j] in exact_neighbors[i]:
                 tp_arr[i] = tp_arr[i] + 1
 
     precision = np.mean(tp_arr) / k
 
-
+    #assign labels
     for i in range(TEST.shape[0]):
         nearest_labels = np.zeros(k)
         for j in range(k):
@@ -163,4 +167,12 @@ def kNN_classification_precision_test(TRAIN, train_labels, TEST, method, k, repr
                 mx = counts[j]
                 mx_label = unique[j]
         return_labels[i] = mx_label
-    return return_labels, precision
+
+    # accuracy of the labels
+    cnt_acc = 0
+
+    for i in range(test_labels.shape[0]):
+        if test_labels[i] == return_labels[i]:
+            cnt_acc += 1
+    classification_accuracy = cnt_acc / test_labels.shape[0]
+    return classification_accuracy, precision, return_time

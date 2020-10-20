@@ -44,15 +44,17 @@ import time
 #
 #
 # #
-TRAIN, train_labels = TimeSeries.load("ECG200_TRAIN", "UCR")
-TEST, test_labels = TimeSeries.load("ECG200_TEST", "UCR")
+# TRAIN, train_labels = TimeSeries.load("ECG200_TRAIN", "UCR")
+# TEST, test_labels = TimeSeries.load("ECG200_TEST", "UCR")
+#
+# grail = Representation.GRAIL(d = 100)
+# #returned_labels = kNN_classifier(TRAIN, train_labels, TEST, method = "ED", pq_method="opq", k =10, representation=grail)
+# returned_labels, precision = kNN_classification_precision_test(TRAIN, train_labels, TEST, use_exact_rep=True,
+#                                                    method = "ED", pq_method="opq", k =1, representation=grail)
+#
+# print(precision)
 
-grail = Representation.GRAIL(d = 100)
-#returned_labels = kNN_classifier(TRAIN, train_labels, TEST, method = "ED", pq_method="opq", k =10, representation=grail)
-returned_labels, precision = kNN_classification_precision_test(TRAIN, train_labels, TEST,
-                                                   method = "ED", pq_method="opq", k =10, representation=grail)
 
-print(precision)
 
 # cnt = 0
 # for i in range(test_labels.shape[0]):

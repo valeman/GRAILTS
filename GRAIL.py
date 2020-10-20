@@ -68,7 +68,7 @@ def GRAIL_rep(X, d, f, r, GV, fourier_coeff = -1, e = -1, eigenvecMatrix = None,
     VarExplainedCumSum = np.divide(np.cumsum(eigvalues), np.sum(eigvalues))
     k = np.argwhere(approx_gte(VarExplainedCumSum, f))[0, 0] + 1
     Z_k = CheckNaNInfComplex(Zexact @ Q[0:d, 0:k])
-    return Z_k, Zexact
+    return Z_k, Zexact, gamma
 
 
 def CheckNaNInfComplex(Z):
