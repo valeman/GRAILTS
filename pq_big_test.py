@@ -26,7 +26,7 @@ def test(dataset):
 
     for NN in [1, 3, 5, 10]:
         exact_neighbors, _, _ = kNN(TRAIN, TEST, method="SINK", k=NN, representation=None, gamma=grail.best_gamma)
-        exact_results, pq_results, opq_results_64, opq_results_128 = [1,2,3]
+        exact_results, pq_results, opq_results_64, opq_results_128 = [1,2,3], [1,2,3], [1,2,3], [1,2,3]
 
         exact_results[0], exact_results[1], exact_results[2] = kNN_classification_precision_test(exact_neighbors, repTRAIN, train_labels, repTEST, test_labels,
                                         method = "ED", k =NN,pq_method=None, representation=None)
