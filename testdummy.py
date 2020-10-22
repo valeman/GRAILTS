@@ -61,7 +61,7 @@ import csv
 for i in range(3):
     with open('final_results.csv', 'a') as csvfile:
         csvwriter = csv.writer(csvfile)
-        csvwriter.writerow([1,2,3])
+        csvwriter.writerows([1,2,3])
 
 
 # cnt = 0

@@ -46,7 +46,7 @@ def test(dataset):
             csvwriter.writerow(['Dataset', 'NN', 'GRAIL exact classification precision', 'GRAIL exact precision', 'GRAIL exact time',
                                 'PQ exact classification precision', 'PQ exact precision', 'PQ exact time',
                                 'OPQ exact classification precision', 'OPQ exact precision', 'OPQ exact time'])
-            csvwriter.writerows([dataset, NN] + exact_results + pq_results + opq_results_64 + opq_results_128)
+            csvwriter.writerow([dataset, NN] + exact_results + pq_results + opq_results_64 + opq_results_128)
 
 for dataset in datasets:
     test(dataset)
