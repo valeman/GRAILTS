@@ -8,6 +8,7 @@ from sklearn.neighbors import NearestNeighbors
 import Correlation
 import kshape
 import time
+import csv
 
 
 # def NCC_new(x, y):
@@ -46,14 +47,21 @@ import time
 # #
 # TRAIN, train_labels = TimeSeries.load("ECG200_TRAIN", "UCR")
 # TEST, test_labels = TimeSeries.load("ECG200_TEST", "UCR")
-#
+# #
 # grail = Representation.GRAIL(d = 100)
-# #returned_labels = kNN_classifier(TRAIN, train_labels, TEST, method = "ED", pq_method="opq", k =10, representation=grail)
-# returned_labels, precision = kNN_classification_precision_test(TRAIN, train_labels, TEST, use_exact_rep=True,
-#                                                    method = "ED", pq_method="opq", k =1, representation=grail)
+# # #returned_labels = kNN_classifier(TRAIN, train_labels, TEST, method = "ED", pq_method="opq", k =10, representation=grail)
+# # returned_labels, precision = kNN_classification_precision_test(TRAIN, train_labels, TEST, use_exact_rep=True,
+# #                                                    method = "ED", pq_method="opq", k =1, representation=grail)
+# #
+# # print(precision)
 #
-# print(precision)
+# repTRAIN, repTEST = grail.get_rep_train_test(TRAIN, TEST, exact=True)
+# exact_neighbors, _, _ = kNN(TRAIN, TEST, method="SINK", k=5, representation=None, gamma = grail.best_gamma)
 
+for i in range(3):
+    with open('final_results.csv', 'a') as csvfile:
+        csvwriter = csv.writer(csvfile)
+        csvwriter.writerow([1,2,3])
 
 
 # cnt = 0

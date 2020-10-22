@@ -25,7 +25,7 @@ def test(dataset):
     repTRAIN, repTEST = grail.get_rep_train_test(TRAIN, TEST, exact=True)
 
     for NN in [1, 3, 5, 10]:
-        exact_neighbors, _ = kNN(TRAIN, TEST, method="SINK", k=NN, representation=None, gamma=grail.best_gamma)
+        exact_neighbors, _, _ = kNN(TRAIN, TEST, method="SINK", k=NN, representation=None, gamma=grail.best_gamma)
         exact_results, pq_results, opq_results_64, opq_results_128 = [1,2,3]
 
         exact_results[0], exact_results[1], exact_results[2] = kNN_classification_precision_test(exact_neighbors, repTRAIN, train_labels, repTEST, test_labels,
@@ -41,7 +41,7 @@ def test(dataset):
                                         method = "ED", k =NN,pq_method='opq',Ks = 4, M = 32, representation=None)
 
 
-        with open('final_results.csv', 'w') as csvfile:
+        with open('final_results.csv', 'a') as csvfile:
             csvwriter = csv.writer(csvfile)
             csvwriter.writerow(['Dataset', 'NN', 'GRAIL exact classification precision', 'GRAIL exact precision', 'GRAIL exact time',
                                 'PQ exact classification precision', 'PQ exact precision', 'PQ exact time',
