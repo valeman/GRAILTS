@@ -45,10 +45,13 @@ import csv
 #
 #
 # #
-# TRAIN, train_labels = TimeSeries.load("ECG200_TRAIN", "UCR")
-# TEST, test_labels = TimeSeries.load("ECG200_TEST", "UCR")
+TRAIN, train_labels = TimeSeries.load("ECG200_TRAIN", "UCR")
+TEST, test_labels = TimeSeries.load("ECG200_TEST", "UCR")
 # #
-# grail = Representation.GRAIL(d = 100)
+
+a = np.loadtxt('elasticmeasures/'+'repTRAIN')
+print(a.shape)
+
 # # #returned_labels = kNN_classifier(TRAIN, train_labels, TEST, method = "ED", pq_method="opq", k =10, representation=grail)
 # # returned_labels, precision = kNN_classification_precision_test(TRAIN, train_labels, TEST, use_exact_rep=True,
 # #                                                    method = "ED", pq_method="opq", k =1, representation=grail)
@@ -58,10 +61,10 @@ import csv
 # repTRAIN, repTEST = grail.get_rep_train_test(TRAIN, TEST, exact=True)
 # exact_neighbors, _, _ = kNN(TRAIN, TEST, method="SINK", k=5, representation=None, gamma = grail.best_gamma)
 
-for i in range(3):
-    with open('final_results.csv', 'a') as csvfile:
-        csvwriter = csv.writer(csvfile)
-        csvwriter.writerows([1,2,3])
+# for i in range(3):
+#     with open('final_results.csv', 'a') as csvfile:
+#         csvwriter = csv.writer(csvfile)
+#         csvwriter.writerows([1,2,3])
 
 
 # cnt = 0

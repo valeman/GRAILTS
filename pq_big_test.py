@@ -23,6 +23,8 @@ def test(dataset):
     d = int(min(max(4 * len(np.unique(train_labels)), np.ceil(0.4 * (TRAIN.shape[0] + TEST.shape[0])), 20), 100))
     grail = Representation.GRAIL(d=d)
     repTRAIN, repTEST = grail.get_rep_train_test(TRAIN, TEST, exact=True)
+    np.savetxt('grail_representations/'+dataset+'_TRAIN', repTRAIN)
+    np.savetxt('grail_representations/' + dataset + '_TEST', repTEST)
 
     for NN in [1, 3, 5, 10]:
         exact_neighbors, _, _ = kNN(TRAIN, TEST, method="SINK", k=NN, representation=None, gamma=grail.best_gamma)
