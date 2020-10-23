@@ -43,10 +43,14 @@ def test(dataset):
 
         with open('final_results.csv', 'a') as csvfile:
             csvwriter = csv.writer(csvfile)
-            csvwriter.writerow(['Dataset', 'NN', 'GRAIL exact classification precision', 'GRAIL exact precision', 'GRAIL exact time',
-                                'PQ exact classification precision', 'PQ exact precision', 'PQ exact time',
-                                'OPQ exact classification precision', 'OPQ exact precision', 'OPQ exact time'])
             csvwriter.writerow([dataset, NN] + exact_results + pq_results + opq_results_64 + opq_results_128)
+
+with open('final_results.csv', 'w') as csvfile:
+    csvwriter = csv.writer(csvfile)
+    csvwriter.writerow(['Dataset', 'NN', 'GRAIL exact classification precision', 'GRAIL exact precision', 'GRAIL exact time',
+                                'PQ exact classification precision', 'PQ exact precision', 'PQ exact time',
+                                'OPQ (64) exact classification precision', 'OPQ (64) exact precision', 'OPQ (64) exact time',
+                                'OPQ (128) exact classification precision', 'OPQ (128) exact precision', 'OPQ (128) exact time'])
 
 for dataset in datasets:
     test(dataset)
