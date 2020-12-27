@@ -68,7 +68,7 @@ def gen_from_density(ts_num, caused_neighbor_num = 1, n = 200, lag = 5, YstFixIn
     for i in range(ts_num):
         TS[i, YstFixInx:YfnFixInx] = TS[i, YstFixInx]
 
-    return TS[:, lag:]
+    return TS[:, lag:], trueMatrix
 
 
 def MultipleSimulationVLtimeseries(ts_num = 10, prob_of_causing = 0.1, n=200, lag=5, YstFixInx=110, YfnFixInx=170, XpointFixInx=100, arimaFlag=True, seedVal=-1):
