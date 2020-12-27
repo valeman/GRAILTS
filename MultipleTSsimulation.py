@@ -36,7 +36,7 @@ def genMultipleSimulation(half_ts_num = 5, prob_of_causing = 0.5, n=200, lag=5, 
         seeds = np.ones(half_ts_num) * (-1)
     else:
         np.random.seed(seedVal)
-        seeds = np.random.uniform(1000, 250000, ts_num)
+        seeds = np.random.uniform(1000, 250000, 2*half_ts_num)
         
     for i in range(half_ts_num):
         causalFlag = False
@@ -47,6 +47,22 @@ def genMultipleSimulation(half_ts_num = 5, prob_of_causing = 0.5, n=200, lag=5, 
         TS[2*i], TS[2*i + 1] = SimpleSimulationVLtimeseries(n=n, lag=lag, YstFixInx=YstFixInx, YfnFixInx=YfnFixInx,
                                           XpointFixInx=XpointFixInx, arimaFlag=arimaFlag, seedVal=seeds[i],causalFlag=causalFlag)
     return TS, trueMatrix
+
+def gen_from_density(ts_num, caused_neigbhor_num, n = 200, lag = 5, seedVal = -1):
+    TS = np.zeros((ts_num, n + lag))
+    trueMatrix = np.zeros((ts_num, ts_num))
+
+    if seedVal != -1:
+        np.random.seed(seedVal)
+
+    for i in range(ts_num):
+        TS[i,:] = np.random.normal(0,1,n)
+
+    for i in range(ts_num):
+        causes = np.random.choice(ts_num, caused_neigbhor_num)
+        for neighbor in causes:
+            for j in range(n):
+                TS[neighbor, j + lag] += TS[i, j]
 
 
 def MultipleSimulationVLtimeseries(ts_num = 10, prob_of_causing = 0.1, n=200, lag=5, YstFixInx=110, YfnFixInx=170, XpointFixInx=100, arimaFlag=True, seedVal=-1):
@@ -76,11 +92,12 @@ def MultipleSimulationVLtimeseries(ts_num = 10, prob_of_causing = 0.1, n=200, la
 
 
 def checkMultipleSimulationVLtimeseries(trueAdjMat, adjMat):
+    assert adjMat.shape == trueAdjMat.shape
     TP = 0
     FP = 0
     FN = 0
-    for i in range(10):
-        for j in range(10):
+    for i in range(adjMat.shape[0]):
+        for j in range(adjMat.shape[1]):
             if trueAdjMat[i, j] and adjMat[i, j]:
                 TP = TP + 1
             elif (not trueAdjMat[i, j]) and adjMat[i, j]:
