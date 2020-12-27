@@ -56,7 +56,7 @@ def gen_from_density(ts_num, caused_neighbor_num = 1, n = 200, lag = 5, YstFixIn
         np.random.seed(seedVal)
 
     for i in range(ts_num):
-        TS[i,:] = np.random.normal(0,1,n)
+        TS[i,:] = np.random.normal(0,1,n+lag)
 
     for i in range(ts_num):
         causes = np.random.choice(ts_num, caused_neighbor_num)
