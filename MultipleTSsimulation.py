@@ -48,7 +48,8 @@ def genMultipleSimulation(half_ts_num = 5, prob_of_causing = 0.5, n=200, lag=5, 
                                           XpointFixInx=XpointFixInx, arimaFlag=arimaFlag, seedVal=seeds[i],causalFlag=causalFlag)
     return TS, trueMatrix
 
-def gen_from_density(ts_num, caused_neighbor_num = 1, n = 200, lag = 5, YstFixInx=110,YfnFixInx=170, seedVal = -1):
+def gen_from_density(ts_num, caused_neighbor_num = 1, n = 200, lag = 5,
+                     YstFixInx=110,YfnFixInx=170, seedVal = -1, VL = True):
     TS = np.zeros((ts_num, n + lag))
     trueMatrix = np.zeros((ts_num, ts_num))
 
@@ -65,8 +66,9 @@ def gen_from_density(ts_num, caused_neighbor_num = 1, n = 200, lag = 5, YstFixIn
             for j in range(n):
                 TS[neighbor, j + lag] += TS[i, j]
 
-    for i in range(ts_num):
-        TS[i, YstFixInx:YfnFixInx] = TS[i, YstFixInx]
+    if VL:
+        for i in range(ts_num):
+            TS[i, YstFixInx:YfnFixInx] = TS[i, YstFixInx]
 
     return TS[:, lag:], trueMatrix
 
