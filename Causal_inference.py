@@ -91,5 +91,8 @@ def check_with_original(trueAdjMat, adjMat):
     else:
         prec = TP / (TP + FP)
     rec = TP / (TP + FN)
-    F1 = 2 * prec * rec / (prec + rec)
+    if prec+rec != 0:
+        F1 = 2 * prec * rec / (prec + rec)
+    else:
+        F1 = 0
     return [prec, rec, F1]
