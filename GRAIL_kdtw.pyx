@@ -98,7 +98,6 @@ def sigma_select(Dictionary, GV, r):
     var_top_r = np.zeros(len(GV))
     score = np.zeros(len(GV))
     for i in range(len(GV)):
-        print(i)
         sigma = GV[i]
         W = np.zeros((d, d))
         for j in range(d):

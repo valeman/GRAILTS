@@ -45,12 +45,15 @@ import csv
 #
 #
 # #
-TRAIN, train_labels = TimeSeries.load("ECG200_TRAIN", "UCR")
-TEST, test_labels = TimeSeries.load("ECG200_TEST", "UCR")
+# TRAIN, train_labels = TimeSeries.load("ECG200_TRAIN", "UCR")
+# TEST, test_labels = TimeSeries.load("ECG200_TEST", "UCR")
 # #
 
-a = np.loadtxt('elasticmeasures/'+'repTRAIN')
-print(a.shape)
+# a = np.loadtxt('elasticmeasures/'+'repTRAIN')
+# print(a.shape)
+x = np.array([[1,2],[3,4]])
+print(np.mean(x,axis = 1))
+print(np.mean(x,axis = (0,1)))
 
 # # #returned_labels = kNN_classifier(TRAIN, train_labels, TEST, method = "ED", pq_method="opq", k =10, representation=grail)
 # # returned_labels, precision = kNN_classification_precision_test(TRAIN, train_labels, TEST, use_exact_rep=True,

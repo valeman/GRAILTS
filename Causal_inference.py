@@ -90,4 +90,3 @@ def check_with_original(trueAdjMat, adjMat):
     rec = TP / (TP + FN)
     F1 = 2 * prec * rec / (prec + rec)
     return [prec, rec, F1]
-

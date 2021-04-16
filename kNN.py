@@ -3,13 +3,15 @@ import math
 from Correlation import Correlation
 import exceptions
 from Representation import Representation
+from SINK import NCC
 import heapq
 import OPQ
 import PQ
+import PQ_NCC, PQ_SINK
 from time import time
 
 def kNN(TRAIN, TEST, method, k, representation=None, use_exact_rep = False,
-        pq_method = None, Ks = 64, M = 16, **kwargs):
+        pq_method = None, Ks = 4, M = 16, **kwargs):
     """
     Approximate or exact k-nearest neighbors algorithm depending on the representation
     :param TRAIN: The training set to get the neighbors from
@@ -20,6 +22,9 @@ def kNN(TRAIN, TEST, method, k, representation=None, use_exact_rep = False,
     :param **kwargs: arguments for the correlator
     :return: a matrix of size row(TEST)xk
     """
+    if k > TRAIN.shape[0]:
+        raise ValueError("Number of nearest neighbors should be smaller than number of points")
+
     if pq_method:
         return kNN_with_pq(TRAIN, TEST, method, k, representation, use_exact_rep, pq_method, Ks, M, **kwargs)
 
@@ -29,13 +34,7 @@ def kNN(TRAIN, TEST, method, k, representation=None, use_exact_rep = False,
     neighbors = np.zeros((rowTEST, k))
     correlations = np.zeros((rowTEST, k))
     if representation:
-        together = np.vstack((TRAIN, TEST))
-        if use_exact_rep:
-            rep_together = representation.get_exact_representation(together)
-        else:
-            rep_together = representation.get_representation(together)
-        TRAIN = rep_together[0:rowTRAIN, :]
-        TEST = rep_together[rowTRAIN:, :]
+        TRAIN, TEST = representation.get_rep_train_test(TRAIN, TEST, exact=use_exact_rep)
 
     t = time()
     for i in range(rowTEST):
@@ -55,12 +54,11 @@ def kNN(TRAIN, TEST, method, k, representation=None, use_exact_rep = False,
             correlations[i,:] = temp[:,1]
     neighbors = neighbors.astype(int)
     return_time = time() - t
-    #print("Time = ", return_time)
     return neighbors, correlations, return_time
 
 #check the returned distances
 def kNN_with_pq(TRAIN, TEST, method, k, representation=None, use_exact_rep = False,
-                pq_method = "opq", Ks = 64, M = 16,**kwargs):
+                pq_method = "opq", Ks = 4, M = 16,**kwargs):
     if method != "ED":
         raise ValueError("Product Quantization can only be used with ED.")
 
@@ -81,7 +79,6 @@ def kNN_with_pq(TRAIN, TEST, method, k, representation=None, use_exact_rep = Fal
 
     if rowTRAIN < Ks:
         Ks = 2 ** int(np.floor(np.log2(rowTRAIN)))
-    print(Ks)
 
     # This code trims the last parts
     # if TRAIN.shape[1] > M and TRAIN.shape[1] % M != 0:
@@ -121,8 +118,115 @@ def kNN_with_pq(TRAIN, TEST, method, k, representation=None, use_exact_rep = Fal
     #print("Time for M = ", M , ": ", return_time)
     return neighbors, distances, return_time
 
+
+def kNN_with_pq_NCC(TRAIN, TEST, k, representation=None, use_exact_rep = False, Ks = 4, M = 16,**kwargs):
+    rowTEST = TEST.shape[0]
+    rowTRAIN = TRAIN.shape[0]
+
+    neighbors = np.zeros((rowTEST, k))
+    distances = np.zeros((rowTEST, k))
+    if representation:
+        together = np.vstack((TRAIN, TEST))
+        if use_exact_rep:
+            rep_together = representation.get_exact_representation(together)
+        else:
+            rep_together = representation.get_representation(together)
+        TRAIN = rep_together[0:rowTRAIN, :]
+        TEST = rep_together[rowTRAIN:, :]
+
+
+    if rowTRAIN < Ks:
+        Ks = 2 ** int(np.floor(np.log2(rowTRAIN)))
+
+    # This code trims the last parts
+    # if TRAIN.shape[1] > M and TRAIN.shape[1] % M != 0:
+    #     TRAIN = TRAIN[:, 0:(TRAIN.shape[1] - TRAIN.shape[1] % M)]
+    #     TEST = TEST[:, 0:(TRAIN.shape[1] - TRAIN.shape[1] % M)]
+
+    # padding with up to 2^n
+    next_pow_2 = int(max(np.ceil(np.log2(TRAIN.shape[1])), np.ceil(np.log2(M))))
+    TRAIN = np.hstack((TRAIN, np.zeros((rowTRAIN, 2 ** next_pow_2-TRAIN.shape[1]))))
+    TEST = np.hstack((TEST, np.zeros((rowTEST, 2 ** next_pow_2 - TEST.shape[1]))))
+
+    TRAIN = TRAIN.astype(np.float32)
+    TEST = TEST.astype(np.float32)
+
+    pq = PQ_NCC.NCC_PQ(M=M, Ks= Ks, verbose=False)
+
+
+
+    pq.fit(vecs=TRAIN)
+  #  print("TRAIN:")
+   # print(TRAIN)
+    TRAIN_code = pq.encode(vecs=TRAIN)
+    t = time()
+
+    for i in range(rowTEST):
+        query = TEST[i, :]
+        dists = pq.dtable(query=query).adist(codes=TRAIN_code)
+        #dists = pq.adist(i,TRAIN_code)
+        temp = np.array(heapq.nlargest(k, enumerate(dists), key = lambda x: x[1]))
+        neighbors[i,:] = temp[:, 0]
+        distances[i,:] = temp[:,1]
+    neighbors = neighbors.astype(int)
+    return_time = time() -t
+    #print("Time for M = ", M , ": ", return_time)
+    return neighbors, distances, return_time
+
+
+def kNN_with_pq_SINK(TRAIN, TEST, k, representation=None, use_exact_rep = False, Ks = 4, M = 16,**kwargs):
+    rowTEST = TEST.shape[0]
+    rowTRAIN = TRAIN.shape[0]
+
+    neighbors = np.zeros((rowTEST, k))
+    distances = np.zeros((rowTEST, k))
+    if representation:
+        together = np.vstack((TRAIN, TEST))
+        if use_exact_rep:
+            rep_together = representation.get_exact_representation(together)
+        else:
+            rep_together = representation.get_representation(together)
+        TRAIN = rep_together[0:rowTRAIN, :]
+        TEST = rep_together[rowTRAIN:, :]
+
+
+    if rowTRAIN < Ks:
+        Ks = 2 ** int(np.floor(np.log2(rowTRAIN)))
+
+    # This code trims the last parts
+    # if TRAIN.shape[1] > M and TRAIN.shape[1] % M != 0:
+    #     TRAIN = TRAIN[:, 0:(TRAIN.shape[1] - TRAIN.shape[1] % M)]
+    #     TEST = TEST[:, 0:(TRAIN.shape[1] - TRAIN.shape[1] % M)]
+
+    # padding with up to 2^n
+    next_pow_2 = int(max(np.ceil(np.log2(TRAIN.shape[1])), np.ceil(np.log2(M))))
+    TRAIN = np.hstack((TRAIN, np.zeros((rowTRAIN, 2 ** next_pow_2-TRAIN.shape[1]))))
+    TEST = np.hstack((TEST, np.zeros((rowTEST, 2 ** next_pow_2 - TEST.shape[1]))))
+
+    TRAIN = TRAIN.astype(np.float32)
+    TEST = TEST.astype(np.float32)
+
+    pq = PQ_SINK.SINK_PQ(M=M, Ks= Ks, verbose=False, **kwargs)
+
+
+
+    pq.fit(vecs=TRAIN)
+    TRAIN_code = pq.encode(vecs=TRAIN)
+    t = time()
+
+    for i in range(rowTEST):
+        query = TEST[i, :]
+        dists = pq.dtable(query=query).adist(codes=TRAIN_code)
+        temp = np.array(heapq.nlargest(k, enumerate(dists), key = lambda x: x[1]))
+        neighbors[i,:] = temp[:, 0]
+        distances[i,:] = temp[:,1]
+    neighbors = neighbors.astype(int)
+    return_time = time() -t
+    #print("Time for M = ", M , ": ", return_time)
+    return neighbors, distances, return_time
+
 def kNN_classifier(TRAIN, train_labels, TEST, method, k, representation=None, use_exact_rep = False,
-                   pq_method = None, Ks = 64, M = 16, **kwargs):
+                   pq_method = None, Ks = 4, M = 16, **kwargs):
     neighbors, _, return_time = kNN(TRAIN, TEST, method, k, representation, use_exact_rep, pq_method, Ks, M, **kwargs)
     return_labels = np.zeros(TEST.shape[0])
     for i in range(TEST.shape[0]):

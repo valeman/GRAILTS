@@ -34,7 +34,7 @@ vlMat = vlOut_py["adjMat"]
 neighbor_param = [2, 5, 10, 100]
 
 together = np.vstack((TS, TS))
-rep_together = representation.get_exact_representation(together)
+rep_together = grail.get_exact_representation(together)
 TRAIN_TS = rep_together[0:ts_num, :]
 TEST_TS = rep_together[ts_num:, :]
 
