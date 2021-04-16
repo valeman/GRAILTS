@@ -86,7 +86,10 @@ def check_with_original(trueAdjMat, adjMat):
                 FP = FP + 1
             elif trueAdjMat[i, j] and (not adjMat[i, j]):
                 FN = FN + 1
-    prec = TP / (TP + FP)
+    if TP + FP == 0:
+        prec = 0
+    else:
+        prec = TP / (TP + FP)
     rec = TP / (TP + FN)
     F1 = 2 * prec * rec / (prec + rec)
     return [prec, rec, F1]

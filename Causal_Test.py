@@ -69,6 +69,7 @@ def compare_with_standard():
     m =128
     for n in range(100, 5000, 100):
         for lag in range(1, 5):
+            print(n, lag)
             brute_results, result_by_neighbor = test(n,lag,m)
             csvwriter.writerow([n] + [lag] + list(brute_results.values()) + list(result_by_neighbor.values()))
     csvfile.close()
