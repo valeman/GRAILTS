@@ -74,7 +74,7 @@ def compare_with_standard():
     csvfile.close()
 
 
-
+compare_with_standard()
 
 
 
