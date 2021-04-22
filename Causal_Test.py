@@ -72,7 +72,7 @@ def compare_with_standard():
     for n in range(100, 5000, 100):
         for lag in range(1, 5):
             print(n, lag)
-            brute_results, result_by_neighbor, grail_results = test(n,lag,m)
+            brute_results, result_by_neighbor= test(n,lag,m)
             csvwriter.writerow([n] + [lag] + ['brute'] + list(brute_results.values()))
             for n_num in result_by_neighbor:
                 csvwriter.writerow([n] + [lag] + [n_num] + list(result_by_neighbor[n_num].values()))
