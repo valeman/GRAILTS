@@ -7,7 +7,7 @@ import csv
 
 
 def test(n = 100, lag = 2, m = 128):
-    #can try kdtw here
+    #try not setting gamma
     representation = Representation.GRAIL(kernel="SINK", d = 50, gamma = 1)
 
     TS, trueMat = generate_synthetic(n, m = m, lag = lag, ar = [1, 0.5]) #try changing ar
@@ -19,7 +19,7 @@ def test(n = 100, lag = 2, m = 128):
     bruteTime = time() - t
 
 
-    neighbor_param = [2, 5, 10, 50]
+    neighbor_param = [2, 5, 10, 100]
 
     result_by_neighbor = {}
 
@@ -29,6 +29,8 @@ def test(n = 100, lag = 2, m = 128):
                                             'fscore' : brute_res[2], 'runtime' : bruteTime}
 
     for neighbor_num in neighbor_param:
+        if neighbor_num >= n:
+            continue
     #    neighbors, _, _ = kNN(TRAIN_TS, TEST_TS, method = "ED", k = neighbor_num, representation=None, use_exact_rep = True, pq_method = "pq", M = 16)
         np.random.seed(0)
         neighbors, _, _ = kNN(TRAIN_TS, TEST_TS, method="ED", k=neighbor_num, representation=None, use_exact_rep=True,
@@ -48,7 +50,7 @@ def test(n = 100, lag = 2, m = 128):
                   grailMat[i,j] = granger_causality(TS[j], TS[i], lag)
         prunedtime = time() - t
 
-        grail_results = check_with_original(trueMat, controlMat)
+        grail_results = check_with_original(trueMat, grailMat)
 
         #print("k number for kNN:", neighbor_num)
         #print("Pruned VL time: ", prunedtime)
@@ -70,8 +72,10 @@ def compare_with_standard():
     for n in range(100, 5000, 100):
         for lag in range(1, 5):
             print(n, lag)
-            brute_results, result_by_neighbor = test(n,lag,m)
-            csvwriter.writerow([n] + [lag] + list(brute_results.values()) + list(result_by_neighbor.values()))
+            brute_results, result_by_neighbor, grail_results = test(n,lag,m)
+            csvwriter.writerow([n] + [lag] + ['brute'] + list(brute_results.values()))
+            for n_num in result_by_neighbor:
+                csvwriter.writerow([n] + [lag] + [n_num] + list(result_by_neighbor[n_num].values()))
     csvfile.close()
 
 
