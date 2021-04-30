@@ -7,10 +7,13 @@ import csv
 
 
 
-def test_only_grail(n = 100, lag = 2, m = 128, neighbor_param = [10,100]):
+def test_only_grail(n = 100, lag = 2, m = 128, neighbor_param = [10,100], tune = True):
     #try not setting gamma
     d = int(min(max(np.ceil(0.4 * 2*n), 20), 100))
-    representation = Representation.GRAIL(kernel="SINK", d = 100, gamma = 1)
+    if tune:
+        representation = Representation.GRAIL(kernel="SINK", d=100)
+    else:
+        representation = Representation.GRAIL(kernel="SINK", d = 100, gamma = 1)
 
     TS, trueMat = generate_synthetic(n, m = m, lag = lag, ar = [1, 0.5]) #try changing ar
 
@@ -138,7 +141,7 @@ def scale_grail():
     m =128
     lags = [2,5,10]
 
-    for n in range(100, 10000000, 500):
+    for n in range(200, 10000000, 500):
         for lag in lags:
             print(n, lag)
             result_by_neighbor= test_only_grail(n,lag,m)
