@@ -41,7 +41,7 @@ def findgammaforgranger(TS, trueMat, gamma, n = 100, lag = 2, m = 128, neighbor_
 
 if __name__ == '__main__':
 
-    csvfile = open('findgammaforgranger.csv', 'w')
+    csvfile = open('findgammaforgranger_fixdataset.csv', 'w')
     csvwriter = csv.writer(csvfile)
 
     ns = [200,500]
