@@ -45,7 +45,7 @@ if __name__ == '__main__':
     csvwriter = csv.writer(csvfile)
 
     ns = [200,500]
-    lags = [2,5]
+    lags = [2,5,10]
 
     for n in ns:
         for lag in lags:
