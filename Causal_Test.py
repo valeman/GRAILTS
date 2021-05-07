@@ -10,7 +10,7 @@ import csv
 def load_ts_truemat(lag, n, ar = 'ar05'):
     with open('./datasets_'+ar+'/series'+str(lag)+'_'+str(n)+'.npy', 'rb') as f:
         TS = np.load(f)
-    with open('./datasets_' + ar + '/series' + str(lag) + '_' + str(n) + '.npy', 'rb') as f:
+    with open('./datasets_' + ar + '/truemat' + str(lag) + '_' + str(n) + '.npy', 'rb') as f:
         trueMat = np.load(f)
     return TS, trueMat
 
