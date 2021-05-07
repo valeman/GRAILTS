@@ -7,6 +7,13 @@ import csv
 
 
 
+def load_ts_truemat(lag, n, ar = 'ar05'):
+    with open('./datasets_'+ar+'/series'+str(lag)+'_'+str(n)+'.npy', 'rb') as f:
+        TS = np.load(f)
+    with open('./datasets_' + ar + '/series' + str(lag) + '_' + str(n) + '.npy', 'rb') as f:
+        trueMat = np.load(f)
+    return TS, trueMat
+
 def test_only_grail(n = 100, lag = 2, m = 128, neighbor_param = [10,100], tune = True):
     #try not setting gamma
     d = int(min(max(np.ceil(0.4 * 2*n), 20), 100))

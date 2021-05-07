@@ -4,17 +4,15 @@ from kNN import kNN, kNN_with_pq_NCC, kNN_with_pq_SINK
 from time import time
 from Causal_inference import generate_synthetic, granger_matrix, check_with_original, granger_causality
 import csv
+from Causal_Test import load_ts_truemat
 
 
 
-def findgammaforgranger(gamma, n = 100, lag = 2, m = 128, neighbor_param = [10,100]):
+def findgammaforgranger(TS, trueMat, gamma, n = 100, lag = 2, m = 128, neighbor_param = [10,100]):
     #try not setting gamma
     d = int(min(max(np.ceil(0.4 * 2*n), 20), 100))
 
     representation = Representation.GRAIL(kernel="SINK", d = 100, gamma = gamma)
-
-    TS, trueMat = generate_synthetic(n, m = m, lag = lag, ar = [1, 0.5]) #try changing ar
-
     grailMat = np.zeros((n, n))
 
     result_by_neighbor = {}
@@ -41,17 +39,20 @@ def findgammaforgranger(gamma, n = 100, lag = 2, m = 128, neighbor_param = [10,1
 
     return result_by_neighbor
 
-csvfile = open('findgammaforgranger.csv', 'w')
-csvwriter = csv.writer(csvfile)
+if __name__ == '__main__':
 
-ns = [200,500]
-lags = [2,5]
+    csvfile = open('findgammaforgranger.csv', 'w')
+    csvwriter = csv.writer(csvfile)
 
-for n in ns:
-    for lag in lags:
-        for gamma in range(1,20):
-            result_by_neighbor = findgammaforgranger(gamma = gamma)
-            for n_num in result_by_neighbor:
-                csvwriter.writerow([n] + [lag] + [n_num] + list(result_by_neighbor[n_num].values()) + [gamma])
-            csvfile.flush()
-csvfile.close()
+    ns = [200,500]
+    lags = [2,5]
+
+    for n in ns:
+        for lag in lags:
+            TS, trueMat = load_ts_truemat(lag, n, ar = 'ar05')
+            for gamma in range(1,20):
+                result_by_neighbor = findgammaforgranger(TS, trueMat, gamma = gamma)
+                for n_num in result_by_neighbor:
+                    csvwriter.writerow([n] + [lag] + [n_num] + list(result_by_neighbor[n_num].values()) + [gamma])
+                csvfile.flush()
+    csvfile.close()
