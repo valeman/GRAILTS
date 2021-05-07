@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 from statsmodels.tsa.arima_process import arma_generate_sample
 
-def granger_causality(y, x, lag):
+def granger_causality(y, x, lag, pval = 0.05):
     """
     Return true if x causes y
     :param y: tseries
@@ -17,7 +17,7 @@ def granger_causality(y, x, lag):
     for lg in range(1, lag + 1):
         pvals.append(res[lg][0]['ssr_ftest'][1])
     min_pval = min(pvals)
-    if min_pval < 0.05:
+    if min_pval < pval:
         return True
     return False
 
