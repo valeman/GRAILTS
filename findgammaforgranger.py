@@ -51,7 +51,7 @@ if __name__ == '__main__':
         for lag in lags:
             TS, trueMat = load_ts_truemat(lag, n, ar = 'ar05')
             for gamma in range(1,20):
-                result_by_neighbor = findgammaforgranger(TS, trueMat, gamma = gamma)
+                result_by_neighbor = findgammaforgranger(TS, trueMat, n = n, lag = lag, gamma = gamma)
                 for n_num in result_by_neighbor:
                     csvwriter.writerow([n] + [lag] + [n_num] + list(result_by_neighbor[n_num].values()) + [gamma])
                 csvfile.flush()
