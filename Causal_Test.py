@@ -1,12 +1,14 @@
 import Representation
 import numpy as np
-from kNN import kNN, kNN_with_pq_NCC, kNN_with_pq_SINK
+from kNN import kNN, kNN_with_pq_NCC, kNN_with_pq_SINK, MAP, avg_recall_measure
 from time import time
 from Causal_inference import generate_synthetic, granger_matrix, check_with_original, granger_causality
 import csv
 
 
+best_gamma = 5
 
+#load the fixed datasets
 def load_ts_truemat(lag, n, ar = 'ar05'):
     with open('./datasets_'+ar+'/series'+str(lag)+'_'+str(n)+'.npy', 'rb') as f:
         TS = np.load(f)
@@ -14,15 +16,14 @@ def load_ts_truemat(lag, n, ar = 'ar05'):
         trueMat = np.load(f)
     return TS, trueMat
 
-def test_only_grail(n = 100, lag = 2, m = 128, neighbor_param = [10,100], tune = True):
+
+def test_only_grail(TS, trueMat, n = 100, lag = 2, m = 128, neighbor_param = [10,100], tune = False):
     #try not setting gamma
     d = int(min(max(np.ceil(0.4 * 2*n), 20), 100))
     if tune:
         representation = Representation.GRAIL(kernel="SINK", d=100)
     else:
-        representation = Representation.GRAIL(kernel="SINK", d = 100, gamma = 1)
-
-    TS, trueMat = generate_synthetic(n, m = m, lag = lag, ar = [1, 0.5]) #try changing ar
+        representation = Representation.GRAIL(kernel="SINK", d = 100, gamma = best_gamma)
 
     grailMat = np.zeros((n, n))
 
@@ -37,6 +38,11 @@ def test_only_grail(n = 100, lag = 2, m = 128, neighbor_param = [10,100], tune =
         neighbors, _, _ = kNN(TRAIN_TS, TEST_TS, method="ED", k=neighbor_num, representation=None, use_exact_rep=True,
                               pq_method="opq")
 
+        exact_neighbors, _, _ = kNN(TS, TS, method="SINK", k=neighbor_num, representation=None, gamma=best_gamma)
+
+        knn_map_accuracy = MAP(exact_neighbors, neighbors)
+        knn_recall_accuracy = avg_recall_measure(exact_neighbors, neighbors)
+
         t = time()
         for i in range(n):
            for j in neighbors[i]:
@@ -46,12 +52,13 @@ def test_only_grail(n = 100, lag = 2, m = 128, neighbor_param = [10,100], tune =
 
         grail_results = check_with_original(trueMat, grailMat)
         result_by_neighbor[neighbor_num] = {'precision' : grail_results[0], 'recall' : grail_results[1],
-                                            'fscore' : grail_results[2], 'runtime' : prunedtime}
+                                            'fscore' : grail_results[2], 'runtime' : prunedtime, 'map' : knn_map_accuracy,
+                                            'knn_recall' : knn_recall_accuracy}
 
     return result_by_neighbor
 
 
-def test(n = 100, lag = 2, m = 128):
+def test(TS, trueMat, n = 100, lag = 2, m = 128):
     """
     Perform tests of accuracy and time on GRAIL and standard granger causality tests.
     :param n: Number of time series
@@ -62,9 +69,7 @@ def test(n = 100, lag = 2, m = 128):
     """
     #try not setting gamma
     d = int(min(max(np.ceil(0.4 * 2*n), 20), 100))
-    representation = Representation.GRAIL(kernel="SINK", d = 50, gamma = 1)
-
-    TS, trueMat = generate_synthetic(n, m = m, lag = lag, ar = [1, 0.5]) #try changing ar
+    representation = Representation.GRAIL(kernel="SINK", d = 50, gamma = best_gamma)
 
     grailMat = np.zeros((n, n))
     controlMat = np.zeros((n, n))
@@ -90,6 +95,11 @@ def test(n = 100, lag = 2, m = 128):
         neighbors, _, _ = kNN(TRAIN_TS, TEST_TS, method="ED", k=neighbor_num, representation=None, use_exact_rep=True,
                               pq_method="opq")
 
+        exact_neighbors, _, _ = kNN(TS, TS, method="SINK", k=neighbor_num, representation=None, gamma=best_gamma)
+
+        knn_map_accuracy = MAP(exact_neighbors, neighbors)
+        knn_recall_accuracy = avg_recall_measure(exact_neighbors, neighbors)
+
         # control_neighbors = np.array([np.random.choice(n, neighbor_num, replace= False) for i in range(n)])
         # print(control_neighbors)
         #neighbors, _, _ = kNN_with_pq_NCC(TS, TS, k = neighbor_num, use_exact_rep=True, Ks=4, M = 16)
@@ -112,7 +122,8 @@ def test(n = 100, lag = 2, m = 128):
         # print("prec, rec, and F1 for control: ", check_with_original(trueMat, controlMat))
         #print("prec, rec, and F1 for Brute Granger Causality:", brute_results)
         result_by_neighbor[neighbor_num] = {'precision' : grail_results[0], 'recall' : grail_results[1],
-                                            'fscore' : grail_results[2], 'runtime' : prunedtime}
+                                            'fscore' : grail_results[2], 'runtime' : prunedtime,'map' : knn_map_accuracy,
+                                            'knn_recall' : knn_recall_accuracy}
 
     #print("time for VL:", bruteTime )
     return brute_results, result_by_neighbor
@@ -124,13 +135,14 @@ def compare_with_standard():
     Compare Grail pruning with standard granger causality method
     :return:
     """
-    csvfile = open('causal_inference.csv', 'w')
+    csvfile = open('causal_inference_fix.csv', 'w')
     csvwriter = csv.writer(csvfile)
     m =128
     for n in range(100, 5000, 100):
         for lag in range(1, 5):
             print(n, lag)
-            brute_results, result_by_neighbor= test(n,lag,m)
+            TS, trueMat = load_ts_truemat(lag, n, ar='ar05')
+            brute_results, result_by_neighbor= test(TS, trueMat, n,lag,m)
             csvwriter.writerow([n] + [lag] + ['brute'] + list(brute_results.values()))
             for n_num in result_by_neighbor:
                 csvwriter.writerow([n] + [lag] + [n_num] + list(result_by_neighbor[n_num].values()))
@@ -143,7 +155,7 @@ def scale_grail():
     Show that granger causality with GRAIL can scale
     :return:
     """
-    csvfile = open('scale_grail.csv', 'w')
+    csvfile = open('scale_grail_fix.csv', 'w')
     csvwriter = csv.writer(csvfile)
     m =128
     lags = [2,5,10]
@@ -151,7 +163,8 @@ def scale_grail():
     for n in range(200, 10000000, 500):
         for lag in lags:
             print(n, lag)
-            result_by_neighbor= test_only_grail(n,lag,m)
+            TS, trueMat = load_ts_truemat(lag, n, ar='ar05')
+            result_by_neighbor= test_only_grail(TS, trueMat, n,lag,m)
             for n_num in result_by_neighbor:
                 csvwriter.writerow([n] + [lag] + [n_num] + list(result_by_neighbor[n_num].values()))
 

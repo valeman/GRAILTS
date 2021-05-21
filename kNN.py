@@ -280,3 +280,38 @@ def kNN_classification_precision_test(exact_neighbors, TRAIN, train_labels, TEST
             cnt_acc += 1
     classification_accuracy = cnt_acc / test_labels.shape[0]
     return classification_accuracy, precision, return_time
+
+#Stands for mean average precision
+def MAP(exact_neighbors, neighbors):
+    n = exact_neighbors.shape[0]
+    k = exact_neighbors.shape[1]
+    map_measure = 0
+    for i in range(n):
+        AP = 0
+        psum = 0
+        for r in range(k):
+            if neighbors[i,r] in exact_neighbors[i]:
+                rel = 1
+            else:
+                rel = 0
+            psum += rel
+            AP += (psum / r)*rel
+        AP /= k
+        map_measure += AP
+    map_measure /= n
+    return map_measure
+
+def avg_recall_measure(exact_neighbors, neighbors):
+    n = exact_neighbors.shape[0]
+    k = exact_neighbors.shape[1]
+
+    avg_recall = 0
+    for i in range(n):
+        recall = 0
+        for r in range(k):
+            if neighbors[i,r] in exact_neighbors[i]:
+                recall += 1
+        recall /= k
+        avg_recall += recall
+    avg_recall /= n
+    return avg_recall
