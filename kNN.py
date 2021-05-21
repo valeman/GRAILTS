@@ -295,7 +295,7 @@ def MAP(exact_neighbors, neighbors):
             else:
                 rel = 0
             psum += rel
-            AP += (psum / r)*rel
+            AP += (psum / (r+1))*rel
         AP /= k
         map_measure += AP
     map_measure /= n
