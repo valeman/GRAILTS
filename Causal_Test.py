@@ -139,7 +139,7 @@ def compare_with_standard():
     csvwriter = csv.writer(csvfile)
     m =128
     for n in range(100, 5000, 100):
-        for lag in range(1, 5):
+        for lag in [2,5,10]:
             print(n, lag)
             TS, trueMat = load_ts_truemat(lag, n, ar='ar05')
             brute_results, result_by_neighbor= test(TS, trueMat, n,lag,m)
