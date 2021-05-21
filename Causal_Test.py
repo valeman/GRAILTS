@@ -38,7 +38,7 @@ def test_only_grail(TS, trueMat, n = 100, lag = 2, m = 128, neighbor_param = [10
         neighbors, _, _ = kNN(TRAIN_TS, TEST_TS, method="ED", k=neighbor_num, representation=None, use_exact_rep=True,
                               pq_method="opq")
 
-        exact_neighbors, _, _ = kNN(TS, TS, method="SINK", k=neighbor_num, representation=None, gamma=best_gamma)
+        exact_neighbors, _, _ = kNN(TS, TS, method="SINK", k=neighbor_num, representation=None, gamma_val=best_gamma)
 
         knn_map_accuracy = MAP(exact_neighbors, neighbors)
         knn_recall_accuracy = avg_recall_measure(exact_neighbors, neighbors)
@@ -95,7 +95,7 @@ def test(TS, trueMat, n = 100, lag = 2, m = 128):
         neighbors, _, _ = kNN(TRAIN_TS, TEST_TS, method="ED", k=neighbor_num, representation=None, use_exact_rep=True,
                               pq_method="opq")
 
-        exact_neighbors, _, _ = kNN(TS, TS, method="SINK", k=neighbor_num, representation=None, gamma=best_gamma)
+        exact_neighbors, _, _ = kNN(TS, TS, method="SINK", k=neighbor_num, representation=None, gamma_val=best_gamma)
 
         knn_map_accuracy = MAP(exact_neighbors, neighbors)
         knn_recall_accuracy = avg_recall_measure(exact_neighbors, neighbors)
