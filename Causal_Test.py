@@ -36,7 +36,7 @@ def test_only_grail(TS, trueMat, n = 100, lag = 2, m = 128, neighbor_param = [10
             continue
         np.random.seed(0)
         neighbors, _, _ = kNN(TRAIN_TS, TEST_TS, method="ED", k=neighbor_num, representation=None, use_exact_rep=True,
-                              pq_method="opq")
+                              pq_method=None)
 
         exact_neighbors, _, _ = kNN(TS, TS, method="SINK", k=neighbor_num, representation=None, gamma_val=best_gamma)
 
@@ -58,7 +58,7 @@ def test_only_grail(TS, trueMat, n = 100, lag = 2, m = 128, neighbor_param = [10
     return result_by_neighbor
 
 
-def test(TS, trueMat, n = 100, lag = 2, m = 128):
+def test(TS, trueMat, best_gamma, neighbor_param =[2, 5, 10, 100],  n = 100, lag = 2, m = 128):
     """
     Perform tests of accuracy and time on GRAIL and standard granger causality tests.
     :param n: Number of time series
@@ -68,17 +68,14 @@ def test(TS, trueMat, n = 100, lag = 2, m = 128):
     results_by_neighbor is the results with GRAiL Pruning
     """
     #try not setting gamma
-    d = int(min(max(np.ceil(0.4 * 2*n), 20), 100))
-    representation = Representation.GRAIL(kernel="SINK", d = 50, gamma = best_gamma)
+    #d = int(min(max(np.ceil(0.4 * 2*n), 20), 100))
+    representation = Representation.GRAIL(kernel="SINK", d = 100, gamma = best_gamma)
 
     grailMat = np.zeros((n, n))
     controlMat = np.zeros((n, n))
     t = time()
     bruteMat = granger_matrix(TS, lag)
     bruteTime = time() - t
-
-
-    neighbor_param = [2, 5, 10, 100]
 
     result_by_neighbor = {}
 
