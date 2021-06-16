@@ -21,6 +21,20 @@ def granger_causality(y, x, lag, pval = 0.05):
         return True
     return False
 
+def add_causality_dataset(TS, lag):
+    n, m = TS.shape
+    true_causality_matrix = np.zeros((n, n))
+    for i in range(0,n,2):
+        for j in range(m-lag):
+            TS[i+1, j + lag] += TS[i, j]
+        true_causality_matrix[i, i + 1] = 1
+
+    return TS, true_causality_matrix
+
+def add_causality(x, y, lag):
+    m = y.shape[0]
+    for i in range(m):
+        y[i + lag] += x[i]
 
 
 def generate_synthetic( n = 100, m = 200,  lag = 5, ar = [1,0.5], ma = [0.1]):
