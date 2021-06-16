@@ -45,7 +45,7 @@ if __name__ == '__main__':
         foldername = '/tartarus/DATASETS/{}'.format(dataset)
 
     TRAIN, train_labels, TEST, test_labels = load_dataset(foldername, dataset)
-    TS = np.hstack((TRAIN, TEST))
+    TS = np.vstack((TRAIN, TEST))
     print(TS.shape)
     n,m = TS.shape
     lag = 5
