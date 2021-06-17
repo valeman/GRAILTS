@@ -21,13 +21,27 @@ def granger_causality(y, x, lag, pval = 0.05):
         return True
     return False
 
-def add_causality_dataset(TS, lag):
+def add_causality_dataset(TS, lag, labels = None, method  = 'standard'):
     n, m = TS.shape
     true_causality_matrix = np.zeros((n, n))
-    for i in range(0,n,2):
-        for j in range(m-lag):
-            TS[i+1, j + lag] += TS[i, j]
-        true_causality_matrix[i, i + 1] = 1
+    if method == 'standard':
+        for i in range(0,n,2):
+            for j in range(m-lag):
+                TS[i+1, j + lag] += TS[i, j]
+            true_causality_matrix[i, i + 1] = 1
+    elif method == 'same_group':
+        label_set = set(labels)
+        num_labels = len(label_set)
+        for group in label_set:
+            group_indices = [i for i in range(n) if labels[i] == group]
+            for i in range(0,len(group_indices),2):
+                idx = group_indices[i]
+                nextidx = group_indices[i+1]
+                for j in range(m-lag):
+                    TS[nextidx, j + lag] += TS[idx, j]
+            true_causality_matrix[i, i + 1] = 1
+
+    elif method == 'between_groups':
 
     return TS, true_causality_matrix
 

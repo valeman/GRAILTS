@@ -50,7 +50,7 @@ if __name__ == '__main__':
     n,m = TS.shape
     lag = 5
     best_gamma = 5
-    TRAIN, trueMat = add_causality_dataset(TS, lag=lag )
+    TS, trueMat = add_causality_dataset(TS, lag=lag )
 
     csvfile = open('causal_ucr.csv', 'w')
     csvwriter = csv.writer(csvfile)
