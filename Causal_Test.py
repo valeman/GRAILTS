@@ -89,14 +89,16 @@ def test(TS, trueMat, best_gamma, neighbor_param =[2, 5, 10, 100], lag = 2):
         if neighbor_num >= n:
             continue
     #    neighbors, _, _ = kNN(TRAIN_TS, TEST_TS, method = "ED", k = neighbor_num, representation=None, use_exact_rep = True, pq_method = "pq", M = 16)
-        np.random.seed(0)
+        #np.random.seed(0)
         neighbors, _, _ = kNN(TRAIN_TS, TEST_TS, method="ED", k=neighbor_num, representation=None, use_exact_rep=True,
-                              pq_method="opq")
+                              pq_method=None) #changed pq
 
         exact_neighbors, _, _ = kNN(TS, TS, method="SINK", k=neighbor_num, representation=None, gamma_val=best_gamma)
 
         knn_map_accuracy = MAP(exact_neighbors, neighbors)
         knn_recall_accuracy = avg_recall_measure(exact_neighbors, neighbors)
+
+        print(knn_recall_accuracy, knn_map_accuracy)
 
         # control_neighbors = np.array([np.random.choice(n, neighbor_num, replace= False) for i in range(n)])
         # print(control_neighbors)

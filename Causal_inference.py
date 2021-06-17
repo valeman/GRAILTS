@@ -3,28 +3,62 @@ import numpy as np
 import pandas as pd
 from statsmodels.tsa.arima_process import arma_generate_sample
 from statsmodels.tsa.stattools import adfuller
+import matplotlib.pyplot as plt
 
 
-
-def adf_test(x):
+def adf_test(x, pval=0.05):
     """
     Test if the time series is stationary
     :param x: time series
     :return:
     """
-    print ('Results of Dickey-Fuller Test:')
     dftest = adfuller(x, autolag='AIC')
-    dfoutput = pd.Series(dftest[0:4], index=['Test Statistic','p-value','#Lags Used','Number of Observations Used'])
-    print (dfoutput)
-
-def preprocess(TS):
-    n,m = TS.shape
-    for x in TS:
-        if not adf_test(x):
-            for i in range(1,m):
-                x[i] -= x[i-1]
+    if dftest[1] < pval:
+        return True
+    else:
+        return False
 
 
+def make_stationary(x, plot = False):
+    """
+    Take difference until statinonary
+    :param x: time series
+    :return:
+    """
+    for it in range(10):
+        diff = []
+        if adf_test(x):
+            return np.array(x)
+        for i in range(1, len(x)):
+            val = x[i] - x[i - 1]
+            diff.append(val)
+        x = diff
+
+        if it == 9:
+            print('Cannot be made stationary')
+
+        if plot:
+            l = np.arange(len(diff))
+            plt.plot(l, x, c='blue')
+            plt.show()
+    return np.array(x)
+
+
+def preprocess_dataset(TS):
+    """
+    Make each time series stationary
+    :param TS:
+    :return:
+    """
+    minlength = float('inf')
+    newTS = [None for i in range(TS.shape[0])]
+    for i in range(TS.shape[0]):
+        newTS[i] = make_stationary(TS[i])
+        minlength = min(minlength, len(newTS[i]))
+    for i in range(TS.shape[0]):
+        m = len(newTS[i])
+        newTS[i] = newTS[i][(m-minlength):]
+    return np.array(newTS)
 
 def granger_causality(y, x, lag, pval = 0.05):
     """
@@ -81,7 +115,7 @@ def add_causality_dataset(TS, lag, labels = None, method  = 'standard'):
 
 def add_causality(x, y, lag):
     m = y.shape[0]
-    for i in range(m):
+    for i in range(m-lag):
         y[i + lag] += x[i]
 
 

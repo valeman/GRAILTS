@@ -1,12 +1,11 @@
 from GRAIL import GRAIL_rep
-from grail_kdtw import GRAIL_rep_kdtw
+#from grail_kdtw import GRAIL_rep_kdtw
 import numpy as np
 import kernels
 from SINK import SINK
 from exceptions import KernelNotFound
 
-#not sure I will use these classes but I might
-
+#add kdtw later
 class Representation:
     def __init__(self):
         pass
@@ -113,8 +112,9 @@ class GRAIL(Representation):
             Z_k, Zexact, self.best_gamma = GRAIL_rep(X, self.d, self.f, self.r, self.GV,
                                     self.fourier_coeff, self.e, self.eigenvecMatrix, self.inVa, self.gamma, self.initialization_method)
         elif self.kernel == "kdtw":
-            Z_k, Zexact, self.best_gamma = GRAIL_rep_kdtw(X, self.d, self.f, self.r, self.GV,
-                                                          self.sigma, self.eigenvecMatrix, self.inVa)
+            pass
+            #Z_k, Zexact, self.best_gamma = GRAIL_rep_kdtw(X, self.d, self.f, self.r, self.GV,
+             #                                             self.sigma, self.eigenvecMatrix, self.inVa)
         return Z_k
 
     def get_exact_representation(self, X):
@@ -129,7 +129,8 @@ class GRAIL(Representation):
             Z_k, Zexact, self.best_gamma = GRAIL_rep(X, self.d, self.f, self.r, self.GV, self.fourier_coeff, self.e, self.eigenvecMatrix, self.inVa,
                   self.gamma, self.initialization_method)
         elif self.kernel == "kdtw":
-            Z_k, Zexact, self.best_gamma = GRAIL_rep_kdtw(X, self.d, self.f, self.r, self.GV, self.sigma, self.eigenvecMatrix, self.inVa)
+            #Z_k, Zexact, self.best_gamma = GRAIL_rep_kdtw(X, self.d, self.f, self.r, self.GV, self.sigma, self.eigenvecMatrix, self.inVa)
+            pass
         return Zexact
 
     def get_rep_train_test(self, TRAIN, TEST, exact = True):
