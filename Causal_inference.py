@@ -42,6 +42,7 @@ def add_causality_dataset(TS, lag, labels = None, method  = 'standard'):
             true_causality_matrix[i, i + 1] = 1
 
     elif method == 'between_groups':
+        pass
 
     return TS, true_causality_matrix
 
