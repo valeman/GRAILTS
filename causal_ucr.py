@@ -54,7 +54,7 @@ if __name__ == '__main__':
 
     csvfile = open('causal_ucr.csv', 'w')
     csvwriter = csv.writer(csvfile)
-    brute_results, result_by_neighbor = test(TS, trueMat, best_gamma = best_gamma, neighbor_param= [10, 100], n = m, lag = lag, m = m)
+    brute_results, result_by_neighbor = test(TS, trueMat, best_gamma = best_gamma, neighbor_param= [10, 100], n = n, lag = lag, m = m)
     csvwriter.writerow([n] + [lag] + ['brute'] + list(brute_results.values()))
     for n_num in result_by_neighbor:
         csvwriter.writerow([n] + [lag] + [n_num] + list(result_by_neighbor[n_num].values()))

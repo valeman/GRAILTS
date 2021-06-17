@@ -127,12 +127,12 @@ def test(TS, trueMat, best_gamma, neighbor_param =[2, 5, 10, 100],  n = 100, lag
 
 
 
-def compare_with_standard():
+def compare_with_standard(csvname = 'causal_inference_fix.csv'):
     """
     Compare Grail pruning with standard granger causality method
     :return:
     """
-    csvfile = open('causal_inference_fix.csv', 'w')
+    csvfile = open(csvname, 'w')
     csvwriter = csv.writer(csvfile)
     m =128
     for n in range(100, 5000, 100):
