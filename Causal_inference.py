@@ -2,6 +2,29 @@ from statsmodels.tsa.stattools import grangercausalitytests
 import numpy as np
 import pandas as pd
 from statsmodels.tsa.arima_process import arma_generate_sample
+from statsmodels.tsa.stattools import adfuller
+
+
+
+def adf_test(x):
+    """
+    Test if the time series is stationary
+    :param x: time series
+    :return:
+    """
+    print ('Results of Dickey-Fuller Test:')
+    dftest = adfuller(x, autolag='AIC')
+    dfoutput = pd.Series(dftest[0:4], index=['Test Statistic','p-value','#Lags Used','Number of Observations Used'])
+    print (dfoutput)
+
+def preprocess(TS):
+    n,m = TS.shape
+    for x in TS:
+        if not adf_test(x):
+            for i in range(1,m):
+                x[i] -= x[i-1]
+
+
 
 def granger_causality(y, x, lag, pval = 0.05):
     """
@@ -31,7 +54,6 @@ def add_causality_dataset(TS, lag, labels = None, method  = 'standard'):
             true_causality_matrix[i, i + 1] = 1
     elif method == 'same_group':
         label_set = set(labels)
-        num_labels = len(label_set)
         for group in label_set:
             group_indices = [i for i in range(n) if labels[i] == group]
             for i in range(0,len(group_indices),2):
@@ -39,10 +61,21 @@ def add_causality_dataset(TS, lag, labels = None, method  = 'standard'):
                 nextidx = group_indices[i+1]
                 for j in range(m-lag):
                     TS[nextidx, j + lag] += TS[idx, j]
-            true_causality_matrix[i, i + 1] = 1
+            true_causality_matrix[idx, nextidx] = 1
 
     elif method == 'between_groups':
-        pass
+        used = [False for i in range(n)]
+        for idx in range(n):
+            for nextidx in range(idx+1, n):
+                if used[idx] or used[nextidx]:
+                    continue
+                if labels[idx] != labels[nextidx]:
+                    for j in range(m - lag):
+                        TS[nextidx, j + lag] += TS[idx, j]
+                    used[idx] = True
+                    used[nextidx] = True
+                    true_causality_matrix[idx, nextidx] = 1
+                    break
 
     return TS, true_causality_matrix
 

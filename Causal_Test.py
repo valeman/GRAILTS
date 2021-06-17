@@ -58,7 +58,7 @@ def test_only_grail(TS, trueMat, n = 100, lag = 2, m = 128, neighbor_param = [10
     return result_by_neighbor
 
 
-def test(TS, trueMat, best_gamma, neighbor_param =[2, 5, 10, 100],  n = 100, lag = 2, m = 128):
+def test(TS, trueMat, best_gamma, neighbor_param =[2, 5, 10, 100], lag = 2):
     """
     Perform tests of accuracy and time on GRAIL and standard granger causality tests.
     :param n: Number of time series
@@ -67,6 +67,7 @@ def test(TS, trueMat, best_gamma, neighbor_param =[2, 5, 10, 100],  n = 100, lag
     :return: brute_results is the results of the standard method,
     results_by_neighbor is the results with GRAiL Pruning
     """
+    n,m = TS.shape
     #try not setting gamma
     #d = int(min(max(np.ceil(0.4 * 2*n), 20), 100))
     representation = Representation.GRAIL(kernel="SINK", d = 100, gamma = best_gamma)
