@@ -33,15 +33,26 @@ def load_dataset(foldername, dataset):
 #     #model.simulate()
 #     print(model.param_terms)
 
+def prepare_and_test_ucr(foldername, dataset, method = 'standard'):
+    TRAIN, train_labels, TEST, test_labels = load_dataset(foldername, dataset)
+    TS = np.vstack((TRAIN, TEST))
+    TS = preprocess_dataset(TS)
+    TS, trueMat = add_causality_dataset(TS, lag=lag, weight=2, method = method)
+
+    csvfile = open('{}_direct_causality_{}.csv'.format(dataset, method), 'w')
+    csvwriter = csv.writer(csvfile)
+    brute_results, result_by_neighbor = test(TS, trueMat, best_gamma = best_gamma, neighbor_param= [10, 100],lag = lag, pval=0.0001)
+    csvwriter.writerow([n] + [lag] + ['brute'] + list(brute_results.values()))
+    for n_num in result_by_neighbor:
+        csvwriter.writerow([n] + [lag] + [n_num] + list(result_by_neighbor[n_num].values()))
+    csvfile.close()
 
 
 if __name__ == '__main__':
 
-    dataset = 'ECG200'
+    dataset = sys.argv[2]
     arglen = len(sys.argv)
-    test_env = None
-    if arglen == 2:
-        test_env = sys.argv[1]
+    test_env = sys.argv[1]
     if test_env == "windows":
         foldername = '.'
     elif test_env == 'chaos':
@@ -49,15 +60,10 @@ if __name__ == '__main__':
     else:
         foldername = '.'
 
-    TRAIN, train_labels, TEST, test_labels = load_dataset(foldername, dataset)
-    #TS = np.vstack((TRAIN, TEST))
-    TS = TRAIN
-    TS = preprocess_dataset(TS)
-    print(TS.shape)
-    n,m = TS.shape
-    lag = 2
-    best_gamma = 5
-    TS, trueMat = add_causality_dataset(TS, lag=lag , weight=2)
+    prepare_and_test_ucr(foldername, dataset, method = 'standard')
+
+
+
 
 
 
@@ -89,12 +95,4 @@ if __name__ == '__main__':
     #
     # print(knn_recall_accuracy, knn_map_accuracy)
 
-    print(TS)
-    csvfile = open('causal_ucr_weightadjusted.csv', 'w')
-    csvwriter = csv.writer(csvfile)
-    brute_results, result_by_neighbor = test(TS, trueMat, best_gamma = best_gamma, neighbor_param= [10],lag = lag, pval=0.005)
-    csvwriter.writerow([n] + [lag] + ['brute'] + list(brute_results.values()))
-    for n_num in result_by_neighbor:
-        csvwriter.writerow([n] + [lag] + [n_num] + list(result_by_neighbor[n_num].values()))
-    csvfile.close()
 
