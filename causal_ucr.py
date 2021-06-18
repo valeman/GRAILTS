@@ -58,7 +58,7 @@ if __name__ == '__main__':
     if test_env == "windows":
         foldername = '.'
     elif test_env == 'chaos':
-        foldername = '/tartarus/DATASETS/UCR2018{}'.format(dataset)
+        foldername = '/tartarus/DATASETS/UCR2018/{}'.format(dataset)
     else:
         foldername = '.'
 
