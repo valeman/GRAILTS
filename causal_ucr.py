@@ -33,9 +33,10 @@ def load_dataset(foldername, dataset):
 #     #model.simulate()
 #     print(model.param_terms)
 
-def prepare_and_test_ucr(foldername, dataset, method = 'standard'):
+def prepare_and_test_ucr(foldername, dataset, method = 'standard', lag = 2):
     TRAIN, train_labels, TEST, test_labels = load_dataset(foldername, dataset)
     TS = np.vstack((TRAIN, TEST))
+    n = TS.shape[0]
     TS = preprocess_dataset(TS)
     TS, trueMat = add_causality_dataset(TS, lag=lag, weight=2, method = method)
 
