@@ -35,7 +35,7 @@ if __name__ == '__main__':
 
     csvfile = open('ecgarima{}.csv'.format(n), 'w')
     csvwriter = csv.writer(csvfile)
-    brute_results, result_by_neighbor = test(TS, trueMat, best_gamma = best_gamma, neighbor_param= [10],lag = lag, pval=0.001)
+    brute_results, result_by_neighbor = test(TS, trueMat, best_gamma = best_gamma, neighbor_param= [10, 100],lag = lag, pval=0.001)
     csvwriter.writerow([n] + [lag] + ['brute'] + list(brute_results.values()))
     for n_num in result_by_neighbor:
         csvwriter.writerow([n] + [lag] + [n_num] + list(result_by_neighbor[n_num].values()))
