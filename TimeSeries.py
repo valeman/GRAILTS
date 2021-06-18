@@ -6,6 +6,7 @@ class TimeSeries:
         self.time_stamps = time_stamps
         self.values = values
 
+
     @classmethod
     def load(self, path, format):
         """

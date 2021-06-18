@@ -60,7 +60,7 @@ def preprocess_dataset(TS):
         newTS[i] = newTS[i][(m-minlength):]
     return np.array(newTS)
 
-def granger_causality(y, x, lag, pval = 0.05):
+def granger_causality(y, x, lag, pval = 0.05, verbose = False, check_one_lag = True):
     """
     Return true if x causes y
     :param y: tseries
@@ -70,21 +70,26 @@ def granger_causality(y, x, lag, pval = 0.05):
     """
     df = pd.DataFrame(columns=["t2", "t1"], data=zip(y, x))
     res = grangercausalitytests(df, lag, verbose=False)
-    pvals = []
-    for lg in range(1, lag + 1):
-        pvals.append(res[lg][0]['ssr_ftest'][1])
-    min_pval = min(pvals)
+    if check_one_lag:
+        min_pval = res[lag][0]['ssr_ftest'][1]
+    else:
+        pvals = []
+        for lg in range(1, lag + 1):
+            pvals.append(res[lg][0]['ssr_ftest'][1])
+        min_pval = min(pvals)
+    if verbose:
+        print(min_pval)
     if min_pval < pval:
         return True
     return False
 
-def add_causality_dataset(TS, lag, labels = None, method  = 'standard'):
+def add_causality_dataset(TS, lag, labels = None, weight = 1, method  = 'standard'):
     n, m = TS.shape
     true_causality_matrix = np.zeros((n, n))
     if method == 'standard':
         for i in range(0,n,2):
             for j in range(m-lag):
-                TS[i+1, j + lag] += TS[i, j]
+                TS[i+1, j + lag] += weight * TS[i, j]
             true_causality_matrix[i, i + 1] = 1
     elif method == 'same_group':
         label_set = set(labels)
@@ -94,7 +99,7 @@ def add_causality_dataset(TS, lag, labels = None, method  = 'standard'):
                 idx = group_indices[i]
                 nextidx = group_indices[i+1]
                 for j in range(m-lag):
-                    TS[nextidx, j + lag] += TS[idx, j]
+                    TS[nextidx, j + lag] += weight * TS[idx, j]
             true_causality_matrix[idx, nextidx] = 1
 
     elif method == 'between_groups':
@@ -105,7 +110,7 @@ def add_causality_dataset(TS, lag, labels = None, method  = 'standard'):
                     continue
                 if labels[idx] != labels[nextidx]:
                     for j in range(m - lag):
-                        TS[nextidx, j + lag] += TS[idx, j]
+                        TS[nextidx, j + lag] += weight * TS[idx, j]
                     used[idx] = True
                     used[nextidx] = True
                     true_causality_matrix[idx, nextidx] = 1

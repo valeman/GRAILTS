@@ -2,8 +2,90 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b98449f2-7280-4393-8dcc-5e217c2cdeab" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/causal_arima_test.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.ipynb_checkpoints/Untitled1-checkpoint.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/.ipynb_checkpoints/Untitled1-checkpoint.ipynb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Causal_Test.py" beforeDir="false" afterPath="$PROJECT_DIR$/Causal_Test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Causal_inference.py" beforeDir="false" afterPath="$PROJECT_DIR$/Causal_inference.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TimeSeries.py" beforeDir="false" afterPath="$PROJECT_DIR$/TimeSeries.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Untitled1.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Untitled1.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/causal_ucr.py" beforeDir="false" afterPath="$PROJECT_DIR$/causal_ucr.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/causal_ucr_prepro.csv" beforeDir="false" afterPath="$PROJECT_DIR$/causal_ucr_prepro.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/1NN.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/CID.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/CIDdtw.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/CIDedr.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/CIDerp.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/CIDlcss.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/Dep/dtw_ip.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/Dep/dtw_ip.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/Dep/dtw_scb.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/Dep/dtw_scb.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/Dep/edr_ip.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/Dep/edr_scb.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/Dep/erp_ip.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/Dep/erp_scb.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/Dep/lcss_ip.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/Dep/msm_ip.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/Dep/msm_scb.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/Dep/swale_scb.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/Dep/twed_ip.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/Dep/twed_scb.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/build/temp.win-amd64-3.8/Release/erp.cp38-win_amd64.exp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/build/temp.win-amd64-3.8/Release/erp.cp38-win_amd64.lib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/build/temp.win-amd64-3.8/Release/erp.obj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/build/temp.win-amd64-3.8/Release/erp_cy.cp38-win_amd64.exp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/build/temp.win-amd64-3.8/Release/erp_cy.cp38-win_amd64.lib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/build/temp.win-amd64-3.8/Release/erp_cy.obj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/build/temp.win-amd64-3.8/Release/lcss.cp38-win_amd64.exp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/build/temp.win-amd64-3.8/Release/lcss.cp38-win_amd64.lib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/build/temp.win-amd64-3.8/Release/lcss.obj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/build/temp.win-amd64-3.8/Release/lcss_cy.cp38-win_amd64.exp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/build/temp.win-amd64-3.8/Release/lcss_cy.cp38-win_amd64.lib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/build/temp.win-amd64-3.8/Release/lcss_cy.obj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/build/temp.win-amd64-3.8/Release/msm.cp38-win_amd64.exp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/build/temp.win-amd64-3.8/Release/msm.cp38-win_amd64.lib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/build/temp.win-amd64-3.8/Release/msm.obj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/build/temp.win-amd64-3.8/Release/msm_cy.cp38-win_amd64.exp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/build/temp.win-amd64-3.8/Release/msm_cy.cp38-win_amd64.lib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/build/temp.win-amd64-3.8/Release/msm_cy.obj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/dtw.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/dtw.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/dtwabs.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/dtwder.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/dtwznorm.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/edr.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/edr.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/erp.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/erp.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/erp.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/erp_cy.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/erp_cy.cp38-win_amd64.pyd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/erp_cy.pyx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/lcss.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/lcss.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/lcss.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/lcss_cy.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/lcss_cy.pyd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/lcss_cy.pyx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/msm.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/msm.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/msm.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/msm_cy.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/msm_cy.cp38-win_amd64.pyd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/msm_cy.pyx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/repTRAIN" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/setup.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/slidingaverage.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/swale.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/swale.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/swale_ip.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/testing.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/twed.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/twed.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/elasticmeasures/wdtw.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fix_datasets.py" beforeDir="false" afterPath="$PROJECT_DIR$/fix_datasets.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/Fit_Arima.py" beforeDir="false" afterPath="$PROJECT_DIR$/Fit_Arima.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,7 +119,12 @@
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
-  <component name="RunManager" selected="Python.deneme">
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\kayan\OneDrive\Desktop\RepLearningEngine" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.causal_ucr">
     <configuration name="Causal_Test" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="GRAIL-python" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -60,7 +147,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Causal_inference" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="Fit_Arima" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="GRAIL-python" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -68,12 +155,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Causal_inference.py" />
+      <option name="SCRIPT_NAME" value="C:\Users\kayan\OneDrive\Desktop\RepLearningEngine\Fit_Arima.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -82,7 +169,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="deneme" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="causal_ucr" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="GRAIL-python" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -95,7 +182,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/deneme.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/causal_ucr.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -104,7 +191,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="tsa test" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="fix_datasets" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="GRAIL-python" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -117,7 +204,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tsa test.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/fix_datasets.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -126,7 +213,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="withGRAIL" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="testmap" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="GRAIL-python" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -139,7 +226,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/withGRAIL.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/testmap.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -150,11 +237,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.deneme" />
+        <item itemvalue="Python.causal_ucr" />
+        <item itemvalue="Python.testmap" />
+        <item itemvalue="Python.Fit_Arima" />
         <item itemvalue="Python.Causal_Test" />
-        <item itemvalue="Python.Causal_inference" />
-        <item itemvalue="Python.tsa test" />
-        <item itemvalue="Python.withGRAIL" />
+        <item itemvalue="Python.fix_datasets" />
       </list>
     </recent_temporary>
   </component>
@@ -306,7 +393,21 @@
       <workItem from="1620453049124" duration="597000" />
       <workItem from="1621494521356" duration="1166000" />
       <workItem from="1621555570076" duration="1463000" />
-      <workItem from="1621558632523" duration="9475000" />
+      <workItem from="1621558632523" duration="13589000" />
+      <workItem from="1622122140744" duration="596000" />
+      <workItem from="1622187963565" duration="6662000" />
+      <workItem from="1622246723119" duration="620000" />
+      <workItem from="1622754733593" duration="1192000" />
+      <workItem from="1622821771074" duration="2740000" />
+      <workItem from="1623358994969" duration="48000" />
+      <workItem from="1623391109752" duration="7078000" />
+      <workItem from="1623433839431" duration="1853000" />
+      <workItem from="1623538009189" duration="2000" />
+      <workItem from="1623800777669" duration="164000" />
+      <workItem from="1623801003154" duration="12126000" />
+      <workItem from="1623880706988" duration="31781000" />
+      <workItem from="1623925085697" duration="215000" />
+      <workItem from="1623978401978" duration="8136000" />
     </task>
     <servers />
   </component>
@@ -339,11 +440,6 @@
           <option name="timeStamp" value="7" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/deneme.py</url>
-          <line>5</line>
-          <option name="timeStamp" value="9" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/kNN.py</url>
           <line>12</line>
           <option name="timeStamp" value="15" />
@@ -358,19 +454,28 @@
           <line>104</line>
           <option name="timeStamp" value="18" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Causal_Test.py</url>
+          <line>175</line>
+          <option name="timeStamp" value="19" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/RepLearningEngine$causal_ucr.coverage" NAME="causal_ucr Coverage Results" MODIFIED="1624011693732" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/RepLearningEngine$anothertesting.coverage" NAME="anothertesting Coverage Results" MODIFIED="1600228548433" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/RepLearningEngine$Causal_Test.coverage" NAME="Causal_Test Coverage Results" MODIFIED="1616778215695" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/RepLearningEngine$testmap.coverage" NAME="testmap Coverage Results" MODIFIED="1623914705262" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/RepLearningEngine$Causal_Test.coverage" NAME="Causal_Test Coverage Results" MODIFIED="1623397739484" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/RepLearningEngine$tsa_test.coverage" NAME="tsa test Coverage Results" MODIFIED="1611227438568" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/RepLearningEngine$LeaveOneOut.coverage" NAME="LeaveOneOut Coverage Results" MODIFIED="1599626248546" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/RepLearningEngine$Fit_Arima.coverage" NAME="Fit_Arima Coverage Results" MODIFIED="1623830941961" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/testing" />
+    <SUITE FILE_PATH="coverage/RepLearningEngine$fix_datasets.coverage" NAME="fix_datasets Coverage Results" MODIFIED="1623397664299" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/RepLearningEngine$notears.coverage" NAME="notears Coverage Results" MODIFIED="1600228337136" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/RepLearningEngine$testdummy.coverage" NAME="testdummy Coverage Results" MODIFIED="1603573777150" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/RepLearningEngine$withGRAIL.coverage" NAME="withGRAIL Coverage Results" MODIFIED="1601530168477" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/RepLearningEngine$deneme.coverage" NAME="deneme Coverage Results" MODIFIED="1619080110342" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/RepLearningEngine$GRAILtest.coverage" NAME="GRAILtest Coverage Results" MODIFIED="1600228557320" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/RepLearningEngine$tsa_test.coverage" NAME="tsa test Coverage Results" MODIFIED="1611227438568" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/RepLearningEngine$Causal_inference.coverage" NAME="Causal_inference Coverage Results" MODIFIED="1611888176027" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/RepLearningEngine$LeaveOneOut.coverage" NAME="LeaveOneOut Coverage Results" MODIFIED="1599626248546" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

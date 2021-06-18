@@ -58,7 +58,7 @@ def test_only_grail(TS, trueMat, n = 100, lag = 2, m = 128, neighbor_param = [10
     return result_by_neighbor
 
 
-def test(TS, trueMat, best_gamma, neighbor_param =[2, 5, 10, 100], lag = 2):
+def test(TS, trueMat, best_gamma, neighbor_param =[2, 5, 10, 100], lag = 2, pval = 0.05):
     """
     Perform tests of accuracy and time on GRAIL and standard granger causality tests.
     :param n: Number of time series
@@ -111,7 +111,7 @@ def test(TS, trueMat, best_gamma, neighbor_param =[2, 5, 10, 100], lag = 2):
         for i in range(n):
            for j in neighbors[i]:
                if j != i:
-                  grailMat[i,j] = granger_causality(TS[j], TS[i], lag)
+                  grailMat[i,j] = granger_causality(TS[j], TS[i], lag, pval=pval)
         prunedtime = time() - t
 
         grail_results = check_with_original(trueMat, grailMat)

@@ -51,12 +51,15 @@ if __name__ == '__main__':
 
     TRAIN, train_labels, TEST, test_labels = load_dataset(foldername, dataset)
     #TS = np.vstack((TRAIN, TEST))
-    TS = preprocess_dataset(TRAIN)
+    TS = TRAIN
+    TS = preprocess_dataset(TS)
     print(TS.shape)
     n,m = TS.shape
     lag = 2
     best_gamma = 5
-    TS, trueMat = add_causality_dataset(TS, lag=lag )
+    TS, trueMat = add_causality_dataset(TS, lag=lag , weight=2)
+
+
 
     # TRAIN = np.zeros((50, 128))  # generate_synthetic(200, m = 128, lag = 2, ar = [1, 1],ma = [0.01])
     # TEST = np.zeros((50, 128))
@@ -87,9 +90,9 @@ if __name__ == '__main__':
     # print(knn_recall_accuracy, knn_map_accuracy)
 
     print(TS)
-    csvfile = open('causal_ucr_prepro.csv', 'w')
+    csvfile = open('causal_ucr_weightadjusted.csv', 'w')
     csvwriter = csv.writer(csvfile)
-    brute_results, result_by_neighbor = test(TS, trueMat, best_gamma = best_gamma, neighbor_param= [10],lag = lag)
+    brute_results, result_by_neighbor = test(TS, trueMat, best_gamma = best_gamma, neighbor_param= [10],lag = lag, pval=0.005)
     csvwriter.writerow([n] + [lag] + ['brute'] + list(brute_results.values()))
     for n_num in result_by_neighbor:
         csvwriter.writerow([n] + [lag] + [n_num] + list(result_by_neighbor[n_num].values()))
