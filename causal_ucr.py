@@ -15,8 +15,8 @@ from Causal_inference import generate_synthetic, preprocess_dataset
 best_gamma = 5
 
 def load_dataset(foldername, dataset):
-    path1 = "{}/{}_TRAIN".format(dataset)
-    path2 = "{}/{}_TEST".format(dataset)
+    path1 = "{}/{}_TRAIN".format(foldername,dataset)
+    path2 = "{}/{}_TEST".format(foldername, dataset)
     TRAIN, train_labels = TimeSeries.load(path1, "UCR")
     TEST, test_labels = TimeSeries.load(path2, "UCR")
 
