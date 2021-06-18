@@ -63,6 +63,8 @@ if __name__ == '__main__':
         foldername = '.'
 
     prepare_and_test_ucr(foldername, dataset, method = 'standard')
+    prepare_and_test_ucr(foldername, dataset, method = 'same_group')
+    prepare_and_test_ucr(foldername, dataset, method='between_groups')
 
 
 

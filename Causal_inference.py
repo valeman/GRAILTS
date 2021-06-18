@@ -124,7 +124,7 @@ def add_causality(x, y, lag):
         y[i + lag] += x[i]
 
 
-def generate_synthetic( n = 100, m = 200,  lag = 5, ar = [1,0.5], ma = [0.1]):
+def generate_synthetic( n = 100, m = 200,  lag = 5, ar = [1,0.5], ma = [0.1], weight = 1):
     """
     Generates synthetic data such that time series i causes i+1 for even i
     :param n: number of time series
@@ -146,7 +146,7 @@ def generate_synthetic( n = 100, m = 200,  lag = 5, ar = [1,0.5], ma = [0.1]):
 
     for i in range(0,n,2):
         for j in range(m):
-            TS[i+1, j + lag] += TS[i, j]
+            TS[i+1, j + lag] += TS[i, j] * weight
 
         true_causality_matrix[i, i+1] = 1
 
