@@ -29,7 +29,7 @@ if __name__ == '__main__':
     lag = 2
     with open('ecgarima{}.npy'.format(n), 'rb') as f:
         TS = np.load(f)
-    with open('ecgarima{}.npy'.format(n), 'rb') as f:
+    with open('ecgarima{}_truemat.npy'.format(n), 'rb') as f:
         trueMat = np.load(f)
 
 
