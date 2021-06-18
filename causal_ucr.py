@@ -12,6 +12,7 @@ from kNN import kNN, kNN_with_pq_NCC, kNN_with_pq_SINK, MAP, avg_recall_measure
 import numpy as np
 from Causal_inference import generate_synthetic, preprocess_dataset
 
+best_gamma = 5
 
 def load_dataset(foldername, dataset):
     path1 = "{}_TRAIN".format(dataset)
