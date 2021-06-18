@@ -25,7 +25,7 @@ def load_dataset(foldername, dataset):
 
 if __name__ == '__main__':
 
-    n = 200
+    n = int(sys.argv[1])
     lag = 2
     with open('ecgarima{}.npy'.format(n), 'rb') as f:
         TS = np.load(f)
