@@ -5,7 +5,7 @@ from time import time
 from Causal_inference import generate_synthetic, granger_matrix, check_with_original, granger_causality
 import csv
 from Causal_Test import load_ts_truemat
-import tqdm
+from tqdm import tqdm
 
 
 
