@@ -6,6 +6,7 @@ from Causal_inference import generate_synthetic, granger_matrix, check_with_orig
 import csv
 from Causal_Test import load_ts_truemat
 from tqdm import tqdm
+from kNN import kNN, MAP, avg_recall_measure
 
 
 
@@ -41,6 +42,30 @@ def findgammaforgranger(TS, trueMat, gamma, lag = 2, neighbor_param = [10,100]):
 
     return result_by_neighbor
 
+def findgammabymap(TS,gamma,neighbor_param = [10,100]):
+    n = TS.shape[0]
+    representation = Representation.GRAIL(kernel="SINK", d = 100, gamma = gamma)
+    result_by_neighbor = {}
+
+    TRAIN_TS, TEST_TS = representation.get_rep_train_test(TS, TS)
+
+    for neighbor_num in neighbor_param:
+        if neighbor_num >= n:
+            continue
+        neighbors, _, _ = kNN(TRAIN_TS, TEST_TS, method="ED", k=neighbor_num, representation=None, use_exact_rep=True,
+                              pq_method="opq")
+
+
+        exact_neighbors, _, _ = kNN(TS, TS, method="SINK", k=neighbor_num, representation=None, gamma_val=gamma)
+
+        knn_map_accuracy = MAP(exact_neighbors, neighbors)
+        knn_recall_accuracy = avg_recall_measure(exact_neighbors, neighbors)
+
+        result_by_neighbor[neighbor_num] = {'map' : knn_map_accuracy,
+                                            'knn_recall' : knn_recall_accuracy}
+
+    return result_by_neighbor
+
 if __name__ == '__main__':
     csvfile = open('findgammaforgranger_ecgarima.csv', 'w')
     csvwriter = csv.writer(csvfile)
@@ -52,7 +77,7 @@ if __name__ == '__main__':
         TS = np.load('ecgarima200.npy')
         trueMat = np.load('ecgarima200_truemat.npy')
         for gamma in range(1,20):
-            result_by_neighbor = findgammaforgranger(TS, trueMat, lag = lag, gamma = gamma)
+            result_by_neighbor = findgammabymap(TS, gamma = gamma)
             for n_num in result_by_neighbor:
                 csvwriter.writerow([TS.shape[0]] + [lag] + [n_num] + list(result_by_neighbor[n_num].values()) + [gamma])
             csvfile.flush()

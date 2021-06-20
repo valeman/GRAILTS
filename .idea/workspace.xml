@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b98449f2-7280-4393-8dcc-5e217c2cdeab" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/findgammaforgranger.py" beforeDir="false" afterPath="$PROJECT_DIR$/findgammaforgranger.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -325,7 +326,7 @@
       <workItem from="1623880706988" duration="31781000" />
       <workItem from="1623925085697" duration="215000" />
       <workItem from="1623978401978" duration="17962000" />
-      <workItem from="1624177683472" duration="3328000" />
+      <workItem from="1624177683472" duration="3915000" />
     </task>
     <servers />
   </component>
