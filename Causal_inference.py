@@ -153,7 +153,7 @@ def generate_synthetic( n = 100, m = 200,  lag = 5, ar = [1,0.5], ma = [0.1], we
     return TS[:, lag:], true_causality_matrix
 
 
-def granger_matrix(TS, lag = 5):
+def granger_matrix(TS, lag = 5, pval = 0.05, check_one_lag = True):
     """
     computes causal matrix
     :param TS: nxm time series matrix
@@ -164,7 +164,7 @@ def granger_matrix(TS, lag = 5):
     gr_mat = np.zeros((n,n))
     for i in range(n):
         for j in range(n):
-            gr_mat[i,j] = granger_causality(TS[j], TS[i], lag)
+            gr_mat[i,j] = granger_causality(TS[j], TS[i], lag, pval=pval, check_one_lag=check_one_lag)
 
     return gr_mat
 

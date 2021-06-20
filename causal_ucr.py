@@ -14,9 +14,13 @@ from Causal_inference import generate_synthetic, preprocess_dataset
 
 best_gamma = 5
 
-def load_dataset(foldername, dataset):
-    path1 = "{}/{}_TRAIN".format(foldername,dataset)
-    path2 = "{}/{}_TEST".format(foldername, dataset)
+def load_dataset(foldername, dataset, testenv):
+    if testenv == 'windows':
+        path1 = "{}_TRAIN".format(foldername, dataset)
+        path2 = "{}_TEST".format(foldername, dataset)
+    else:
+        path1 = "{}/{}_TRAIN".format(foldername,dataset)
+        path2 = "{}/{}_TEST".format(foldername, dataset)
     TRAIN, train_labels = TimeSeries.load(path1, "UCR")
     TEST, test_labels = TimeSeries.load(path2, "UCR")
 
@@ -34,20 +38,24 @@ def load_dataset(foldername, dataset):
 #     #model.simulate()
 #     print(model.param_terms)
 
-def prepare_and_test_ucr(foldername, dataset, method = 'standard', lag = 2):
-    TRAIN, train_labels, TEST, test_labels = load_dataset(foldername, dataset)
+#weight was 2 pval was 0.0001
+def prepare_and_test_ucr(foldername, dataset, method = 'standard', lag = 2, weight = 2, pval = 0.0001, testenv = 'windows'):
+    TRAIN, train_labels, TEST, test_labels = load_dataset(foldername, dataset, testenv='windows')
     TS = np.vstack((TRAIN, TEST))
     n = TS.shape[0]
     TS = preprocess_dataset(TS)
-    TS, trueMat = add_causality_dataset(TS, lag=lag, weight=2, method = method)
+    TS, trueMat = add_causality_dataset(TS, lag=lag, weight=weight, method = method)
 
     csvfile = open('{}_direct_causality_{}.csv'.format(dataset, method), 'w')
     csvwriter = csv.writer(csvfile)
-    brute_results, result_by_neighbor = test(TS, trueMat, best_gamma = best_gamma, neighbor_param= [10, 100],lag = lag, pval=0.0001)
+    brute_results, result_by_neighbor = test(TS, trueMat, best_gamma = best_gamma, neighbor_param= [10, 100],lag = lag, pval=pval)
     csvwriter.writerow([n] + [lag] + ['brute'] + list(brute_results.values()))
     for n_num in result_by_neighbor:
         csvwriter.writerow([n] + [lag] + [n_num] + list(result_by_neighbor[n_num].values()))
     csvfile.close()
+
+
+
 
 
 if __name__ == '__main__':
@@ -63,8 +71,6 @@ if __name__ == '__main__':
         foldername = '.'
 
     prepare_and_test_ucr(foldername, dataset, method = 'standard')
-    prepare_and_test_ucr(foldername, dataset, method = 'same_group')
-    prepare_and_test_ucr(foldername, dataset, method='between_groups')
 
 
 

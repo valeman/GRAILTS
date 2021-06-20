@@ -75,7 +75,7 @@ def test(TS, trueMat, best_gamma, neighbor_param =[2, 5, 10, 100], lag = 2, pval
     grailMat = np.zeros((n, n))
     controlMat = np.zeros((n, n))
     t = time()
-    bruteMat = granger_matrix(TS, lag)
+    bruteMat = granger_matrix(TS, lag,pval=pval)
     bruteTime = time() - t
 
     result_by_neighbor = {}
