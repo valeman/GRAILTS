@@ -2,14 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b98449f2-7280-4393-8dcc-5e217c2cdeab" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Causal_Test.py" beforeDir="false" afterPath="$PROJECT_DIR$/Causal_Test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Causal_inference.py" beforeDir="false" afterPath="$PROJECT_DIR$/Causal_inference.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Untitled1.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Untitled1.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Untitled2.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Untitled2.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/causal_arima_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/causal_arima_test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/causal_ucr.py" beforeDir="false" afterPath="$PROJECT_DIR$/causal_ucr.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ecgarima200.npy" beforeDir="false" afterPath="$PROJECT_DIR$/ecgarima200.npy" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/findgammaforgranger.py" beforeDir="false" afterPath="$PROJECT_DIR$/findgammaforgranger.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -333,7 +325,7 @@
       <workItem from="1623880706988" duration="31781000" />
       <workItem from="1623925085697" duration="215000" />
       <workItem from="1623978401978" duration="17962000" />
-      <workItem from="1624177683472" duration="3116000" />
+      <workItem from="1624177683472" duration="3328000" />
     </task>
     <servers />
   </component>

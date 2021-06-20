@@ -49,8 +49,8 @@ if __name__ == '__main__':
 
     for lag in tqdm(lags):
         #TS, trueMat = load_ts_truemat(lag, n, ar = 'ar05')
-        TS = np.load('ecgarima_200.npy')
-        trueMat = np.load('ecgarima_200_truemat.npy')
+        TS = np.load('ecgarima200.npy')
+        trueMat = np.load('ecgarima200_truemat.npy')
         for gamma in range(1,20):
             result_by_neighbor = findgammaforgranger(TS, trueMat, lag = lag, gamma = gamma)
             for n_num in result_by_neighbor:
