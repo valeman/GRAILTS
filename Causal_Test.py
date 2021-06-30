@@ -129,6 +129,46 @@ def test(TS, trueMat, best_gamma, neighbor_param =[2, 5, 10, 100], lag = 2, pval
     return brute_results, result_by_neighbor
 
 
+def test_brute_truth(TS, trueMat, best_gamma, neighbor_param =[2, 5, 10, 100], lag = 2, pval = 0.05):
+    n,m = TS.shape
+    representation = Representation.GRAIL(kernel="SINK", d = 100, gamma = best_gamma)
+
+    grailMat = np.zeros((n, n))
+
+    result_by_neighbor = {}
+
+    TRAIN_TS, TEST_TS = representation.get_rep_train_test(TS, TS)
+    brute_res = check_with_original(trueMat, trueMat)
+    brute_results = {'precision' : brute_res[0], 'recall' : brute_res[1],
+                                            'fscore' : brute_res[2]}
+
+    for neighbor_num in neighbor_param:
+        if neighbor_num >= n:
+            continue
+        neighbors, _, _ = kNN(TRAIN_TS, TEST_TS, method="ED", k=neighbor_num, representation=None, use_exact_rep=True,
+                              pq_method=None) #changed pq
+
+        exact_neighbors, _, _ = kNN(TS, TS, method="SINK", k=neighbor_num, representation=None, gamma_val=best_gamma)
+
+        knn_map_accuracy = MAP(exact_neighbors, neighbors)
+        knn_recall_accuracy = avg_recall_measure(exact_neighbors, neighbors)
+
+        print(knn_recall_accuracy, knn_map_accuracy)
+
+        t = time()
+        for i in range(n):
+           for j in neighbors[i]:
+               if j != i:
+                  grailMat[i,j] = granger_causality(TS[j], TS[i], lag, pval=pval)
+        prunedtime = time() - t
+
+        grail_results = check_with_original(trueMat, grailMat)
+        result_by_neighbor[neighbor_num] = {'precision' : grail_results[0], 'recall' : grail_results[1],
+                                            'fscore' : grail_results[2], 'runtime' : prunedtime,'map' : knn_map_accuracy,
+                                            'knn_recall' : knn_recall_accuracy}
+
+    return brute_results, result_by_neighbor
+
 
 def compare_with_standard(csvname = 'causal_inference_fix.csv'):
     """
@@ -171,9 +211,25 @@ def scale_grail():
             csvfile.flush()
     csvfile.close()
 
+def deneme():
+    TS = np.load('datasets_ar4/series2_200.npy')
+    trueMat = np.load('datasets_ar4/truemat2_200.npy')
+    n = TS.shape[0]
+    lag = 2
+    print(trueMat.shape)
+
+    csvfile = open('ar4.csv', 'w')
+    csvwriter = csv.writer(csvfile)
+    brute_results, result_by_neighbor = test(TS, trueMat, best_gamma = best_gamma, neighbor_param= [10, 100],lag = lag, pval=1e-5)
+    csvwriter.writerow([n] + [lag] + ['brute'] + list(brute_results.values()))
+    for n_num in result_by_neighbor:
+        csvwriter.writerow([n] + [lag] + [n_num] + list(result_by_neighbor[n_num].values()))
+    csvfile.close()
+
 
 if __name__ == '__main__':
-    scale_grail()
+    #scale_grail()
+    deneme()
 
 
 

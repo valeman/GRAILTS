@@ -124,7 +124,7 @@ def add_causality(x, y, lag):
         y[i + lag] += x[i]
 
 
-def generate_synthetic( n = 100, m = 200,  lag = 5, ar = [1,0.5], ma = [0.1], weight = 1):
+def generate_synthetic( n = 100, m = 200,  lag = 5, arparams = [.75, -.25], maparams = [], weight = 1):
     """
     Generates synthetic data such that time series i causes i+1 for even i
     :param n: number of time series
@@ -136,10 +136,12 @@ def generate_synthetic( n = 100, m = 200,  lag = 5, ar = [1,0.5], ma = [0.1], we
     """
     TS = np.zeros((n, m + lag))
     true_causality_matrix = np.zeros((n,n))
-    ar = np.asarray(ar)
-    ma = np.asarray(ma)
+    arparams = np.asarray(arparams)
+    maparams = np.asarray(maparams)
+
     # due to signal.lfilter sign is negated
-    ar[1:] = -ar[1:]
+    ar = np.r_[1, -arparams]
+    ma = np.r_[1, maparams]
 
     for i in range(n):
         TS[i] = arma_generate_sample(ar, ma, m + lag)
