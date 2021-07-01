@@ -44,19 +44,33 @@ if __name__ == '__main__':
 
     #ucr_new_method('ECG')
 
-    for pval in [0.05, 0.001, 1e-9, 1e-20]:
+    for pval in [0.05, 1e-9, 1e-20, 1e-30]:
         for sd in [0.1, 0.5, 1]:
             TS = np.load('ecgrwalksd{}.npy'.format(sd))
-            trueMat = np.load('ecgrwalksd{}_pval{}_truemat.npy'.format(sd, pval))
+            trueMat = np.load('ecgarima200_truemat.npy')
             n = TS.shape[0]
             lag = 2
-            csvfile = open('ecgrwalksd{}_pval{}.csv'.format(sd, pval), 'w')
+            csvfile = open('ecgrwalksd{}_pval{}.csv'.format(sd,pval), 'w')
             csvwriter = csv.writer(csvfile)
-            brute_results, result_by_neighbor = test_brute_truth(TS, trueMat, best_gamma = best_gamma, neighbor_param= [10, 100],lag = lag, pval=1e-9)
+            brute_results, result_by_neighbor = test(TS, trueMat, best_gamma = best_gamma, neighbor_param= [10, 100],lag = lag, pval=pval)
             csvwriter.writerow([n] + [lag] + ['brute'] + list(brute_results.values()))
             for n_num in result_by_neighbor:
                 csvwriter.writerow([n] + [lag] + [n_num] + list(result_by_neighbor[n_num].values()))
             csvfile.close()
+
+    # for pval in [0.05, 0.001, 1e-9, 1e-20]:
+    #     for sd in [0.1, 0.5, 1]:
+    #         TS = np.load('ecgrwalksd{}.npy'.format(sd))
+    #         trueMat = np.load('ecgrwalksd{}_pval{}_truemat.npy'.format(sd, pval))
+    #         n = TS.shape[0]
+    #         lag = 2
+    #         csvfile = open('ecgrwalksd{}_pval{}.csv'.format(sd, pval), 'w')
+    #         csvwriter = csv.writer(csvfile)
+    #         brute_results, result_by_neighbor = test_brute_truth(TS, trueMat, best_gamma = best_gamma, neighbor_param= [10, 100],lag = lag, pval=pval)
+    #         csvwriter.writerow([n] + [lag] + ['brute'] + list(brute_results.values()))
+    #         for n_num in result_by_neighbor:
+    #             csvwriter.writerow([n] + [lag] + [n_num] + list(result_by_neighbor[n_num].values()))
+    #         csvfile.close()
 
     # TS = np.load('ecgarimanoisewithsd1.npy')
     # trueMat = np.load('ecgarima200_truemat.npy')
