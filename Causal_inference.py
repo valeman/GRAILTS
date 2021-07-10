@@ -170,6 +170,26 @@ def granger_matrix(TS, lag = 5, pval = 0.05, check_one_lag = True):
 
     return gr_mat
 
+def general_granger_matrix(Cause_TS, Effect_TS, lag = 5, pval = 0.05, check_one_lag = True):
+    """
+    compute granger causalities from Cause_TS to Effect_TS
+    :param Cause_TS:n1 time series
+    :param Effect_TS:n2 time series
+    :param lag: max lag to check
+    :param pval: pvalue to use for granger causality test
+    :param check_one_lag: check only lag if true, take the min lag if false
+    :return:
+    """
+    n1 = Cause_TS.shape[0]
+    n2 = Effect_TS.shape[0]
+    gr_mat = np.zeros((n1,n2))
+    for i in range(n1):
+        for j in range(n2):
+            gr_mat[i,j] = granger_causality(Effect_TS[j], Cause_TS[i], lag, pval=pval, check_one_lag=check_one_lag)
+
+    return gr_mat
+
+
 def check_with_original(trueAdjMat, adjMat):
     """
     Compares guessed causality matrix with the true causal matrix

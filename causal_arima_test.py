@@ -5,7 +5,7 @@ from statsmodels.tsa.arima.model import ARIMA
 from Causal_inference import add_causality_dataset
 import sys
 import csv
-from Causal_Test import test, test_brute_truth
+from Causal_Test import test, test_brute_truth, general_test
 
 import Representation
 from kNN import kNN, kNN_with_pq_NCC, kNN_with_pq_SINK, MAP, avg_recall_measure
@@ -44,19 +44,41 @@ if __name__ == '__main__':
 
     #ucr_new_method('ECG')
 
+
     for pval in [0.05, 1e-9, 1e-20, 1e-30]:
         for sd in [0.1, 0.5, 1]:
-            TS = np.load('ecgrwalksd{}.npy'.format(sd))
-            trueMat = np.load('ecgarima200_truemat.npy')
-            n = TS.shape[0]
+
+            causal_db = np.load('ecgrwalksd{}_causaldb.npy'.format(sd))
+            effect_db = np.load('ecgrwalksd{}_effectdb.npy'.format(sd))
+
+            trueMat = np.load('ecgrwalksd{}_pval{}_split_truemat.npy'.format(sd, pval))
+            n = causal_db.shape[0] + effect_db.shape[0]
             lag = 2
             csvfile = open('ecgrwalksd{}_pval{}.csv'.format(sd,pval), 'w')
             csvwriter = csv.writer(csvfile)
-            brute_results, result_by_neighbor = test(TS, trueMat, best_gamma = best_gamma, neighbor_param= [10, 100],lag = lag, pval=pval)
+            brute_results, result_by_neighbor = general_test(causal_db,effect_db, trueMat, best_gamma = best_gamma, neighbor_param= [10, 100],lag = lag, pval=pval)
             csvwriter.writerow([n] + [lag] + ['brute'] + list(brute_results.values()))
             for n_num in result_by_neighbor:
                 csvwriter.writerow([n] + [lag] + [n_num] + list(result_by_neighbor[n_num].values()))
             csvfile.close()
+
+
+
+
+
+    # for pval in [0.05, 1e-9, 1e-20, 1e-30]:
+    #     for sd in [0.1, 0.5, 1]:
+    #         TS = np.load('ecgrwalksd{}.npy'.format(sd))
+    #         trueMat = np.load('ecgarima200_truemat.npy')
+    #         n = TS.shape[0]
+    #         lag = 2
+    #         csvfile = open('ecgrwalksd{}_pval{}.csv'.format(sd,pval), 'w')
+    #         csvwriter = csv.writer(csvfile)
+    #         brute_results, result_by_neighbor = test(TS, trueMat, best_gamma = best_gamma, neighbor_param= [10, 100],lag = lag, pval=pval)
+    #         csvwriter.writerow([n] + [lag] + ['brute'] + list(brute_results.values()))
+    #         for n_num in result_by_neighbor:
+    #             csvwriter.writerow([n] + [lag] + [n_num] + list(result_by_neighbor[n_num].values()))
+    #         csvfile.close()
 
     # for pval in [0.05, 0.001, 1e-9, 1e-20]:
     #     for sd in [0.1, 0.5, 1]:
