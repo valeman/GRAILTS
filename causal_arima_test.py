@@ -45,16 +45,16 @@ if __name__ == '__main__':
     #ucr_new_method('ECG')
 
 
-    for pval in [0.05, 1e-9, 1e-20, 1e-30]:
+    for pval in [0.05, 1e-15, 1e-20]:
         for sd in [0.1, 0.5, 1]:
 
             causal_db = np.load('ecgrwalksd{}_causaldb.npy'.format(sd))
             effect_db = np.load('ecgrwalksd{}_effectdb.npy'.format(sd))
 
-            trueMat = np.load('ecgrwalksd{}_pval{}_split_truemat.npy'.format(sd, pval))
+            trueMat = np.load('ecgrwalksd{}_split_truemat.npy'.format(sd, pval))
             n = causal_db.shape[0] + effect_db.shape[0]
             lag = 2
-            csvfile = open('ecgrwalksd{}_pval{}.csv'.format(sd,pval), 'w')
+            csvfile = open('ecgrwalksd{}_pval{}_split.csv'.format(sd,pval), 'w')
             csvwriter = csv.writer(csvfile)
             brute_results, result_by_neighbor = general_test(causal_db,effect_db, trueMat, best_gamma = best_gamma, neighbor_param= [10, 100],lag = lag, pval=pval)
             csvwriter.writerow([n] + [lag] + ['brute'] + list(brute_results.values()))
