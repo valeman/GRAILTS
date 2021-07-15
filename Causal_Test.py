@@ -59,8 +59,7 @@ def general_test(Cause_TS, Effect_TS, trueMat, best_gamma, neighbor_param =[2, 5
         t = time()
         for i in range(n1):
            for j in neighbors[i]:
-               if j != i:
-                  grailMat[i,j] = granger_causality(Effect_TS[j], Cause_TS[i], lag, pval=pval)
+                grailMat[i,j] = granger_causality(Effect_TS[j], Cause_TS[i], lag, pval=pval)
         prunedtime = time() - t
 
         grail_results = check_with_original(trueMat, grailMat)
