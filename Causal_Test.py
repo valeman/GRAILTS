@@ -2,7 +2,7 @@ import Representation
 import numpy as np
 from kNN import kNN, kNN_with_pq_NCC, kNN_with_pq_SINK, MAP, avg_recall_measure
 from time import time
-from Causal_inference import generate_synthetic, granger_matrix, check_with_original, granger_causality, general_granger_matrix
+from Causal_inference import generate_synthetic, granger_matrix, check_with_original, granger_causality, general_granger_matrix, granger_by_pval,general_granger_matrix_by_pval
 import csv
 
 
@@ -17,6 +17,59 @@ def load_ts_truemat(lag, n, ar = 'ar05'):
     return TS, trueMat
 
 
+
+def general_test_by_pvals(Cause_TS, Effect_TS, trueMat, best_gamma, neighbor_param =[2, 5, 10, 100], lag = 2):
+    """
+    get for a range of pvals
+    :param n: Number of time series
+    :param lag: The lag of causality
+    :param m: time series size
+    :return: brute_results is the results of the standard method,
+    results_by_neighbor is the results with GRAiL Pruning
+    """
+    n1 = Cause_TS.shape[0]
+    n2 = Effect_TS.shape[0]
+    representation = Representation.GRAIL(kernel="SINK", d = 100, gamma = best_gamma)
+
+    grailMats = [np.zeros((n1, n2)) for i in range(34)]
+    t = time()
+    bruteMats = general_granger_matrix_by_pval(Cause_TS,Effect_TS, lag)
+    bruteTime = time() - t
+
+    result_by_neighbor = {}
+
+    TRAIN_TS, TEST_TS = representation.get_rep_train_test(Effect_TS, Cause_TS)
+    brute_ress = [check_with_original(trueMat, bruteMats[i]) for i in range(34) ]
+    brute_results = [{'precision' : brute_ress[i][0], 'recall' : brute_ress[i][1],
+                                            'fscore' : brute_ress[i][2], 'runtime' : bruteTime} for i in range(34)]
+
+    for neighbor_num in neighbor_param:
+        if neighbor_num >= n2:
+            continue
+        neighbors, _, _ = kNN(TRAIN_TS, TEST_TS, method="ED", k=neighbor_num, representation=None, use_exact_rep=True,
+                              pq_method=None) #changed pq
+
+        exact_neighbors, _, _ = kNN(Effect_TS, Cause_TS, method="SINK", k=neighbor_num, representation=None, gamma_val=best_gamma)
+
+        knn_map_accuracy = MAP(exact_neighbors, neighbors)
+        knn_recall_accuracy = avg_recall_measure(exact_neighbors, neighbors)
+
+        print(knn_recall_accuracy, knn_map_accuracy)
+
+        t = time()
+        for i in range(n1):
+            for j in neighbors[i]:
+                pvals, res = granger_by_pval(Effect_TS[j], Cause_TS[i], lag)
+                for k in range(34):
+                    grailMats[k][i,j] = res[k]
+        prunedtime = time() - t
+
+        grail_results = [check_with_original(trueMat, grailMats[i]) for i in range(34)]
+        result_by_neighbor[neighbor_num] = [{'precision' : grail_results[i][0], 'recall' : grail_results[i][1],
+                                            'fscore' : grail_results[i][2], 'runtime' : prunedtime,'map' : knn_map_accuracy,
+                                            'knn_recall' : knn_recall_accuracy} for i in range(34)]
+
+    return brute_results, result_by_neighbor
 
 def general_test(Cause_TS, Effect_TS, trueMat, best_gamma, neighbor_param =[2, 5, 10, 100], lag = 2, pval = 0.05):
     """
@@ -58,7 +111,7 @@ def general_test(Cause_TS, Effect_TS, trueMat, best_gamma, neighbor_param =[2, 5
 
         t = time()
         for i in range(n1):
-           for j in neighbors[i]:
+            for j in neighbors[i]:
                 grailMat[i,j] = granger_causality(Effect_TS[j], Cause_TS[i], lag, pval=pval)
         prunedtime = time() - t
 

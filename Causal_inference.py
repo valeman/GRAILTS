@@ -83,6 +83,30 @@ def granger_causality(y, x, lag, pval = 0.05, verbose = False, check_one_lag = T
         return True
     return False
 
+def granger_by_pval(y, x, lag, verbose = False, check_one_lag = True):
+    """
+    return granger result with respect to an array of pvals
+    :param y: tseries
+    :param x: tseries
+    :param lag: max lag to check
+    :return: Return true if x causes y
+    """
+    df = pd.DataFrame(columns=["t2", "t1"], data=zip(y, x))
+    res = grangercausalitytests(df, lag, verbose=False)
+    if check_one_lag:
+        min_pval = res[lag][0]['ssr_ftest'][1]
+    else:
+        pvals = []
+        for lg in range(1, lag + 1):
+            pvals.append(res[lg][0]['ssr_ftest'][1])
+        min_pval = min(pvals)
+    if verbose:
+        print(min_pval)
+
+    pvals = [10 ** (-x) for x in range(1,35)]
+    res = [min_pval < pval for pval in pvals]
+    return pvals, res
+
 def add_causality_dataset(TS, lag, labels = None, weight = 1, method  = 'standard'):
     n, m = TS.shape
     true_causality_matrix = np.zeros((n, n))
@@ -182,12 +206,27 @@ def general_granger_matrix(Cause_TS, Effect_TS, lag = 5, pval = 0.05, check_one_
     """
     n1 = Cause_TS.shape[0]
     n2 = Effect_TS.shape[0]
-    gr_mat = np.zeros((n1,n2))
+    gr_mats = [np.zeros((n1,n2)) for i in range(34)]
     for i in range(n1):
         for j in range(n2):
-            gr_mat[i,j] = granger_causality(Effect_TS[j], Cause_TS[i], lag, pval=pval, check_one_lag=check_one_lag)
+            pvals, res = granger_causality(Effect_TS[j], Cause_TS[i], lag, pval=pval, check_one_lag=check_one_lag)
+            for k in range(34):
+                gr_mats[k][i,j] = res[k]
 
-    return gr_mat
+    return gr_mats
+
+def general_granger_matrix_by_pval(Cause_TS, Effect_TS, lag = 2, check_one_lag = True):
+    n1 = Cause_TS.shape[0]
+    n2 = Effect_TS.shape[0]
+    gr_mats = [np.zeros((n1,n2)) for i in range(34)]
+    for i in range(n1):
+        for j in range(n2):
+            pvals, res = granger_by_pval(Effect_TS[j], Cause_TS[i], lag, check_one_lag=check_one_lag)
+            for k in range(34):
+                gr_mats[k][i, j] = res[k]
+
+
+    return gr_mats
 
 
 def check_with_original(trueAdjMat, adjMat):
