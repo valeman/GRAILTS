@@ -178,6 +178,7 @@ def arima_dataset_to_rwalk(TS, sd_list, name):
 
 if __name__ == '__main__':
     source_path = '/tartarus/DATASETS/UCR2018'
+    dst_path = './test_files'
 
     sd_list = [0.1, 0.2]
     randomwalk_sd_list = [0.1, 0.05]
@@ -197,16 +198,16 @@ if __name__ == '__main__':
         causal_db, effect_db, truemat = split_cause_effect_truemat(merged_ts)
         assert causal_db.shape == effect_db.shape
 
-        with open('{}_causaldb.npy'.format(dataset_name), 'wb') as f:
+        with open(os.path.join(dst_path, '{}_causaldb.npy'.format(dataset_name)), 'wb') as f:
             np.save(f, causal_db)
 
-        with open('{}_split_truemat.npy'.format(dataset_name), 'wb') as f:
+        with open(os.path.join(dst_path, '{}_split_truemat.npy'.format(dataset_name)), 'wb') as f:
             np.save(f, truemat)
 
         #add gaussian noise
         for sd in sd_list:
             noisy_effect_db = add_noise(effect_db, sd)
-            with open('{}_randomsd{}_effectdb.npy'.format(dataset_name, sd), 'wb') as f:
+            with open(os.path.join(dst_path, '{}_randomsd{}_effectdb.npy'.format(dataset_name, sd)), 'wb') as f:
                 np.save(f, noisy_effect_db)
 
         #add random walk noise
@@ -216,7 +217,7 @@ if __name__ == '__main__':
                 walk = random_walk(m=effect_db.shape[1], sd=sd)
                 rwalk_effect_db[i] += walk
 
-            with open('{}_rwalksd{}_effectdb.npy'.format(dataset_name, sd), 'wb') as f:
+            with open(os.path.join(dst_path, '{}_rwalksd{}_effectdb.npy'.format(dataset_name, sd)), 'wb') as f:
                 np.save(f, effect_db)
 
         #add mixed noise
@@ -226,7 +227,7 @@ if __name__ == '__main__':
             for i in range(effect_db.shape[0]):
                 walk = random_walk(m=effect_db.shape[1], sd=sd2)
                 mixed_db[i] += walk
-            with open('{}_mixsd{}_{}_causaldb.npy'.format(dataset_name, sd1, sd2), 'wb') as f:
+            with open(os.path.join(dst_path, '{}_mixsd{}_{}_causaldb.npy'.format(dataset_name, sd1, sd2)), 'wb') as f:
                 np.save(f, causal_db)
 
 

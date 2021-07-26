@@ -2,13 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b98449f2-7280-4393-8dcc-5e217c2cdeab" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/generate_test_sets.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Causal_Test.py" beforeDir="false" afterPath="$PROJECT_DIR$/Causal_Test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Causal_inference.py" beforeDir="false" afterPath="$PROJECT_DIR$/Causal_inference.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Untitled5.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Untitled5.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/causal_arima_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/causal_arima_test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/causal_arima_test2.py" beforeDir="false" afterPath="$PROJECT_DIR$/causal_arima_test2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/generate_test_sets.py" beforeDir="false" afterPath="$PROJECT_DIR$/generate_test_sets.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -351,7 +346,7 @@
       <workItem from="1627075428642" duration="1866000" />
       <workItem from="1627158555505" duration="5677000" />
       <workItem from="1627258288402" duration="4331000" />
-      <workItem from="1627283032758" duration="1734000" />
+      <workItem from="1627283032758" duration="2168000" />
     </task>
     <servers />
   </component>
