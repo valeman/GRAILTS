@@ -190,8 +190,8 @@ if __name__ == '__main__':
 
         trainfile = '{}_TRAIN'.format(dataset_name)
         testfile = '{}_TEST'.format(dataset_name)
-        trainpath = os.path.join(source_path, trainfile)
-        testpath = os.path.join(source_path, testfile)
+        trainpath = os.path.join(source_path, dataset_name, trainfile)
+        testpath = os.path.join(source_path, dataset_name, testfile)
         TRAIN, train_labels = TimeSeries.load(trainpath, "UCR")
         TEST, test_labels = TimeSeries.load(testpath, "UCR")
         merged_ts = np.vstack((TRAIN, TEST))
