@@ -36,7 +36,7 @@ def add_noise(TS, sd):
         newTS[i, :] += np.random.normal(0, sd, m)
     return newTS
 
-def random_walk(drift = 0, m = 128, sd = 1):
+def random_walk(m, drift = 0, sd = 1):
     '''
     Generate random walk
     :param drift:
@@ -76,7 +76,7 @@ def split_cause_effect_truemat(TS):
     :return:
     '''
     newts = deepcopy(TS)
-    newts, _ = fit_arima_dataset(newts)
+    newts = fit_arima_dataset(newts)
     causal_db = np.array([newts[i, :] for i in range(0, newts.shape[0], 2)])
     effect_db = np.array([newts[i, :] for i in range(1, newts.shape[0], 2)])
     assert causal_db.shape == effect_db.shape
