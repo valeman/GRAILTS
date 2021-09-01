@@ -1,13 +1,9 @@
 from SINK import SINK
 import numpy as np
-from numpy.linalg import svd as SVD
 import time
-import scipy as sp
-import random
 from FrequentDirections import FrequentDirections
 from kshape import matlab_kshape, kshape_with_centroid_initialize
 import exceptions
-import kernels
 
 def approx_gte(x, y):
     return np.logical_or((x > y), np.isclose(x, y))
