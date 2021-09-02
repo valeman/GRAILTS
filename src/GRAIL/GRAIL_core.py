@@ -1,9 +1,9 @@
-from SINK import SINK
+from GRAIL.SINK import SINK
 import numpy as np
 import time
-from FrequentDirections import FrequentDirections
-from kshape import matlab_kshape, kshape_with_centroid_initialize
-import exceptions
+from GRAIL.FrequentDirections import FrequentDirections
+from GRAIL.kshape import matlab_kshape, kshape_with_centroid_initialize
+import GRAIL.exceptions as exceptions
 
 def approx_gte(x, y):
     return np.logical_or((x > y), np.isclose(x, y))

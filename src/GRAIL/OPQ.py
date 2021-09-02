@@ -1,4 +1,4 @@
-from PQ import PQ, DistanceTable
+from GRAIL.PQ import PQ, DistanceTable
 import numpy as np
 
 # Code source: https://github.com/matsui528/nanopq

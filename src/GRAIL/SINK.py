@@ -1,8 +1,6 @@
 import numpy as np
-import math
 
 
-# somewhat tested
 def SINK(x, y, gamma_val, k=-1, e=-1):
     check_arguments(k, e)
     return sumExpNCC(x, y, gamma_val, k, e) / np.sqrt(sumExpNCC(x, x, gamma_val, k, e) * sumExpNCC(y, y, gamma_val, k, e))

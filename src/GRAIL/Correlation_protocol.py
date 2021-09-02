@@ -1,5 +1,5 @@
 from scipy import stats
-import SINK
+import GRAIL.SINK as SINK
 import numpy as np
 
 

@@ -1,5 +1,5 @@
 import numpy as np
-import SINK
+import GRAIL.SINK as SINK
 from scipy import stats
 from scipy import linalg
 import random

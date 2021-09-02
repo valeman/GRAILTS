@@ -1,7 +1,6 @@
 import numpy as np
-import csv
-import Correlation_protocol
-import exceptions
+import GRAIL.Correlation_protocol as Correlation_protocol
+import GRAIL.exceptions as exceptions
 
 
 class Correlation:
