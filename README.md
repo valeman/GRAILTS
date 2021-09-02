@@ -7,7 +7,8 @@ Installation using pip:
 `pip install grailts`
 
 ## Usage
-`from GRAIL.Representation import GRAIL
+```
+from GRAIL.Representation import GRAIL
 from GRAIL.TimeSeries import TimeSeries
 from GRAIL.kNN import kNN
 
@@ -20,4 +21,5 @@ repTRAIN, repTEST = representation.get_rep_train_test(TRAIN, TEST, exact=True)
 neighbors, _, _ = kNN(repTRAIN, repTRAIN, method="ED", k=5, representation=None,
                               pq_method='opq')
 
-print(neighbors)`
+print(neighbors)
+```
