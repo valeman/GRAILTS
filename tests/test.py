@@ -1,4 +1,3 @@
-from GRAIL.GRAIL_core import GRAIL_general
 from GRAIL.Representation import GRAIL
 from GRAIL.TimeSeries import TimeSeries
 from GRAIL.kNN import kNN
