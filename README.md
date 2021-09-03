@@ -56,6 +56,7 @@ repTRAIN, repTEST = representation.get_rep_train_test(TRAIN, TEST, exact=True)
 Here `d` specifies the number of landmark series, and `gamma` specifies the hyperparameter used for the SINK kernel. If `gamma` is not specified, it will be tuned by the algorithm. 
 
 If a single dataset is used instead:
+
 `repX = representation.get_representation(X)`
 
 ### Get Approximate k-Nearest-Neighbors
