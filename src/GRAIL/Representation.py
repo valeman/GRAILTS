@@ -3,6 +3,7 @@ import numpy as np
 import GRAIL.kernels as kernels
 from GRAIL.exceptions import KernelNotFound
 
+#Don't use. Does not work right now.
 class GRAIL_general:
     def __init__(self, kernel = "SINK", d = 100, f = 0.99, r = 20, kernel_param_range = [*range(1,21)],
                  eigenvecMatrix = None, inVa = None,
